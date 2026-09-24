@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui";
 import type { NavLink } from "@/types";
 
 interface MobileNavProps {
@@ -78,15 +79,14 @@ export default function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
         </div>
 
         {/* Links */}
-        <nav className="px-4" aria-label="Mobil navigasyon">
-          <ul className="flex flex-col gap-1">
-            {links.map((link, i) => (
-              <li key={link.href}>
+        <nav className="px-6" aria-label="Mobil navigasyon">
+          <ul className="flex flex-col gap-1 border-t border-deep pt-4">
+            {links.map((link) => (
+              <li key={link.href} className="border-b border-deep">
                 <Link
                   href={link.href}
                   onClick={onClose}
-                  className="block px-4 py-3 text-base font-medium text-fg-muted hover:text-fg hover:bg-elevated/50 rounded-lg transition-colors duration-200"
-                  style={{ transitionDelay: `${i * 50}ms` }}
+                  className="block py-4 text-base font-heading text-fg hover:text-fg-muted transition-colors duration-200"
                 >
                   {link.label}
                 </Link>
@@ -96,15 +96,10 @@ export default function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
         </nav>
 
         {/* Mobile CTA */}
-        <div className="px-4 mt-6">
-          <Link
-            href="/iletisim"
-            onClick={onClose}
-            className="flex items-center justify-center w-full rounded-[0.625rem] bg-primary px-5 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-primary/90"
-            id="mobile-cta"
-          >
+        <div className="px-6 mt-6">
+          <Button href="/iletisim" variant="primary" size="md" className="w-full" onClick={onClose} id="mobile-cta">
             Görüşme Al
-          </Link>
+          </Button>
         </div>
       </div>
     </>

@@ -13,7 +13,7 @@ export function Card({ variant = "surface", hover = false, className = "", child
     elevated: "bg-elevated border border-deep",
   };
   
-  const hoverClasses = hover ? "hover:border-primary/30 hover:-translate-y-1 transition-all duration-300 ease-[var(--ease-out-expo)]" : "";
+  const hoverClasses = hover ? "hover:border-fg/25 transition-colors duration-300 ease-[var(--ease-out-expo)]" : "";
 
   return (
     <div className={`${baseClasses} ${variants[variant]} ${hoverClasses} ${className}`} {...props}>

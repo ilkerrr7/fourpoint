@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import MobileNav from "./MobileNav";
+import { Button } from "@/components/ui";
 import type { NavLink } from "@/types";
 
 const NAV_LINKS: NavLink[] = [
@@ -44,8 +45,8 @@ export default function Header() {
         id="site-header"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-ink/80 backdrop-blur-xl border-b border-deep/50 shadow-lg shadow-ink/50"
-            : "bg-transparent"
+            ? "bg-ink/90 backdrop-blur-md border-b border-deep"
+            : "bg-transparent border-b border-transparent"
         }`}
       >
         <nav
@@ -66,18 +67,18 @@ export default function Header() {
               className="h-8 w-8 text-fg transition-transform duration-300 group-hover:scale-110"
               priority
             />
-            <span className="font-heading text-lg font-bold text-fg tracking-tight">
+            <span className="font-heading text-lg font-medium text-fg tracking-tight">
               Fourpoint
             </span>
           </Link>
 
           {/* Desktop Nav Links */}
-          <ul className="hidden md:flex items-center gap-1">
+          <ul className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="relative px-3 py-2 text-sm font-medium text-fg-muted transition-colors duration-200 hover:text-fg rounded-lg hover:bg-elevated/50"
+                  className="text-xs font-medium uppercase tracking-[0.14em] text-fg-muted transition-colors duration-200 hover:text-fg"
                 >
                   {link.label}
                 </Link>
@@ -87,13 +88,9 @@ export default function Header() {
 
           {/* Desktop CTA + Mobile Hamburger */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/iletisim"
-              className="hidden md:inline-flex items-center justify-center rounded-[0.625rem] bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-              id="header-cta"
-            >
+            <Button href="/iletisim" variant="secondary" size="sm" className="hidden md:inline-flex" id="header-cta">
               Görüşme Al
-            </Link>
+            </Button>
 
             {/* Mobile hamburger */}
             <button

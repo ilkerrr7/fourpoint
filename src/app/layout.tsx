@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CookieBanner from "@/components/layout/CookieBanner";
 import MetaPixel from "@/components/meta/MetaPixel";
+import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
 const inter = Inter({
@@ -12,47 +13,41 @@ const inter = Inter({
   display: "swap",
 });
 
-const outfit = Outfit({
+const fraunces = Fraunces({
   subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
   variable: "--font-heading",
   display: "swap",
 });
 
+const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING !== "false";
+
 export const metadata: Metadata = {
-  // TODO: domain adı kesinleştikten sonra metadataBase güncelle
-  metadataBase: new URL("https://fourpoint.example.com"),
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Fourpoint — Meta Reklam Yönetimi",
-    template: "%s | Fourpoint",
+    default: `${siteConfig.name} — Meta Reklam Yönetimi`,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "Instagram ve Facebook reklamlarınızı doğru hedef kitleye ulaştırıyoruz. Bütçenizi verimli kullanmanız için stratejik reklam yönetimi.",
-  keywords: [
-    "meta reklam yönetimi",
-    "instagram reklam",
-    "facebook reklam",
-    "dijital pazarlama ajansı",
-    "sosyal medya reklamcılığı",
-  ],
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    siteName: "Fourpoint",
-    title: "Fourpoint — Meta Reklam Yönetimi",
-    description:
-      "Instagram ve Facebook reklamlarınızı doğru hedef kitleye ulaştırıyoruz.",
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} — Meta Reklam Yönetimi`,
+    description: siteConfig.description,
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fourpoint — Meta Reklam Yönetimi",
-    description:
-      "Instagram ve Facebook reklamlarınızı doğru hedef kitleye ulaştırıyoruz.",
+    title: `${siteConfig.name} — Meta Reklam Yönetimi`,
+    description: siteConfig.description,
     images: ["/og-image.png"],
   },
   robots: {
-    index: true,
-    follow: true,
+    index: allowIndexing,
+    follow: allowIndexing,
   },
 };
 
@@ -60,7 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="tr"
-      className={`${inter.variable} ${outfit.variable} h-full antialiased`}
+      className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-ink text-fg font-body">
         <MetaPixel />

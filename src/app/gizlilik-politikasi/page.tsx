@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Gizlilik Politikası",
@@ -63,13 +64,15 @@ export default function GizlilikPolitikasiPage() {
               İletişim
             </h2>
             <p>
-              {/* TODO: Gerçek iletişim bilgileri */}
-              Gizlilik politikamız hakkında sorularınız için [TODO: e-posta adresi]
+              Gizlilik politikamız hakkında sorularınız için{" "}
+              <a href={`mailto:${siteConfig.contact.email}`} className="text-primary hover:underline">
+                {siteConfig.contact.email}
+              </a>{" "}
               adresine yazabilirsiniz.
             </p>
 
             <p className="text-fg-subtle text-sm mt-12">
-              Son güncelleme: [TODO: Tarih]
+              {/* TODO: Son güncelleme tarihi hukuk danışmanı onayından sonra girilecek */}
             </p>
           </div>
         </div>

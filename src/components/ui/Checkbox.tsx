@@ -32,14 +32,14 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               className="peer hidden"
               {...props}
             />
-            <div 
-              className={`w-5 h-5 rounded-[0.25rem] border flex items-center justify-center transition-colors cursor-pointer ${
-                checked ? 'bg-primary border-primary' : 'bg-surface border-deep hover:border-primary/50'
+            <div
+              className={`w-5 h-5 rounded-[2px] border flex items-center justify-center transition-colors cursor-pointer ${
+                checked ? 'bg-fg border-fg' : 'bg-surface border-deep hover:border-fg/50'
               } ${error && !checked ? 'border-red-500' : ''}`}
               onClick={handleVisualClick}
             >
-              <svg 
-                className={`w-3.5 h-3.5 text-white pointer-events-none transition-opacity duration-200 ${checked ? 'opacity-100' : 'opacity-0'}`} 
+              <svg
+                className={`w-3.5 h-3.5 text-ink pointer-events-none transition-opacity duration-200 ${checked ? 'opacity-100' : 'opacity-0'}`}
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor" 

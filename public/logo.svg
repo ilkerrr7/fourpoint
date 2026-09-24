@@ -1,6 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Outer circle -->
-  <circle cx="24" cy="24" r="22" opacity="0.3"/>
-  <!-- Four-pointed compass star -->
-  <path d="M24 2 L28 20 L46 24 L28 28 L24 46 L20 28 L2 24 L20 20 Z" fill="currentColor" stroke="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- Dış daire (ince halka) -->
+  <path fill-rule="evenodd" fill="#0A84FF" d="M24 9.25a14.75 14.75 0 1 1 0 29.5 14.75 14.75 0 0 1 0-29.5Zm0 1.5a13.25 13.25 0 1 0 0 26.5 13.25 13.25 0 0 0 0-26.5Z"/>
+
+  <!-- Kuzey kolu — sol yarı (açık mavi) -->
+  <path fill="#38BDF8" d="M24 2l-4 22h4Z"/>
+  <!-- Kuzey kolu — sağ yarı (koyu mavi) -->
+  <path fill="#0A84FF" d="M24 2v22h4Z"/>
+
+  <!-- Doğu kolu — üst yarı (açık mavi) -->
+  <path fill="#38BDF8" d="M40 24l-16-4v4Z"/>
+  <!-- Doğu kolu — alt yarı (koyu mavi) -->
+  <path fill="#0A84FF" d="M40 24H24v4Z"/>
+
+  <!-- Güney kolu — sağ yarı (açık mavi) -->
+  <path fill="#38BDF8" d="M24 46l4-22h-4Z"/>
+  <!-- Güney kolu — sol yarı (koyu mavi) -->
+  <path fill="#0A84FF" d="M24 46V24h-4Z"/>
+
+  <!-- Batı kolu — alt yarı (açık mavi) -->
+  <path fill="#38BDF8" d="M8 24l16 4v-4Z"/>
+  <!-- Batı kolu — üst yarı (koyu mavi) -->
+  <path fill="#0A84FF" d="M8 24h16v-4Z"/>
+
+  <!-- Kuzeydoğu çapraz iğne detayı -->
+  <path fill="#38BDF8" d="M35 13l-7 5 2 2Z"/>
 </svg>

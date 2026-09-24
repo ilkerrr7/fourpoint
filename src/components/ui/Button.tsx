@@ -12,18 +12,18 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = "primary", size = "md", href, icon, className = "", children, disabled, type = "button", ...props }, ref) => {
-    const baseClasses = "inline-flex items-center justify-center font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed rounded-[var(--radius-button)]";
-    
+    const baseClasses = "inline-flex items-center justify-center gap-2 font-medium tracking-wide transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed rounded-[var(--radius-button)]";
+
     const variants = {
-      primary: "bg-primary text-white hover:bg-primary/90",
-      secondary: "bg-elevated border border-deep text-fg hover:bg-deep",
-      ghost: "bg-transparent text-fg-muted hover:text-fg hover:bg-elevated/50",
+      primary: "bg-fg text-ink hover:bg-fg/85",
+      secondary: "bg-transparent border border-deep text-fg hover:border-fg/50",
+      ghost: "bg-transparent text-fg-muted hover:text-fg",
     };
 
     const sizes = {
       sm: "h-9 px-4 text-sm",
-      md: "h-11 px-6 text-base",
-      lg: "h-14 px-8 text-lg",
+      md: "h-12 px-7 text-sm uppercase tracking-[0.12em]",
+      lg: "h-14 px-9 text-sm uppercase tracking-[0.14em]",
     };
 
     const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
@@ -37,7 +37,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     if (href) {
       return (
-        <Link href={href} className={classes}>
+        <Link href={href} className={classes} {...(props as Omit<React.ComponentProps<typeof Link>, "href">)}>
           {content}
         </Link>
       );

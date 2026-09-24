@@ -5,30 +5,29 @@
    ============================================= */
 
 @theme {
-  /* ---- Color Palette ---- */
-  --color-ink:        #070B14;
-  --color-surface:    #0F1626;
-  --color-elevated:   #1B2942;
-  --color-primary:    #0A84FF;
-  --color-accent:     #38BDF8;
-  --color-deep:       #0B3E82;
-  --color-ember:      #F59E0B;
-  --color-fg:         #F1F5F9;
-  --color-fg-muted:   #94A3B8;
-  --color-fg-subtle:  #64748B;
+  /* ---- Color Palette — cinematic dark editorial ---- */
+  --color-ink:        #0A0A0A;
+  --color-surface:    #121212;
+  --color-elevated:   #1B1B1A;
+  --color-primary:    #6E86D6;
+  --color-accent:     #6E86D6;
+  --color-deep:       #2A2A28;
+  --color-fg:         #F4F1EA;
+  --color-fg-muted:   #A8A29A;
+  --color-fg-subtle:  #6E6A62;
 
   /* ---- Typography ---- */
-  --font-heading: "Outfit", system-ui, sans-serif;
+  --font-heading: "Fraunces", Georgia, serif;
   --font-body:    "Inter", system-ui, sans-serif;
 
   /* ---- Spacing Scale ---- */
-  --spacing-section: 6rem;
-  --spacing-section-sm: 4rem;
+  --spacing-section: 8rem;
+  --spacing-section-sm: 5rem;
 
-  /* ---- Border Radius ---- */
-  --radius-card: 1rem;
-  --radius-button: 0.625rem;
-  --radius-badge: 9999px;
+  /* ---- Border Radius — restrained, near-square ---- */
+  --radius-card: 2px;
+  --radius-button: 2px;
+  --radius-badge: 2px;
 
   /* ---- Transitions ---- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -95,37 +94,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@keyframes reveal-scale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.4; }
-  50%      { opacity: 0.7; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-0.75rem); }
-}
-
-@keyframes grid-shift {
-  0%   { transform: translate(0, 0); }
-  100% { transform: translate(40px, 40px); }
-}
-
 /* Scroll reveal utility classes */
 .reveal {
   opacity: 0;
@@ -163,6 +131,26 @@ h1, h2, h3, h4, h5, h6 {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* =============================================
+   Cinematic texture — pure CSS, no image assets
+   ============================================= */
+
+.film-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, var(--color-ink) 100%);
 }
 
 /* =============================================

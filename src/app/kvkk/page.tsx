@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "KVKK Aydınlatma Metni",
@@ -15,11 +16,10 @@ export default function KVKKPage() {
             KVKK Aydınlatma Metni
           </h1>
 
-          {/* TODO: Hukuki metin buraya eklenecek. Aşağıdaki yapı örnek iskelet. */}
+          {/* TODO: Hukuki metin hukuk danışmanıyla son haline getirilecek. Aşağıdaki yapı örnek iskelet. */}
           <div className="space-y-6 text-fg-muted leading-relaxed">
             <p>
-              {/* TODO: Şirket unvanı */}
-              <strong className="text-fg">FP Medya A.Ş.</strong> olarak kişisel verilerinizin
+              <strong className="text-fg">{siteConfig.companyName}</strong> olarak kişisel verilerinizin
               6698 sayılı Kişisel Verilerin Korunması Kanunu&apos;na uygun olarak işlenmesine
               büyük önem veriyoruz.
             </p>
@@ -28,12 +28,20 @@ export default function KVKKPage() {
               1. Veri Sorumlusu
             </h2>
             <p>
-              {/* TODO: Şirket adresi ve iletişim bilgileri */}
-              Veri sorumlusu: FP Medya A.Ş.
+              Veri sorumlusu: {siteConfig.companyName}
               <br />
-              Adres: [TODO: Şirket adresi]
-              <br />
-              E-posta: [TODO: E-posta adresi]
+              {siteConfig.contact.address ? (
+                <>
+                  Adres: {siteConfig.contact.address}
+                  <br />
+                </>
+              ) : (
+                <>
+                  Adres: {/* TODO: Şirket adresi eklenecek */}
+                  <br />
+                </>
+              )}
+              E-posta: {siteConfig.contact.email}
             </p>
 
             <h2 className="font-heading text-xl font-semibold text-fg mt-8">
@@ -71,8 +79,7 @@ export default function KVKKPage() {
             </p>
 
             <p className="text-fg-subtle text-sm mt-12">
-              {/* TODO: Son güncelleme tarihi */}
-              Son güncelleme: [TODO: Tarih]
+              {/* TODO: Son güncelleme tarihi hukuk danışmanı onayından sonra girilecek */}
             </p>
           </div>
         </div>

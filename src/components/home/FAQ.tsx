@@ -40,12 +40,12 @@ export function FAQ() {
   const { ref, isRevealed: isVisible } = useScrollReveal({ threshold: 0.1 });
 
   return (
-    <section className="py-section bg-surface/50" ref={ref}>
+    <section className="py-section bg-ink border-t border-deep" ref={ref}>
       <Container>
         <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <SectionHeading badge="SSS" title="Sıkça Sorulan Sorular" />
-          
-          <div className="max-w-2xl mx-auto mt-12">
+
+          <div className="max-w-2xl mx-auto mt-14">
             <Accordion items={faqItems} />
           </div>
         </div>
