@@ -19,7 +19,7 @@ export default function GizlilikPolitikasiPage() {
           {/* TODO: Hukuki metin buraya eklenecek */}
           <div className="space-y-6 text-fg-muted leading-relaxed">
             <p>
-              Bu gizlilik politikası, <strong className="text-fg">FP Medya A.Ş.</strong>&apos;nin
+              Bu gizlilik politikası, <strong className="text-fg">{siteConfig.companyName}</strong>&apos;nin
               (bundan böyle &quot;Fourpoint&quot; olarak anılacaktır) web sitesi üzerinden
               toplanan kişisel verilerin nasıl işlendiğini açıklar.
             </p>

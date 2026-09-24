@@ -23,7 +23,7 @@ export const siteConfig = {
   url: "https://fourpointmedya.com",
 
   /** Şirket resmi unvanı */
-  companyName: "FP Medya A.Ş.",
+  companyName: "FOUR POINT MEDYA A.Ş.",
 
   /** Site açıklaması — meta description, OG vb. */
   description:
@@ -35,7 +35,7 @@ export const siteConfig = {
     email: "info@fourpointmedya.com",
 
     /** Fiziksel adres (KVKK, yasal metinler için) */
-    address: "", // TODO: Şirket adresi eklenecek
+    address: "Zühre Sokak No:18 Daire:3, Kağıthane/İstanbul",
   },
 
   social: {
