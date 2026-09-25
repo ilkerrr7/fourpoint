@@ -14,7 +14,10 @@
   --color-deep:       #2A2A28;
   --color-fg:         #F4F1EA;
   --color-fg-muted:   #A8A29A;
-  --color-fg-subtle:  #6E6A62;
+  /* Small secondary text (labels, footer, placeholders). #8A867E is 5.5:1 on
+     ink, 5.2:1 on surface, 4.75:1 on elevated and still 4.67:1 under an 8%
+     azure glow — the old #6E6A62 was 3.5-3.7:1, below AA for small text. */
+  --color-fg-subtle:  #8A867E;
 
   /* ---- Typography ---- */
   --font-heading: "Big Shoulders", "Arial Narrow", sans-serif;
