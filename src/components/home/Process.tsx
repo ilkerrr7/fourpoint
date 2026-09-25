@@ -1,7 +1,8 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Container, SectionHeading } from "@/components/ui";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const steps = [
   {
@@ -18,21 +19,31 @@ const steps = [
   },
 ];
 
-export function Process() {
-  const { ref, isRevealed: isVisible } = useScrollReveal();
+const stepContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.13 } },
+};
 
+const stepItem = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT_EXPO } },
+};
+
+export function Process() {
   return (
-    <section ref={ref} className="py-section bg-surface border-t border-deep">
+    <section className="py-section bg-surface border-t border-deep">
       <Container>
         <SectionHeading badge="Süreç" title="Nasıl çalışıyoruz?" description="Üç adımda net bir süreç. Sürpriz yok, gizli adım yok." />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 max-w-5xl mx-auto mt-16 md:mt-20">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 max-w-5xl mx-auto mt-16 md:mt-20"
+          variants={stepContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {steps.map((step, index) => (
-            <div
-              key={step.title}
-              className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-              style={{ transitionDelay: `${index * 130}ms` }}
-            >
+            <motion.div key={step.title} variants={stepItem}>
               <span className="font-heading text-5xl text-fg-subtle">0{index + 1}</span>
               <h3 className="font-heading text-xl font-medium mt-4 mb-3 text-fg">
                 {step.title}
@@ -40,9 +51,9 @@ export function Process() {
               <p className="text-fg-muted text-base leading-relaxed">
                 {step.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

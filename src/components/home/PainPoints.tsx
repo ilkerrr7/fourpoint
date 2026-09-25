@@ -1,7 +1,8 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Container, Badge } from "@/components/ui";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const painPoints = [
   "Reklama para harcadım ama kime gösterildiğini bile bilmiyorum.",
@@ -10,31 +11,51 @@ const painPoints = [
   "Reklam veriyorum, tıklama geliyor ama satışa dönmüyor.",
 ];
 
-export function PainPoints() {
-  const { ref, isRevealed: isVisible } = useScrollReveal();
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
 
+const item = {
+  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0, y: "0.2em" },
+  visible: {
+    clipPath: "inset(0 0 0% 0)",
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: EASE_OUT_EXPO },
+  },
+};
+
+export function PainPoints() {
   return (
-    <section ref={ref} className="py-section bg-ink border-t border-deep">
+    <section className="py-section bg-ink border-t border-deep">
       <Container>
-        <div
-          className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
         >
           <Badge>Tanıdık Geldi mi?</Badge>
-        </div>
+        </motion.div>
 
-        <div className="max-w-3xl mt-10 space-y-2">
-          {painPoints.map((point, index) => (
-            <p
+        <motion.div
+          className="max-w-3xl mt-10 space-y-2"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          {painPoints.map((point) => (
+            <motion.p
               key={point}
-              className={`font-heading text-2xl md:text-4xl leading-[1.3] text-fg-muted transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-              }`}
-              style={{ transitionDelay: `${index * 120}ms` }}
+              variants={item}
+              className="font-heading text-2xl md:text-4xl leading-[1.3] text-fg-muted"
             >
               &ldquo;{point}&rdquo;
-            </p>
+            </motion.p>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

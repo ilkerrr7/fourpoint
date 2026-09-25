@@ -1,7 +1,8 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Container, Badge } from "@/components/ui";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const differentiators = [
   {
@@ -22,36 +23,53 @@ const differentiators = [
   },
 ];
 
-export function Differentiators() {
-  const { ref, isRevealed: isVisible } = useScrollReveal({ threshold: 0.1 });
+const rowContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
 
+const row = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT_EXPO } },
+};
+
+export function Differentiators() {
   return (
-    <section className="py-section bg-ink border-t border-deep" ref={ref as React.Ref<HTMLElement>}>
+    <section className="py-section bg-ink border-t border-deep">
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
           <div className="lg:col-span-4">
-            <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
+            >
               <Badge>Farkımız</Badge>
               <h2 className="font-heading text-3xl md:text-4xl font-medium mt-5 text-fg leading-[1.1]">
                 Neden Fourpoint?
               </h2>
-            </div>
+            </motion.div>
           </div>
 
-          <div className="lg:col-span-8 lg:col-start-6 border-t border-deep">
-            {differentiators.map((item, index) => (
-              <div
+          <motion.div
+            className="lg:col-span-8 lg:col-start-6 border-t border-deep"
+            variants={rowContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {differentiators.map((item) => (
+              <motion.div
                 key={item.title}
-                className={`grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-8 py-7 border-b border-deep transition-all duration-700 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
-                style={{ transitionDelay: `${(index + 1) * 100}ms` }}
+                variants={row}
+                className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-8 py-7 border-b border-deep"
               >
                 <h3 className="sm:col-span-4 font-heading text-lg font-medium text-fg">{item.title}</h3>
                 <p className="sm:col-span-8 text-fg-muted text-sm leading-relaxed">{item.description}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </Container>
     </section>

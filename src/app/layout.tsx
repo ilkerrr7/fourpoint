@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, Fraunces } from "next/font/google";
+import { MotionConfig } from "motion/react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CookieBanner from "@/components/layout/CookieBanner";
+import { Curtain } from "@/components/layout/Curtain";
 import MetaPixel from "@/components/meta/MetaPixel";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
@@ -58,11 +60,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-ink text-fg font-body">
-        <MetaPixel />
-        <Header />
-        <main className="flex-1 pt-16 md:pt-20">{children}</main>
-        <Footer />
-        <CookieBanner />
+        <MotionConfig reducedMotion="user">
+          <MetaPixel />
+          <Curtain />
+          <Header />
+          <main className="flex-1 pt-16 md:pt-20">{children}</main>
+          <Footer />
+          <CookieBanner />
+        </MotionConfig>
       </body>
     </html>
   );

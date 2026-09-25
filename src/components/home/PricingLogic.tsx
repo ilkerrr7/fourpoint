@@ -1,8 +1,9 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const pricingItems = [
   {
@@ -23,34 +24,44 @@ const pricingItems = [
   },
 ];
 
+const itemContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT_EXPO } },
+};
+
 export function PricingLogic() {
-  const { ref, isRevealed: isVisible } = useScrollReveal();
-
   return (
-    <section className="py-section bg-surface border-t border-deep" ref={ref}>
+    <section className="py-section bg-surface border-t border-deep">
       <Container>
-        <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <SectionHeading
-            badge="Ücretlendirme"
-            title="Neyi neden ücretlendiriyoruz?"
-            description="Fiyat listesi vermiyoruz çünkü her işletmenin ihtiyacı farklı. Ama neye para ödediğinizi bilmeniz hakkınız."
-          />
-        </div>
+        <SectionHeading
+          badge="Ücretlendirme"
+          title="Neyi neden ücretlendiriyoruz?"
+          description="Fiyat listesi vermiyoruz çünkü her işletmenin ihtiyacı farklı. Ama neye para ödediğinizi bilmeniz hakkınız."
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-0 max-w-4xl mx-auto mt-16 md:mt-20 border-t border-deep md:border-t-0">
-          {pricingItems.map((item, index) => (
-            <div
-              key={item.title}
-              className={`py-8 border-b border-deep transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${(index + 1) * 120}ms` }}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-0 max-w-4xl mx-auto mt-16 md:mt-20 border-t border-deep md:border-t-0"
+          variants={itemContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {pricingItems.map((pricingItem) => (
+            <motion.div
+              key={pricingItem.title}
+              variants={item}
+              className="py-8 border-b border-deep"
             >
-              <h3 className="font-heading font-medium text-lg mb-2 text-fg">{item.title}</h3>
-              <p className="text-fg-muted text-sm leading-relaxed">{item.description}</p>
-            </div>
+              <h3 className="font-heading font-medium text-lg mb-2 text-fg">{pricingItem.title}</h3>
+              <p className="text-fg-muted text-sm leading-relaxed">{pricingItem.description}</p>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

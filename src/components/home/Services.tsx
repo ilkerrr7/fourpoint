@@ -1,7 +1,8 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Container, SectionHeading } from "@/components/ui";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const services = [
   {
@@ -22,11 +23,19 @@ const services = [
   },
 ];
 
-export function Services() {
-  const { ref, isRevealed: isVisible } = useScrollReveal();
+const rowContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
 
+const row = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT_EXPO } },
+};
+
+export function Services() {
   return (
-    <section ref={ref} className="py-section bg-ink border-t border-deep">
+    <section className="py-section bg-ink border-t border-deep">
       <Container>
         <SectionHeading
           badge="Hizmetler"
@@ -35,15 +44,19 @@ export function Services() {
           align="left"
         />
 
-        <div className="mt-16 md:mt-20 border-t border-deep">
+        <motion.div
+          className="mt-16 md:mt-20 border-t border-deep"
+          variants={rowContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {services.map((service, index) => (
-            <a
+            <motion.a
               key={service.title}
               href="/hizmetler"
-              className={`group grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-3 md:gap-8 py-8 md:py-10 border-b border-deep transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
+              variants={row}
+              className="group grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-3 md:gap-8 py-8 md:py-10 border-b border-deep"
             >
               <span className="md:col-span-1 font-heading text-sm text-fg-subtle">
                 0{index + 1}
@@ -60,9 +73,9 @@ export function Services() {
               >
                 →
               </span>
-            </a>
+            </motion.a>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

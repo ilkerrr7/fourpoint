@@ -1,3 +1,3 @@
-export * from './useScrollReveal';
 export * from './useMediaQuery';
 export * from './useTilt';
+export * from './useMotionAllowed';

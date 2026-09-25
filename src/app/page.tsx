@@ -2,6 +2,8 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { Hero } from "@/components/home/Hero";
 import { PainPoints } from "@/components/home/PainPoints";
 import { Services } from "@/components/home/Services";
+import { MediaBreak } from "@/components/home/MediaBreak";
+import { Automation } from "@/components/home/Automation";
 import { Process } from "@/components/home/Process";
 import { Differentiators } from "@/components/home/Differentiators";
 import { PricingLogic } from "@/components/home/PricingLogic";
@@ -14,6 +16,8 @@ export default function HomePage() {
       <Hero />
       <PainPoints />
       <Services />
+      <MediaBreak />
+      <Automation />
       <Process />
       <Differentiators />
       <PricingLogic />

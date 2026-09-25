@@ -4,6 +4,8 @@ import { useTilt } from "@/hooks/useTilt";
 
 interface FourPointMarkProps {
   className?: string;
+  /** False for purely decorative uses (e.g. a watermark) — skips the tilt entirely. */
+  interactive?: boolean;
 }
 
 /**
@@ -12,8 +14,8 @@ interface FourPointMarkProps {
  * offset on hover-capable desktops — see useTilt for the disable rules
  * (reduced motion, mobile, low-power devices).
  */
-export function FourPointMark({ className = "" }: FourPointMarkProps) {
-  const tiltRef = useTilt<HTMLDivElement>();
+export function FourPointMark({ className = "", interactive = true }: FourPointMarkProps) {
+  const tiltRef = useTilt<HTMLDivElement>(interactive);
 
   return (
     <div className={`inline-block ${className}`} style={{ perspective: "900px" }}>

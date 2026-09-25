@@ -2,32 +2,25 @@
 
 import { useEffect, useRef } from "react";
 import { useMediaQuery } from "./useMediaQuery";
-
-interface NavigatorWithHints extends Navigator {
-  deviceMemory?: number;
-  connection?: { saveData?: boolean };
-}
+import { useMotionAllowed } from "./useMotionAllowed";
 
 /**
  * Drives a subtle CSS 3D tilt on the returned ref's element: rotateX
  * follows scroll position through the viewport, rotateY follows pointer
  * position on hover-capable desktops. No listeners are attached at all
  * (not just CSS-disabled) under reduced motion, on narrow viewports, or
- * on low-power/data-saver devices.
+ * on low-power/data-saver devices — see useMotionAllowed. Pass
+ * `enabled: false` to opt out entirely (e.g. a purely decorative,
+ * non-interactive use of the same mark).
  */
-export function useTilt<T extends HTMLElement>() {
+export function useTilt<T extends HTMLElement>(enabled: boolean = true) {
   const ref = useRef<T>(null);
-  const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const isMobile = useMediaQuery("(max-width: 767px)");
+  const motionAllowed = useMotionAllowed();
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || prefersReducedMotion || isMobile) return;
-
-    const nav = navigator as NavigatorWithHints;
-    if ((nav.deviceMemory ?? Infinity) <= 4) return;
-    if (nav.connection?.saveData) return;
+    if (!el || !enabled || !motionAllowed) return;
 
     let scrollRotateX = 0;
     let pointerRotateY = 0;
@@ -79,7 +72,7 @@ export function useTilt<T extends HTMLElement>() {
       if (scrollFrame) cancelAnimationFrame(scrollFrame);
       el.style.transform = "";
     };
-  }, [prefersReducedMotion, isMobile, canHover]);
+  }, [enabled, motionAllowed, canHover]);
 
   return ref;
 }

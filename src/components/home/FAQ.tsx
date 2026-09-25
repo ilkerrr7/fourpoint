@@ -1,9 +1,10 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Accordion } from "@/components/ui/Accordion";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const faqItems = [
   {
@@ -37,18 +38,20 @@ const faqItems = [
 ];
 
 export function FAQ() {
-  const { ref, isRevealed: isVisible } = useScrollReveal({ threshold: 0.1 });
-
   return (
-    <section className="py-section bg-ink border-t border-deep" ref={ref}>
+    <section className="py-section bg-ink border-t border-deep">
       <Container>
-        <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <SectionHeading badge="SSS" title="Sıkça Sorulan Sorular" />
+        <SectionHeading badge="SSS" title="Sıkça Sorulan Sorular" />
 
-          <div className="max-w-2xl mx-auto mt-14">
-            <Accordion items={faqItems} />
-          </div>
-        </div>
+        <motion.div
+          className="max-w-2xl mx-auto mt-14"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, ease: EASE_OUT_EXPO }}
+        >
+          <Accordion items={faqItems} />
+        </motion.div>
       </Container>
     </section>
   );
