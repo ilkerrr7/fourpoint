@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { Container, SectionHeading } from "@/components/ui";
-import { useMotionAllowed } from "@/hooks/useMotionAllowed";
+import { StrandCompare } from "@/components/effects/StrandCompare";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const monitored = [
@@ -23,78 +23,57 @@ const listItem = {
 };
 
 export function Automation() {
-  const motionAllowed = useMotionAllowed();
-
   return (
-    <section className="relative py-section bg-surface border-t border-deep overflow-hidden">
-      <style jsx global>{`
-        @keyframes automation-scan {
-          from { transform: translateX(-15%); }
-          to { transform: translateX(115%); }
-        }
-      `}</style>
-
-      {/* Ambient monitoring visual — abstract only: no numbers, no axis, no chart shape */}
-      <div className="absolute inset-0 opacity-[0.16] pointer-events-none" aria-hidden="true">
-        <svg viewBox="0 0 1200 400" preserveAspectRatio="none" className="w-full h-full">
-          {[70, 150, 230, 310].map((y, i) => (
-            <line key={y} x1="0" y1={y} x2="1200" y2={y} stroke="var(--color-fg-subtle)" strokeWidth="1" opacity={0.5 - i * 0.08} />
-          ))}
-        </svg>
-        {motionAllowed && (
-          <div
-            className="absolute top-0 bottom-0 w-[18%]"
-            style={{
-              background: "linear-gradient(90deg, transparent, var(--color-accent) 50%, transparent)",
-              filter: "blur(20px)",
-              animation: "automation-scan 9s ease-in-out infinite",
-            }}
-          />
-        )}
-      </div>
-
+    // overflow-clip, not -hidden: hidden makes this a scroll container, which
+    // breaks position:sticky and scroll timelines for anything inside it.
+    <section className="relative py-section bg-surface border-t border-deep overflow-clip">
       <Container className="relative z-10">
         <SectionHeading badge="Otomasyon" title="İnsan yorulur. Sistem yorulmaz." align="left" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mt-14">
-          <div className="space-y-6">
-            <p className="text-fg-muted text-lg leading-relaxed">
-              Meta&apos;nın reklam açık artırması günün her saati çalışır. Bir
-              hesap yöneticisi ise günde iki kez bakar — iyi bir günündeyse.
-              Yorgunsa, yoğunsa, kafası başka yerdeyse gözden kaçar. Sorun
-              yeteneksizlik değil, insan olmak.
-            </p>
-            <p className="text-fg-muted text-lg leading-relaxed">
-              Avrupa&apos;daki ajans modellerini incelerken hep aynı şeyi
-              gördük: iyi ajansları kötülerinden ayıran şey daha zeki insanlar
-              değil, daha disiplinli takip. Biz de o disiplini insana değil
-              sisteme yükledik.
-            </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mt-14 items-center">
+          <div className="space-y-12">
+            <div className="space-y-6">
+              <p className="text-fg-muted text-lg leading-relaxed">
+                Meta&apos;nın reklam açık artırması günün her saati çalışır. Bir
+                hesap yöneticisi ise günde iki kez bakar — iyi bir günündeyse.
+                Yorgunsa, yoğunsa, kafası başka yerdeyse gözden kaçar. Sorun
+                yeteneksizlik değil, insan olmak.
+              </p>
+              <p className="text-fg-muted text-lg leading-relaxed">
+                Avrupa&apos;daki ajans modellerini incelerken hep aynı şeyi
+                gördük: iyi ajansları kötülerinden ayıran şey daha zeki insanlar
+                değil, daha disiplinli takip. Biz de o disiplini insana değil
+                sisteme yükledik.
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-fg-subtle mb-5">
+                Sistemimiz sürekli izler
+              </p>
+              <motion.ul
+                className="space-y-4"
+                variants={listContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.4 }}
+              >
+                {monitored.map((item) => (
+                  <motion.li
+                    key={item}
+                    variants={listItem}
+                    className="flex items-start gap-3 text-fg text-base leading-relaxed border-b border-deep pb-4"
+                  >
+                    <span className="text-accent shrink-0 mt-1.5">—</span>
+                    {item}
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
           </div>
 
-          <div>
-            <p className="text-xs font-medium uppercase tracking-[0.14em] text-fg-subtle mb-5">
-              Sistemimiz sürekli izler
-            </p>
-            <motion.ul
-              className="space-y-4"
-              variants={listContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.4 }}
-            >
-              {monitored.map((item) => (
-                <motion.li
-                  key={item}
-                  variants={listItem}
-                  className="flex items-start gap-3 text-fg text-base leading-relaxed border-b border-deep pb-4"
-                >
-                  <span className="text-accent shrink-0 mt-1.5">—</span>
-                  {item}
-                </motion.li>
-              ))}
-            </motion.ul>
-          </div>
+          {/* two cables, no labels: steady vs broken says the rest */}
+          <StrandCompare />
         </div>
 
         <motion.div

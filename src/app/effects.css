@@ -165,3 +165,94 @@
     }
   }
 }
+
+/* ---------------------------------------------
+   Strand comparison — the system vs human attention
+   ---------------------------------------------
+   Time-based (not scroll-based): the contrast IS the behaviour. Steady
+   strand = constant flow; broken strand = pieces that drop out and return
+   at irregular moments. Loops only run while the element is on screen
+   (InViewGate sets data-live="on"). The static state below already shows
+   the difference: unbroken vs broken, even, vs uneven. No text, no axes,
+   no numbers anywhere in this visual. */
+
+.strands {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin-inline: auto;
+  aspect-ratio: 440 / 560;
+}
+.strands svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+/* static glow and the flowing strand each get their own layer, so the steady
+   strand's per-frame repaint touches nothing else */
+.strand-halo,
+.strand-steady-svg { will-change: transform; }
+.strand-halo path { fill: none; stroke-width: 14; }
+
+.strand-line,
+.strand-packets,
+.strand-packets-glow,
+.strand-seg-core,
+.strand-seg-glow {
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* steady: unbroken line + packets at a fixed spacing (frozen when static) */
+.strand-line { stroke-width: 1.6; stroke-opacity: 0.7; }
+.strand-packets,
+.strand-packets-glow {
+  stroke-dasharray: 0.035 0.165; /* period 0.2 → five evenly spaced packets */
+  stroke-dashoffset: 0;
+}
+.strand-packets { stroke-width: 2.2; }
+.strand-packets-glow { stroke-width: 9; stroke-opacity: 0.1; }
+
+/* broken: per-segment dashes are set on the elements; widths here */
+.strand-seg-core { stroke-width: 1.6; }
+.strand-seg-glow { stroke-width: 9; }
+
+@keyframes strand-flow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -0.2; } /* exactly one period → seamless loop */
+}
+/* three unrelated flicker patterns, stepped (hard cuts, not fades) */
+@keyframes strand-flicker-a {
+  0% { opacity: 1; } 6% { opacity: 0.25; } 9% { opacity: 1; } 33% { opacity: 1; }
+  34% { opacity: 0.1; } 39% { opacity: 0.7; } 41% { opacity: 0.1; } 44% { opacity: 1; }
+  70% { opacity: 1; } 71% { opacity: 0.3; } 77% { opacity: 1; } 100% { opacity: 1; }
+}
+@keyframes strand-flicker-b {
+  0% { opacity: 0.6; } 12% { opacity: 1; } 15% { opacity: 0.2; } 18% { opacity: 1; }
+  47% { opacity: 1; } 48% { opacity: 0; } 55% { opacity: 0.5; } 58% { opacity: 0; }
+  63% { opacity: 1; } 90% { opacity: 0.3; } 93% { opacity: 1; } 100% { opacity: 0.6; }
+}
+@keyframes strand-flicker-c {
+  0% { opacity: 1; } 20% { opacity: 1; } 21% { opacity: 0.15; } 26% { opacity: 0.9; }
+  52% { opacity: 0.9; } 53% { opacity: 0.05; } 66% { opacity: 0.05; } 67% { opacity: 1; }
+  85% { opacity: 1; } 86% { opacity: 0.2; } 88% { opacity: 1; } 100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-fx="off"]) .strands[data-live="on"] .strand-packets,
+  :root:not([data-fx="off"]) .strands[data-live="on"] .strand-packets-glow {
+    /* 30 steps/s: a slow drift needs no more, and it halves the repaints */
+    animation: strand-flow 3.6s steps(108) infinite;
+  }
+  :root:not([data-fx="off"]) .strands[data-live="on"] .strand-seg {
+    animation-duration: 4.3s;
+    animation-timing-function: steps(1, end);
+    animation-iteration-count: infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  :root:not([data-fx="off"]) .strands[data-live="on"] .strand-seg--a { animation-name: strand-flicker-a; animation-duration: 4.3s; }
+  :root:not([data-fx="off"]) .strands[data-live="on"] .strand-seg--b { animation-name: strand-flicker-b; animation-duration: 5.9s; }
+  :root:not([data-fx="off"]) .strands[data-live="on"] .strand-seg--c { animation-name: strand-flicker-c; animation-duration: 7.1s; }
+}
