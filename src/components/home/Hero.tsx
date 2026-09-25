@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import { Container, Badge, Button } from "@/components/ui";
-import { MediaSlot } from "@/components/media/MediaSlot";
+import { FourPointMark } from "@/components/decorative/FourPointMark";
 import { EASE_OUT_EXPO } from "@/lib/motion";
+import "./hero.css";
 
 const lineContainer = {
   hidden: {},
@@ -26,68 +26,57 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT_EXPO } },
 };
 
+/**
+ * Purely typographic hero: the headline is the image. Sizing lives in
+ * hero.css (container-query fitted, measured per line).
+ */
 export function Hero() {
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const mediaY = useTransform(scrollYProgress, [0, 1], [0, 70]);
-
   return (
-    <section ref={heroRef} className="relative overflow-hidden min-h-[92vh] bg-ink">
+    <section className="hero relative overflow-clip bg-ink min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)]">
       <div className="vignette" aria-hidden="true" />
       <div className="film-grain" aria-hidden="true" />
 
+      <div className="hero-mark" aria-hidden="true">
+        <FourPointMark interactive={false} className="w-full h-full" />
+      </div>
+
       <Container className="relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end pt-32 pb-16 md:pt-28 md:pb-20 min-h-[92vh]">
-          <motion.div
-            className="lg:col-span-8 pb-4"
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={fadeUp} className="mb-8">
+        <div className="flex min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] flex-col justify-start pt-10 md:justify-center md:pt-8 pb-20">
+          <motion.div className="hero-fit" initial="hidden" animate="visible">
+            <motion.div variants={fadeUp}>
               <Badge>Meta Reklam Yönetimi</Badge>
             </motion.div>
 
-            <motion.h1
-              className="font-heading text-hero-sm md:text-hero-md lg:text-hero-lg font-bold leading-[0.88] tracking-tight text-fg mb-8"
-              variants={lineContainer}
-            >
-              <motion.span variants={line} style={{ display: "block" }}>
-                Reklamlarınız
-              </motion.span>
-              <motion.span variants={line} style={{ display: "block" }}>
-                <em className="not-italic font-normal text-fg-muted">doğru</em> insanlara
-              </motion.span>
-              <motion.span variants={line} style={{ display: "block" }}>
-                ulaşsın.
-              </motion.span>
-            </motion.h1>
+            <div className="hero-stage mt-6">
+              <motion.h1 className="hero-title font-heading font-bold text-fg" variants={lineContainer}>
+                <motion.span variants={line} className="hero-line hero-l1">
+                  Reklamlarınız
+                </motion.span>
+                <motion.span variants={line} className="hero-line hero-l2">
+                  <em className="hero-w1 not-italic font-normal text-fg-muted">doğru</em>{" "}
+                  <span className="hero-w2">insanlara</span>
+                </motion.span>
+                <motion.span variants={line} className="hero-line hero-l3">
+                  ulaşsın.
+                </motion.span>
+              </motion.h1>
 
-            <motion.p
-              variants={fadeUp}
-              className="text-lg md:text-xl text-fg-muted max-w-2xl leading-relaxed mb-12"
-            >
-              Instagram ve Facebook reklamlarınızı stratejik yönetiyoruz. Kime,
-              ne zaman, nasıl gösterildiğini bilmeniz için şeffaf çalışıyoruz.
-            </motion.p>
-
-            <motion.div
-              variants={fadeUp}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
-            >
-              <Button variant="primary" size="lg" href="/iletisim">
-                Ücretsiz Görüşme Al
-              </Button>
-              <Button variant="ghost" size="lg" href="/nasil-calisiyoruz">
-                Nasıl Çalışıyoruz →
-              </Button>
-            </motion.div>
+              <motion.div variants={fadeUp} className="hero-credits mt-8 lg:mt-0">
+                <p className="text-base text-fg-muted leading-relaxed max-w-md">
+                  Instagram ve Facebook reklamlarınızı stratejik yönetiyoruz. Kime, ne
+                  zaman, nasıl gösterildiğini bilmeniz için şeffaf çalışıyoruz.
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <Button variant="primary" size="md" href="/iletisim">
+                    Ücretsiz Görüşme Al
+                  </Button>
+                  <Button variant="ghost" size="md" href="/nasil-calisiyoruz">
+                    Nasıl Çalışıyoruz →
+                  </Button>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
-
-          <div className="lg:col-span-4 lg:self-center">
-            <motion.div style={{ y: mediaY }}>
-              <MediaSlot slot="heroMedia" className="w-full rounded-[2px]" revealDelay={0.6} />
-            </motion.div>
-          </div>
         </div>
       </Container>
     </section>

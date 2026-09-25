@@ -13,18 +13,11 @@ export interface MediaSlotConfig {
   alt: string;
   /** e.g. "4/5", "21/9" — reserves space so there is no layout shift. */
   aspectRatio: string;
-  /** True only for the hero slot: skips lazy-loading, this is the LCP asset. */
+  /** True for an above-the-fold slot: skips lazy-loading (LCP). */
   priority?: boolean;
 }
 
 export const mediaSlots: Record<string, MediaSlotConfig> = {
-  heroMedia: {
-    type: "image",
-    src: "/media/hero.webp",
-    aspectRatio: "4/5",
-    priority: true,
-    alt: "Karanlıkta süzülen soyut bir ışık huzmesi ve toz parçacıkları dokusu",
-  },
   sectionBreak: {
     type: "image",
     src: "/media/break.webp",

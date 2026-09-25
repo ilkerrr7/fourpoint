@@ -1,0 +1,80 @@
+/* =============================================
+   Hero — typographic title card
+   =============================================
+   Flush left, three lines at one size, the longest spans the content width.
+   The credits sit in the void beside the short last line, and the compass
+   mark bleeds off the right edge.
+
+   The headline is sized from the CONTAINER's width (cqw), not from the
+   viewport, so "full content width" holds whatever the layout does around it.
+   Per-line widths below are measured, in em, for Big Shoulders at display
+   size with the headline's -0.025em tracking:
+     Reklamlarınız 4.498 · doğru (400) 1.612 · insanlara 3.129
+     ulaşsın. 2.617 · "doğru insanlara" 4.932
+   0.99 / 0.985 leave a hair of slack so a line never touches the edge. */
+
+.hero-fit { container-type: inline-size; }
+
+.hero-stage {
+  position: relative;
+  /* width-fitted, but capped by height so the credits stay on the first screen */
+  --s: min(calc(100cqw / 4.932 * 0.99), calc((100svh - 14.5rem) / 2.7));
+}
+
+/* Two things the global heading rules would otherwise get wrong here:
+   - line-height: the base `h1..h6 { line-height: 1.15 }` is unlayered, so it
+     beats Tailwind's layered leading-* utilities; a title card needs it tight.
+   - letter-spacing: a length set on the h1 is inherited as a fixed number of
+     px, so a 219px word would get the tracking of the 72px h1. Tracking is set
+     per line/word in em so every size gets its own -0.025em (the measured
+     widths above assume exactly that). */
+.hero-title {
+  font-size: var(--s);
+  line-height: 0.9;
+}
+.hero-line,
+.hero-w1,
+.hero-w2 { letter-spacing: -0.025em; }
+
+/* the clip-path reveal on each line would shave descenders and diacritics
+   (ğ, ş, ı) off the line box; grow the box downward without moving layout */
+.hero-line {
+  display: block;
+  white-space: nowrap;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+/* ---- the one non-type element: FourPointMark, huge and quiet ---- */
+.hero-mark {
+  --m: min(62vw, 95svh);
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  aspect-ratio: 1;
+  width: var(--m);
+  right: calc(var(--m) * -0.16);
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.1;
+}
+
+@media (min-width: 1024px) {
+  .hero-credits {
+    position: absolute;
+    right: 0;
+    bottom: calc(var(--s) * 0.16); /* on the last line's baseline, not its box */
+    /* whatever the last line ("ulaşsın.", 2.617em) leaves free, up to 34rem */
+    width: min(34rem, calc(100cqw - var(--s) * 2.617 - 2rem));
+  }
+}
+
+/* phones: every line fitted to the full width on its own, "doğru" as a huge
+   light word between two bold ones: a poster, not a paragraph */
+@media (max-width: 639px) {
+  .hero-l1 { font-size: calc(100cqw / 4.498 * 0.985); }
+  .hero-w1 { display: block; font-size: calc(100cqw / 1.612 * 0.985); }
+  .hero-w2 { display: block; font-size: calc(100cqw / 3.129 * 0.985); }
+  .hero-l3 { font-size: calc(100cqw / 2.617 * 0.985); }
+  .hero-mark { width: 118vw; right: -44vw; top: 16%; transform: none; }
+}

@@ -18,8 +18,11 @@ export function FourPointMark({ className = "", interactive = true }: FourPointM
   const tiltRef = useTilt<HTMLDivElement>(interactive);
 
   return (
-    <div className={`inline-block ${className}`} style={{ perspective: "900px" }}>
-      <div ref={tiltRef} style={{ transformStyle: "preserve-3d", willChange: "transform" }}>
+    <div className={`inline-block ${className}`} style={interactive ? { perspective: "900px" } : undefined}>
+      <div
+        ref={tiltRef}
+        style={interactive ? { transformStyle: "preserve-3d", willChange: "transform" } : undefined}
+      >
         <svg viewBox="0 0 48 48" fill="none" className="w-full h-full" aria-hidden="true">
           <path
             fillRule="evenodd"
