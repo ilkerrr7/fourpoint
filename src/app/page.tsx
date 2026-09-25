@@ -9,19 +9,24 @@ import { Differentiators } from "@/components/home/Differentiators";
 import { PricingLogic } from "@/components/home/PricingLogic";
 import { FAQ } from "@/components/home/FAQ";
 import { ClosingCTA } from "@/components/home/ClosingCTA";
+import { CableJoint } from "@/components/effects/CableJoint";
 
 export default function HomePage() {
   return (
     <PageTransition>
       <Hero />
+      <CableJoint id="hero-pain" />
       <PainPoints />
       <Services />
       <MediaBreak />
+      <CableJoint id="break-automation" />
       <Automation />
       <Process />
       <Differentiators />
+      <CableJoint id="differentiators-pricing" />
       <PricingLogic />
       <FAQ />
+      <CableJoint id="faq-closing" />
       <ClosingCTA />
     </PageTransition>
   );

@@ -8,6 +8,7 @@ import { Curtain } from "@/components/layout/Curtain";
 import MetaPixel from "@/components/meta/MetaPixel";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
+import "./effects.css";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
@@ -27,6 +28,9 @@ const bigShoulders = Big_Shoulders({
 });
 
 const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING !== "false";
+// Kill switch for the scroll-driven effects (see effects.css): NEXT_PUBLIC_FX=off
+// renders <html data-fx="off"> and every effect falls back to its static state.
+const effectsOff = process.env.NEXT_PUBLIC_FX === "off";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -60,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="tr"
+      data-fx={effectsOff ? "off" : undefined}
       className={`${inter.variable} ${bigShoulders.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-ink text-fg font-body">

@@ -1,0 +1,167 @@
+/* =============================================
+   Effects — scroll-driven cinematic layer
+   =============================================
+   Ground rules:
+
+   1. The unguarded rules below are the STATIC, fully-resolved state of each
+      effect. That is what renders on the server, with reduced motion, in
+      browsers without scroll timelines (Firefox stable), and with the kill
+      switch on. Nothing is hidden or unreachable in that state.
+   2. Motion only exists inside
+        @media (prefers-reduced-motion: no-preference)
+          @supports (animation-timeline: view())
+            :root:not([data-fx="off"])
+      i.e. the browser must support scroll timelines AND the user must not
+      have asked for reduced motion AND the kill switch must be off.
+   3. No JS drives any of this: no scroll listeners, no rAF, no layout reads.
+      Scroll-linked values come from CSS scroll timelines.
+   4. `animation` is a shorthand that RESETS animation-timeline/-range, so
+      those two are always declared AFTER it.
+
+   Kill switch: set NEXT_PUBLIC_FX=off at build time (layout.tsx then renders
+   <html data-fx="off">) or set the attribute by hand in DevTools to compare.
+   ============================================= */
+
+:root {
+  --fx-azure: #649cd8;      /* = --color-accent */
+  --fx-azure-hot: #d4e6f8;  /* accent tinted toward white: the "lit" core */
+}
+
+/* ---------------------------------------------
+   Cable joints — a neon filament that bridges two sections
+   ---------------------------------------------
+   Anatomy (all SVG stroke work; nothing here touches layout):
+     .cable-halo   static blurred glow, its own composited layer so the
+                   per-frame repaint of the core never re-runs the blur
+     .cable-base   dim always-on trace
+     .cable-charged  the trace behind the light, drawn on as it passes
+     .cable-head*  the travelling light: three stacked strokes = soft glow
+                   without any animated filter
+     .cable-node   the terminal that ignites when the light arrives
+   Paths use pathLength="1", so dash values are fractions of the path. */
+
+.cable-joint {
+  position: relative;
+  height: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.cable-anchor {
+  position: absolute;
+  width: var(--cable-w);
+  max-width: 100%;
+  height: var(--cable-h);
+  /* bottom edge sits 8px below the terminal node centre */
+  top: calc(var(--cable-terminal) + 8px - var(--cable-h));
+}
+.cable-anchor--left { left: 0; }
+.cable-anchor--center { left: 50%; transform: translateX(-50%); }
+
+.cable-halo,
+.cable-core {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.cable-halo { will-change: transform; }
+
+.cable-halo path {
+  fill: none; /* stroke = the same fade gradient as the core (set on the element) */
+  stroke-width: 14;
+  stroke-opacity: 0.2;
+}
+
+.cable-base {
+  fill: none;
+  stroke-width: 1;
+  stroke-opacity: 0.22;
+}
+
+.cable-charged {
+  fill: none;
+  stroke-width: 1.25;
+  stroke-opacity: 0.6;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 0; /* static state: fully charged */
+}
+
+.cable-head,
+.cable-head-mid,
+.cable-head-glow,
+.cable-head-outer {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 0.1 3;
+  stroke-dashoffset: -1; /* parked past the end */
+  opacity: 0;            /* static state: no light in transit */
+}
+.cable-head { stroke: var(--fx-azure-hot); stroke-width: 1.6; }
+/* stacked, ever-fainter strokes fake a soft bloom with no animated filter */
+.cable-head-mid { stroke: var(--fx-azure); stroke-width: 5; stroke-opacity: 0.32; }
+.cable-head-glow { stroke: var(--fx-azure); stroke-width: 10; stroke-opacity: 0.09; }
+.cable-head-outer { stroke: var(--fx-azure); stroke-width: 18; stroke-opacity: 0.04; }
+
+.cable-node {
+  position: absolute;
+  bottom: 4px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 9999px;
+  background: var(--fx-azure-hot);
+  box-shadow:
+    0 0 0 4px rgb(100 156 216 / 0.16),
+    0 0 18px 4px rgb(100 156 216 / 0.5);
+}
+
+@keyframes cable-charge {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes cable-head-run {
+  0%   { stroke-dashoffset: 0.1; opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes cable-node-ignite {
+  from { opacity: 0.18; transform: scale(0.5); }
+  to   { opacity: 1;    transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* the anchor is the subject of the timeline; descendants attach to it.
+       `cover` runs 0→100% from "top edge enters the viewport" to "bottom
+       edge leaves it". The light runs in a short window (fast, so it races
+       ahead of the page instead of drifting with it) and lands on the node
+       as the next section's eyebrow reaches reading height. */
+    :root:not([data-fx="off"]) .cable-anchor {
+      view-timeline: --cable block;
+    }
+
+    :root:not([data-fx="off"]) .cable-charged {
+      animation: cable-charge linear both;
+      animation-timeline: --cable;
+      animation-range: cover 42% cover 54%;
+    }
+
+    :root:not([data-fx="off"]) .cable-head,
+    :root:not([data-fx="off"]) .cable-head-mid,
+    :root:not([data-fx="off"]) .cable-head-glow,
+    :root:not([data-fx="off"]) .cable-head-outer {
+      animation: cable-head-run linear both;
+      animation-timeline: --cable;
+      animation-range: cover 42% cover 54%;
+    }
+
+    :root:not([data-fx="off"]) .cable-node {
+      animation: cable-node-ignite ease-out both;
+      animation-timeline: --cable;
+      animation-range: cover 52% cover 57%;
+    }
+  }
+}
