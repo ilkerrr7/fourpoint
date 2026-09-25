@@ -40,6 +40,16 @@ const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING !== "false";
 // renders <html data-fx="off"> and every effect falls back to its static state.
 const effectsOff = process.env.NEXT_PUBLIC_FX === "off";
 
+// Big Shoulders is served as two files by unicode-range: basic Latin and
+// Latin Extended (ğ ş ı İ). They arrive at different times, so on a slow
+// connection a word like "doğru" briefly mixed two fonts. This holds headings
+// in the metric-matched fallback (globals.css, [data-fonts="pending"]) until
+// BOTH files have loaded, then swaps them in one step. Nothing moves when it
+// does: the fallback occupies the same boxes. Without JS the attribute is
+// never set and fonts behave normally; if the font never loads, the fallback
+// simply stays. Later pages in the session skip the hold (files are cached).
+const FONT_SWAP_SCRIPT = `(function(){try{var d=document.documentElement;if(sessionStorage.getItem("fp-fonts"))return;d.setAttribute("data-fonts","pending");var f=document.fonts,q='700 1em "Big Shoulders"';Promise.all([f.load(q,"Aa"),f.load(q,"ğşİı")]).then(function(r){if(r[0].length&&r[1].length){d.removeAttribute("data-fonts");try{sessionStorage.setItem("fp-fonts","1")}catch(e){}}})}catch(e){document.documentElement.removeAttribute("data-fonts")}})();`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -77,7 +87,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       data-fx={effectsOff ? "off" : undefined}
       className={`${inter.variable} ${bigShoulders.variable} h-full antialiased`}
+      // data-fonts is set by FONT_SWAP_SCRIPT before hydration
+      suppressHydrationWarning
     >
+      <head>
+        {/* A plain inline script, not next/script: it must run while the HTML
+            is parsed, before the first paint. (beforeInteractive only queues
+            the code for Next's runtime, ~2s later on a slow phone.) */}
+        <script dangerouslySetInnerHTML={{ __html: FONT_SWAP_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col bg-ink text-fg font-body">
         <MotionConfig reducedMotion="user">
           <MetaPixel />

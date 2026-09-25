@@ -101,6 +101,13 @@
   line-gap-override: 0%;
 }
 
+/* While either Big Shoulders file is still loading (see layout.tsx), headings
+   use only the metric-matched fallback, so the two files swap in together.
+   Beats next/font's variable class on <html> by specificity. */
+html[data-fonts="pending"] {
+  --font-heading: "Big Shoulders Fallback", sans-serif;
+}
+
 /* =============================================
    Base Styles
    ============================================= */
