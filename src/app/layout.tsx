@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import CookieBanner from "@/components/layout/CookieBanner";
 import MetaPixel from "@/components/meta/MetaPixel";
 import { siteConfig } from "@/lib/site-config";
+import { OG_IMAGE } from "@/lib/metadata";
 import "./globals.css";
 import "./effects.css";
 
@@ -53,13 +54,13 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} — Meta Reklam Yönetimi`,
     description: siteConfig.description,
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — Meta Reklam Yönetimi`,
     description: siteConfig.description,
-    images: ["/og-image.png"],
+    images: [OG_IMAGE.url],
   },
   robots: {
     index: allowIndexing,
