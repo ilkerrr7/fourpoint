@@ -17,7 +17,7 @@
   --color-fg-subtle:  #6E6A62;
 
   /* ---- Typography ---- */
-  --font-heading: "Fraunces", Georgia, serif;
+  --font-heading: "Big Shoulders", "Arial Narrow", sans-serif;
   --font-body:    "Inter", system-ui, sans-serif;
 
   /* ---- Spacing Scale ---- */
@@ -51,6 +51,7 @@ html {
 
 body {
   margin: 0;
+  overflow-x: hidden;
   background-color: var(--color-ink);
   color: var(--color-fg);
   font-family: var(--font-body);

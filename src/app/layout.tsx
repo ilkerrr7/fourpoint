@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Inter, Big_Shoulders } from "next/font/google";
 import { MotionConfig } from "motion/react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -15,10 +15,9 @@ const inter = Inter({
   display: "swap",
 });
 
-const fraunces = Fraunces({
+const bigShoulders = Big_Shoulders({
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+  weight: "variable",
   variable: "--font-heading",
   display: "swap",
 });
@@ -57,7 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="tr"
-      className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${inter.variable} ${bigShoulders.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-ink text-fg font-body">
         <MotionConfig reducedMotion="user">

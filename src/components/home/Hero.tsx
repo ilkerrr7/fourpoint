@@ -48,14 +48,14 @@ export function Hero() {
             </motion.div>
 
             <motion.h1
-              className="font-heading text-5xl md:text-7xl lg:text-[5.5rem] font-medium leading-[0.98] text-fg mb-8"
+              className="font-heading text-6xl md:text-8xl lg:text-[8rem] font-bold leading-[0.88] tracking-tight text-fg mb-8"
               variants={lineContainer}
             >
               <motion.span variants={line} style={{ display: "block" }}>
                 Reklamlarınız
               </motion.span>
               <motion.span variants={line} style={{ display: "block" }}>
-                <em className="italic text-fg-muted">doğru</em> insanlara
+                <em className="not-italic font-normal text-fg-muted">doğru</em> insanlara
               </motion.span>
               <motion.span variants={line} style={{ display: "block" }}>
                 ulaşsın.
