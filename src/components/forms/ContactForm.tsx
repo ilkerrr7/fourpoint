@@ -124,7 +124,7 @@ export default function ContactForm() {
         </div>
         <div className="h-px bg-deep relative overflow-hidden">
           <div
-            className="absolute inset-y-0 left-0 bg-accent transition-all duration-500 ease-[var(--ease-out-expo)]"
+            className="absolute inset-y-0 left-0 bg-accent transition-[width] duration-500 ease-[var(--ease-out-expo)]"
             style={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
           />
         </div>

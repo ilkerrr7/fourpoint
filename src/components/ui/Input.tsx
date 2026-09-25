@@ -23,7 +23,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           type={type}
           placeholder={placeholder}
           required={required}
-          className={`w-full bg-surface border ${error ? 'border-red-500' : 'border-deep'} rounded-[var(--radius-button)] px-4 py-3 text-fg placeholder:text-fg-subtle focus:border-accent focus:ring-1 focus:ring-accent/40 outline-none transition-all`}
+          className={`w-full bg-surface border ${error ? 'border-red-500' : 'border-deep'} rounded-[var(--radius-button)] px-4 py-3 text-fg placeholder:text-fg-subtle focus:border-accent focus:ring-1 focus:ring-accent/40 outline-none transition-[border-color,box-shadow] duration-150`}
           {...props}
         />
         {error && <p className="text-red-400 text-14 mt-1">{error}</p>}

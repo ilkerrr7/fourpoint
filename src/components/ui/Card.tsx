@@ -13,7 +13,9 @@ export function Card({ variant = "surface", hover = false, className = "", child
     elevated: "bg-elevated border border-deep",
   };
   
-  const hoverClasses = hover ? "hover:border-fg/25 transition-colors duration-300 ease-[var(--ease-out-expo)]" : "";
+  // hover-only border brighten: these cards are not links, so no lift/shadow
+  // that would promise a click
+  const hoverClasses = hover ? "hover:border-fg/25 transition-colors duration-200 ease-out" : "";
 
   return (
     <div className={`${baseClasses} ${variants[variant]} ${hoverClasses} ${className}`} {...props}>

@@ -129,9 +129,30 @@ body {
   line-height: 1.6;
 }
 
+/* dark text on azure: 6.9:1 (cream on azure was ~2.5:1, hard to read) */
 ::selection {
   background-color: var(--color-primary);
-  color: var(--color-fg);
+  color: var(--color-ink);
+}
+
+/* Header nav: a hairline that draws in from the left on hover and keyboard
+   focus, and stays drawn under the current page. Transform only, 200ms. */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.5rem;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover::after,
+.nav-link:focus-visible::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
 }
 
 /* Focus visible ring for keyboard navigation */

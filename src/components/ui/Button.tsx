@@ -12,7 +12,9 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = "primary", size = "md", href, icon, className = "", children, disabled, type = "button", ...props }, ref) => {
-    const baseClasses = "inline-flex items-center justify-center gap-2 font-medium tracking-wide transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 disabled:opacity-50 disabled:cursor-not-allowed rounded-[var(--radius-button)]";
+    // 150ms ease-out colour/border change on hover, a 0.97 press on :active
+    // (switched off for reduced motion); focus uses the global :focus-visible ring.
+    const baseClasses = "inline-flex items-center justify-center gap-2 font-medium tracking-wide transition-[color,background-color,border-color,transform] duration-150 ease-out active:scale-[0.97] motion-reduce:active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 rounded-[var(--radius-button)]";
 
     const variants = {
       primary: "bg-fg text-ink hover:bg-fg/85",

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import MobileNav from "./MobileNav";
 import { Button } from "@/components/ui";
@@ -17,6 +18,8 @@ const NAV_LINKS: NavLink[] = [
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isCurrent = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,7 +46,7 @@ export default function Header() {
     <>
       <header
         id="site-header"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
           isScrolled
             ? "bg-ink/90 backdrop-blur-md border-b border-deep"
             : "bg-transparent border-b border-transparent"
@@ -64,7 +67,7 @@ export default function Header() {
               alt="Fourpoint logo"
               width={32}
               height={32}
-              className="h-8 w-8 text-fg transition-transform duration-300 group-hover:scale-110"
+              className="h-8 w-8 text-fg transition-transform duration-200 ease-out group-hover:scale-110 motion-reduce:group-hover:scale-100"
               priority
             />
             <span className="font-heading text-18 font-medium text-fg tracking-tight">
@@ -78,7 +81,8 @@ export default function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-12 font-medium uppercase tracking-[0.14em] text-fg-muted transition-colors duration-200 hover:text-fg"
+                  aria-current={isCurrent(link.href) ? "page" : undefined}
+                  className="nav-link relative inline-flex items-center py-3 text-12 font-medium uppercase tracking-[0.14em] text-fg-muted transition-colors duration-200 hover:text-fg aria-[current=page]:text-fg"
                 >
                   {link.label}
                 </Link>

@@ -27,13 +27,13 @@ export function Accordion({ items, className = "" }: AccordionProps) {
           <div key={index} className="border-b border-deep/30 last:border-b-0">
             <button
               type="button"
-              className="w-full py-5 flex justify-between items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-sm"
+              className="group w-full py-5 flex justify-between items-center text-left rounded-sm"
               onClick={() => toggleItem(index)}
               aria-expanded={isOpen}
             >
               <span className="font-heading text-18 text-fg font-medium pr-4">{item.question}</span>
               <span 
-                className={`transform transition-transform duration-300 ease-[var(--ease-out-expo)] flex-shrink-0 text-primary ${
+                className={`transform transition-[transform,color] duration-300 ease-[var(--ease-out-expo)] flex-shrink-0 text-primary group-hover:text-fg ${
                   isOpen ? "rotate-180" : ""
                 }`}
               >
@@ -43,7 +43,7 @@ export function Accordion({ items, className = "" }: AccordionProps) {
               </span>
             </button>
             <div 
-              className={`grid transition-all duration-300 ease-[var(--ease-out-expo)] ${
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-[var(--ease-out-expo)] ${
                 isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               }`}
             >
