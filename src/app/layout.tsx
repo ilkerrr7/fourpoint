@@ -18,6 +18,10 @@ const inter = Inter({
 const bigShoulders = Big_Shoulders({
   subsets: ["latin", "latin-ext"],
   weight: "variable",
+  // Big Shoulders is one family with an optical-size axis (10–72). Without
+  // this it locks to opsz 14, the text cut; with it, font-optical-sizing:auto
+  // (the browser default) picks the Display cut on large headings.
+  axes: ["opsz"],
   variable: "--font-heading",
   display: "swap",
 });
