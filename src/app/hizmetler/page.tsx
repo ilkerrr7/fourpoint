@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container, SectionHeading, Button } from "@/components/ui";
+import { PageTransition } from "@/components/layout/PageTransition";
 
 export const metadata: Metadata = {
   title: "Hizmetler",
@@ -60,7 +61,7 @@ const SERVICES = [
 
 export default function HizmetlerPage() {
   return (
-    <>
+    <PageTransition>
       {/* Header */}
       <section className="py-16 md:py-24 bg-ink" aria-labelledby="hizmetler-heading">
         <Container>
@@ -127,6 +128,6 @@ export default function HizmetlerPage() {
           </Button>
         </Container>
       </section>
-    </>
+    </PageTransition>
   );
 }

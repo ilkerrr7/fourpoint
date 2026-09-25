@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container, SectionHeading, Badge, Button } from "@/components/ui";
+import { PageTransition } from "@/components/layout/PageTransition";
 
 export const metadata: Metadata = {
   title: "Nasıl Çalışıyoruz",
@@ -48,7 +49,7 @@ const STEPS = [
 
 export default function NasilCalisiyoruzPage() {
   return (
-    <>
+    <PageTransition>
       {/* Header */}
       <section className="py-16 md:py-24 bg-ink" aria-labelledby="nasil-heading">
         <Container>
@@ -131,6 +132,6 @@ export default function NasilCalisiyoruzPage() {
           </Button>
         </Container>
       </section>
-    </>
+    </PageTransition>
   );
 }

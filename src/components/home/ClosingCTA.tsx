@@ -2,6 +2,7 @@
 
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { FourPointMark } from "@/components/decorative/FourPointMark";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export function ClosingCTA() {
@@ -14,6 +15,7 @@ export function ClosingCTA() {
 
       <Container className="relative z-10">
         <div className={`text-center max-w-3xl mx-auto transition-all duration-1000 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+          <FourPointMark className="w-16 h-16 md:w-20 md:h-20 mb-10" />
           <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.05] text-fg">
             İşletmenizin reklamlarını birlikte yönetelim.
           </h2>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui";
+import { PageTransition } from "@/components/layout/PageTransition";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 
 export default function KVKKPage() {
   return (
+    <PageTransition>
     <section className="py-16 md:py-24 bg-ink" aria-labelledby="kvkk-heading">
       <Container>
         <div className="max-w-3xl mx-auto prose prose-invert prose-slate">
@@ -85,5 +87,6 @@ export default function KVKKPage() {
         </div>
       </Container>
     </section>
+    </PageTransition>
   );
 }

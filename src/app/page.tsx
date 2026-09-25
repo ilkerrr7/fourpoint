@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/layout/PageTransition";
 import { Hero } from "@/components/home/Hero";
 import { PainPoints } from "@/components/home/PainPoints";
 import { Services } from "@/components/home/Services";
@@ -9,7 +10,7 @@ import { ClosingCTA } from "@/components/home/ClosingCTA";
 
 export default function HomePage() {
   return (
-    <>
+    <PageTransition>
       <Hero />
       <PainPoints />
       <Services />
@@ -18,6 +19,6 @@ export default function HomePage() {
       <PricingLogic />
       <FAQ />
       <ClosingCTA />
-    </>
+    </PageTransition>
   );
 }

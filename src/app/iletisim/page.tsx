@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container, SectionHeading } from "@/components/ui";
 import ContactForm from "@/components/forms/ContactForm";
+import { PageTransition } from "@/components/layout/PageTransition";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function IletisimPage() {
   return (
-    <>
+    <PageTransition>
       {/* Header */}
       <section className="py-16 md:py-24 bg-ink" aria-labelledby="iletisim-heading">
         <Container>
@@ -91,6 +92,6 @@ export default function IletisimPage() {
           </div>
         </Container>
       </section>
-    </>
+    </PageTransition>
   );
 }
