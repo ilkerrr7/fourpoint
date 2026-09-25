@@ -25,13 +25,8 @@
   --font-body:    "Inter", system-ui, sans-serif;
 
   /* ---- Display sizes ----
-     Big Shoulders (Display cut) runs ~8% narrower than the text cut at the
-     same size, so headline sizes are pushed up to reclaim that width and then
-     some. Fluid: each step is sized so the widest hero line ("doğru
-     insanlara", 4.93em) always fits its column. */
-  --text-hero-sm: clamp(3.25rem, 17vw, 4.75rem);
-  --text-hero-md: clamp(5.5rem, 15vw, 9rem);
-  --text-hero-lg: clamp(7rem, 11.5vw, 9.75rem);
+     Phone size for section headings (text-h2-sm). The hero sizes itself
+     from its container in components/home/hero.css. */
   --text-h2-sm:   clamp(2rem, 10.5vw, 3rem);
 
   /* ---- Spacing Scale ---- */
