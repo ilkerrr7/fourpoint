@@ -21,7 +21,7 @@ export function ClosingCTA() {
           transition={{ duration: 0.9, ease: EASE_OUT_EXPO }}
         >
           <FourPointMark className="w-16 h-16 md:w-20 md:h-20 mb-10" />
-          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.05] text-fg">
+          <h2 className="font-heading text-h2-sm md:text-6xl lg:text-7xl font-medium leading-[1.05] text-fg">
             İşletmenizin reklamlarını birlikte yönetelim.
           </h2>
           <p className="text-fg-muted text-lg mt-6 mb-10 max-w-xl mx-auto">

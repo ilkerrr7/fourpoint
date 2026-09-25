@@ -37,7 +37,7 @@ export function SectionHeading({ badge, title, description, align = "center", cl
     <div className={`${alignClass} space-y-5 ${className}`} {...props}>
       {badge && <Badge>{badge}</Badge>}
       <motion.h2
-        className={`font-heading text-4xl md:text-5xl lg:text-6xl font-medium leading-[1.05] text-fg flex flex-wrap gap-x-[0.28em] ${
+        className={`font-heading text-h2-sm md:text-6xl lg:text-7xl font-medium leading-[1.05] text-fg flex flex-wrap gap-x-[0.28em] ${
           align === "center" ? "justify-center" : "justify-start"
         }`}
         variants={wordContainer}

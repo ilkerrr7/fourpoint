@@ -37,9 +37,9 @@ export function Hero() {
       <div className="film-grain" aria-hidden="true" />
 
       <Container className="relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end pt-32 pb-16 md:pt-40 md:pb-20 min-h-[92vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end pt-32 pb-16 md:pt-28 md:pb-20 min-h-[92vh]">
           <motion.div
-            className="lg:col-span-7 pb-4"
+            className="lg:col-span-8 pb-4"
             initial="hidden"
             animate="visible"
           >
@@ -48,7 +48,7 @@ export function Hero() {
             </motion.div>
 
             <motion.h1
-              className="font-heading text-6xl md:text-8xl lg:text-[8rem] font-bold leading-[0.88] tracking-tight text-fg mb-8"
+              className="font-heading text-hero-sm md:text-hero-md lg:text-hero-lg font-bold leading-[0.88] tracking-tight text-fg mb-8"
               variants={lineContainer}
             >
               <motion.span variants={line} style={{ display: "block" }}>
@@ -64,7 +64,7 @@ export function Hero() {
 
             <motion.p
               variants={fadeUp}
-              className="text-lg md:text-xl text-fg-muted max-w-xl leading-relaxed mb-12"
+              className="text-lg md:text-xl text-fg-muted max-w-2xl leading-relaxed mb-12"
             >
               Instagram ve Facebook reklamlarınızı stratejik yönetiyoruz. Kime,
               ne zaman, nasıl gösterildiğini bilmeniz için şeffaf çalışıyoruz.
@@ -83,7 +83,7 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-4 lg:self-center">
             <motion.div style={{ y: mediaY }}>
               <MediaSlot slot="heroMedia" className="w-full rounded-[2px]" revealDelay={0.6} />
             </motion.div>

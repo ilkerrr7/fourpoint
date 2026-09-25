@@ -46,7 +46,7 @@ export function Differentiators() {
               transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
             >
               <Badge>Farkımız</Badge>
-              <h2 className="font-heading text-3xl md:text-4xl font-medium mt-5 text-fg leading-[1.1]">
+              <h2 className="font-heading text-4xl md:text-[2.75rem] font-medium mt-5 text-fg leading-[1.1]">
                 Neden Fourpoint?
               </h2>
             </motion.div>
