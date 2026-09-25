@@ -36,13 +36,32 @@
 .hero-w1,
 .hero-w2 { letter-spacing: -0.025em; }
 
-/* the clip-path reveal on each line would shave descenders and diacritics
-   (ğ, ş, ı) off the line box; grow the box downward without moving layout */
 .hero-line {
   display: block;
   white-space: nowrap;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
+}
+
+/* Entrance: CSS only, and it only MOVES things — the text is fully visible on
+   the first paint (no opacity/clip start state, no JS, nothing waits for
+   hydration). Lines settle up in a short stagger; eyebrow and credits follow.
+   The metric-matched font fallback (globals.css) keeps the boxes identical
+   when Big Shoulders arrives, so there is no layout shift either. */
+@keyframes hero-rise {
+  from { transform: translateY(var(--rise)); }
+  to   { transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-line {
+    --rise: 0.14em;
+    animation: hero-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-l2 { animation-delay: 60ms; }
+  .hero-l3 { animation-delay: 120ms; }
+  .hero-rise {
+    --rise: 10px;
+    animation: hero-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 160ms both;
+  }
+  .hero-rise--eyebrow { animation-delay: 0ms; }
 }
 
 /* ---- the one non-type element: FourPointMark, huge and quiet ---- */
