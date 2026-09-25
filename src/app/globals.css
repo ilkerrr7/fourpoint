@@ -143,6 +143,8 @@ body {
     line-height: 1.15;
     --tw-leading: 1.15;
     color: var(--color-fg);
+    /* even line lengths, so a heading never ends on a lone word */
+    text-wrap: balance;
   }
 }
 

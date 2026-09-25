@@ -403,3 +403,89 @@
     }
   }
 }
+
+/* ---------------------------------------------
+   Depth stage, split variant — Automation
+   ---------------------------------------------
+   Same runway/stage/timing as the pricing stage above (the planes reuse
+   .depth-plane--1/2/3 and their ranges), but the planes pass the camera in
+   the LEFT column only while the strands hold still on the right for the
+   whole pin. No ghost words: the strands are the backdrop.
+
+   One grid for both modes. Plain (unguarded): planes in their own areas.
+   Depth: all planes share one area ("stack") and overlap — no absolute
+   positioning, so their height never has to be guessed. */
+
+.auto-grid {
+  display: grid;
+  row-gap: 3.5rem;
+  grid-template-areas: "p1" "p2" "aside" "p3";
+}
+.auto-p1 { grid-area: p1; }
+.auto-p2 { grid-area: p2; }
+.auto-aside { grid-area: aside; }
+.auto-p3 { grid-area: p3; }
+
+@media (min-width: 1024px) {
+  .auto-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 4rem;
+    align-items: center;
+    grid-template-areas:
+      "p1 aside"
+      "p2 aside"
+      "p3 p3";
+  }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    :root:not([data-fx="off"]) .depth-section--split .depth-container { height: 100%; }
+
+    :root:not([data-fx="off"]) .depth-section--split .auto-grid {
+      height: 100%;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      grid-template-rows: 100%;
+      grid-template-areas: "stack aside";
+      column-gap: clamp(3rem, 6vw, 6rem);
+      row-gap: 0;
+      align-items: stretch;
+    }
+
+    /* undo the pricing stage's full-screen absolute planes */
+    :root:not([data-fx="off"]) .depth-section--split .depth-plane {
+      position: relative;
+      inset: auto;
+      grid-area: stack;
+      justify-content: center;
+      padding-top: 5rem;
+    }
+    /* top-aligned first plane: the cable joint above docks on its eyebrow */
+    :root:not([data-fx="off"]) .depth-section--split .depth-plane--1 {
+      justify-content: flex-start;
+      padding-top: 128px;
+    }
+
+    :root:not([data-fx="off"]) .depth-section--split .auto-aside {
+      grid-area: aside;
+      align-self: center;
+      padding-top: 5rem;
+    }
+
+    /* each plane is a full-screen moment: scale the copy with it */
+    :root:not([data-fx="off"]) .depth-section--split .auto-list li {
+      font-size: clamp(1.125rem, 1.45vw, 1.5rem);
+      padding-bottom: 1.25rem;
+    }
+    :root:not([data-fx="off"]) .depth-section--split .auto-list { row-gap: 1.25rem; }
+    :root:not([data-fx="off"]) .depth-section--split .auto-closing-wrap {
+      border-top: 0;
+      padding-top: 0;
+    }
+    :root:not([data-fx="off"]) .depth-section--split .auto-closing {
+      font-size: clamp(2.5rem, 3.9vw, 4rem);
+      line-height: 1.08;
+      max-width: 14em;
+    }
+  }
+}
