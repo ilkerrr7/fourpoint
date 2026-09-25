@@ -42,13 +42,13 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               </svg>
             </div>
           </div>
-          <div className="ml-3 text-sm flex-1">
+          <div className="ml-3 text-14 flex-1">
             <label htmlFor={checkboxId} className="text-fg-muted cursor-pointer select-none">
               {label} {required && <span className="text-primary">*</span>}
             </label>
           </div>
         </div>
-        {error && <p className="text-red-400 text-sm mt-1">{error}</p>}
+        {error && <p className="text-red-400 text-14 mt-1">{error}</p>}
       </div>
     );
   }

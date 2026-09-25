@@ -67,7 +67,7 @@ export default function Header() {
               className="h-8 w-8 text-fg transition-transform duration-300 group-hover:scale-110"
               priority
             />
-            <span className="font-heading text-lg font-medium text-fg tracking-tight">
+            <span className="font-heading text-18 font-medium text-fg tracking-tight">
               Fourpoint
             </span>
           </Link>
@@ -78,7 +78,7 @@ export default function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-xs font-medium uppercase tracking-[0.14em] text-fg-muted transition-colors duration-200 hover:text-fg"
+                  className="text-12 font-medium uppercase tracking-[0.14em] text-fg-muted transition-colors duration-200 hover:text-fg"
                 >
                   {link.label}
                 </Link>

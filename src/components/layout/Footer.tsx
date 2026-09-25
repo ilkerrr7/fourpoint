@@ -80,15 +80,15 @@ export default function Footer() {
                 height={28}
                 className="h-7 w-7 text-fg"
               />
-              <span className="font-heading text-lg font-medium text-fg tracking-tight">
+              <span className="font-heading text-18 font-medium text-fg tracking-tight">
                 {siteConfig.name}
               </span>
             </Link>
-            <p className="text-sm text-fg-muted leading-relaxed max-w-xs">
+            <p className="text-14 text-fg-muted leading-relaxed max-w-xs">
               İşletmenizin dijital reklamlarını doğru hedef kitleye,
               doğru bütçeyle ulaştırıyoruz.
             </p>
-            <div className="space-y-2 text-sm text-fg-subtle">
+            <div className="space-y-2 text-14 text-fg-subtle">
               <p>
                 <span className="sr-only">E-posta: </span>
                 <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-fg transition-colors">
@@ -100,7 +100,7 @@ export default function Footer() {
 
           {/* Column 2: Services */}
           <div>
-            <h3 className="font-heading text-sm font-semibold text-fg uppercase tracking-wider mb-4">
+            <h3 className="font-heading text-14 font-semibold text-fg uppercase tracking-wider mb-4">
               Hizmetler
             </h3>
             <ul className="space-y-2.5">
@@ -108,7 +108,7 @@ export default function Footer() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-sm text-fg-muted hover:text-fg transition-colors duration-200"
+                    className="text-14 text-fg-muted hover:text-fg transition-colors duration-200"
                   >
                     {item.label}
                   </Link>
@@ -119,7 +119,7 @@ export default function Footer() {
 
           {/* Column 3: Company */}
           <div>
-            <h3 className="font-heading text-sm font-semibold text-fg uppercase tracking-wider mb-4">
+            <h3 className="font-heading text-14 font-semibold text-fg uppercase tracking-wider mb-4">
               Şirket
             </h3>
             <ul className="space-y-2.5">
@@ -127,7 +127,7 @@ export default function Footer() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-sm text-fg-muted hover:text-fg transition-colors duration-200"
+                    className="text-14 text-fg-muted hover:text-fg transition-colors duration-200"
                   >
                     {item.label}
                   </Link>
@@ -138,7 +138,7 @@ export default function Footer() {
 
           {/* Column 4: Legal */}
           <div>
-            <h3 className="font-heading text-sm font-semibold text-fg uppercase tracking-wider mb-4">
+            <h3 className="font-heading text-14 font-semibold text-fg uppercase tracking-wider mb-4">
               Yasal
             </h3>
             <ul className="space-y-2.5">
@@ -146,7 +146,7 @@ export default function Footer() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-sm text-fg-muted hover:text-fg transition-colors duration-200"
+                    className="text-14 text-fg-muted hover:text-fg transition-colors duration-200"
                   >
                     {item.label}
                   </Link>
@@ -156,7 +156,7 @@ export default function Footer() {
                 <button
                   type="button"
                   onClick={openCookieBanner}
-                  className="text-sm text-fg-muted hover:text-fg transition-colors duration-200"
+                  className="text-14 text-fg-muted hover:text-fg transition-colors duration-200"
                 >
                   Çerez Tercihleri
                 </button>
@@ -167,7 +167,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-deep/30 py-6 sm:flex-row">
-          <p className="text-xs text-fg-subtle">
+          <p className="text-12 text-fg-subtle">
             © {new Date().getFullYear()} {siteConfig.companyName} Tüm hakları saklıdır.
           </p>
 

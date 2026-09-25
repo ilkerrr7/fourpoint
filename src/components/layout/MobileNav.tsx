@@ -86,7 +86,7 @@ export default function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
                 <Link
                   href={link.href}
                   onClick={onClose}
-                  className="block py-4 text-base font-heading text-fg hover:text-fg-muted transition-colors duration-200"
+                  className="block py-4 text-16 font-heading text-fg hover:text-fg-muted transition-colors duration-200"
                 >
                   {link.label}
                 </Link>

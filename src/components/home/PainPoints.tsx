@@ -50,7 +50,7 @@ export function PainPoints() {
             <motion.p
               key={point}
               variants={item}
-              className="font-heading text-2xl md:text-4xl leading-[1.3] text-fg-muted"
+              className="font-heading text-22 md:text-36 leading-[1.3] text-fg-muted"
             >
               &ldquo;{point}&rdquo;
             </motion.p>

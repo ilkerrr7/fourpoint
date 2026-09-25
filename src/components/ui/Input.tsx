@@ -13,7 +13,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     
     return (
       <div className={`w-full ${className}`}>
-        <label htmlFor={inputId} className="text-sm text-fg-muted mb-1.5 block">
+        <label htmlFor={inputId} className="text-14 text-fg-muted mb-1.5 block">
           {label} {required && <span className="text-primary">*</span>}
         </label>
         <input
@@ -26,7 +26,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           className={`w-full bg-surface border ${error ? 'border-red-500' : 'border-deep'} rounded-[var(--radius-button)] px-4 py-3 text-fg placeholder:text-fg-subtle focus:border-accent focus:ring-1 focus:ring-accent/40 outline-none transition-all`}
           {...props}
         />
-        {error && <p className="text-red-400 text-sm mt-1">{error}</p>}
+        {error && <p className="text-red-400 text-14 mt-1">{error}</p>}
       </div>
     );
   }

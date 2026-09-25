@@ -65,7 +65,7 @@ export default function CookieBanner() {
       <div className="mx-auto max-w-4xl rounded-[var(--radius-card)] bg-surface border border-deep shadow-2xl shadow-ink/60 p-4 md:p-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex-1">
-            <p className="text-sm text-fg-muted leading-relaxed">
+            <p className="text-14 text-fg-muted leading-relaxed">
               Reklam performansını ölçmek için çerezler kullanıyoruz. Detaylı bilgi
               için{" "}
               <Link
@@ -79,7 +79,7 @@ export default function CookieBanner() {
           </div>
           <div className="flex flex-col sm:items-end gap-2 shrink-0">
             {currentConsent && (
-              <span className="text-xs text-fg-subtle">
+              <span className="text-12 text-fg-subtle">
                 Mevcut tercihiniz:{" "}
                 <strong className={currentConsent === "accepted" ? "text-green-400" : "text-red-400"}>
                   {currentConsent === "accepted" ? "Kabul Edildi" : "Reddedildi"}
@@ -90,7 +90,7 @@ export default function CookieBanner() {
               <button
                 type="button"
                 onClick={handleReject}
-                className="px-4 py-2 text-sm font-medium text-fg-muted hover:text-fg transition-colors rounded-[var(--radius-button)] hover:bg-elevated"
+                className="px-4 py-2 text-14 font-medium text-fg-muted hover:text-fg transition-colors rounded-[var(--radius-button)] hover:bg-elevated"
                 id="cookie-reject"
               >
                 Reddet
@@ -98,7 +98,7 @@ export default function CookieBanner() {
               <button
                 type="button"
                 onClick={handleAccept}
-                className="px-5 py-2 text-sm font-semibold text-ink bg-fg rounded-[var(--radius-button)] hover:bg-fg/85 transition-colors"
+                className="px-5 py-2 text-14 font-semibold text-ink bg-fg rounded-[var(--radius-button)] hover:bg-fg/85 transition-colors"
                 id="cookie-accept"
               >
                 Kabul Et

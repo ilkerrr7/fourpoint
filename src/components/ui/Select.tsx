@@ -20,7 +20,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     
     return (
       <div className={`w-full ${className}`}>
-        <label htmlFor={selectId} className="text-sm text-fg-muted mb-1.5 block">
+        <label htmlFor={selectId} className="text-14 text-fg-muted mb-1.5 block">
           {label} {required && <span className="text-primary">*</span>}
         </label>
         <div className="relative">
@@ -48,7 +48,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             </svg>
           </div>
         </div>
-        {error && <p className="text-red-400 text-sm mt-1">{error}</p>}
+        {error && <p className="text-red-400 text-14 mt-1">{error}</p>}
       </div>
     );
   }

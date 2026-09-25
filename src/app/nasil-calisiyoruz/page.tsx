@@ -70,22 +70,22 @@ export default function NasilCalisiyoruzPage() {
                 {/* Step number + title */}
                 <div className="flex items-start gap-6">
                   <div className="shrink-0 w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center">
-                    <span className="font-heading text-2xl font-bold text-accent">
+                    <span className="font-heading text-22 font-bold text-accent">
                       {step.number}
                     </span>
                   </div>
                   <div className="flex-1">
-                    <h2 className="font-heading text-2xl md:text-3xl font-bold text-fg mb-3">
+                    <h2 className="font-heading text-22 md:text-28 font-bold text-fg mb-3">
                       {step.title}
                     </h2>
-                    <p className="text-fg-muted text-lg leading-relaxed mb-6">
+                    <p className="text-fg-muted text-18 leading-relaxed mb-6">
                       {step.description}
                     </p>
                     <ul className="space-y-3">
                       {step.details.map((detail) => (
                         <li
                           key={detail}
-                          className="flex items-start gap-3 text-fg-muted text-sm"
+                          className="flex items-start gap-3 text-fg-muted text-14"
                         >
                           <svg
                             className="w-5 h-5 text-accent shrink-0 mt-0.5"
@@ -121,10 +121,10 @@ export default function NasilCalisiyoruzPage() {
       <section className="py-16 md:py-24 bg-ink text-center" aria-label="İlk adım">
         <Container>
           <Badge>İlk Adım</Badge>
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-fg mt-4 mb-4">
+          <h2 className="font-heading text-22 md:text-28 font-bold text-fg mt-4 mb-4">
             İlk adımı birlikte atalım.
           </h2>
-          <p className="text-fg-muted text-lg mb-8 max-w-xl mx-auto">
+          <p className="text-fg-muted text-18 mb-8 max-w-xl mx-auto">
             Ücretsiz keşif görüşmesinde işletmenizi tanıyalım. Bağlayıcı değil, sadece bir sohbet.
           </p>
           <Button variant="primary" size="lg" href="/iletisim">

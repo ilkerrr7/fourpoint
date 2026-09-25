@@ -14,7 +14,7 @@ export default function KVKKPage() {
     <section className="py-16 md:py-24 bg-ink" aria-labelledby="kvkk-heading">
       <Container>
         <div className="max-w-3xl mx-auto prose prose-invert prose-slate">
-          <h1 id="kvkk-heading" className="font-heading text-3xl md:text-4xl font-bold text-fg mb-8">
+          <h1 id="kvkk-heading" className="font-heading text-28 md:text-36 font-bold text-fg mb-8">
             KVKK Aydınlatma Metni
           </h1>
 
@@ -22,11 +22,11 @@ export default function KVKKPage() {
           <div className="space-y-6 text-fg-muted leading-relaxed">
             <p>
               <strong className="text-fg">{siteConfig.companyName}</strong> olarak kişisel verilerinizin
-              6698 sayılı Kişisel Verilerin Korunması Kanunu&apos;na uygun olarak işlenmesine
+              6698 sayılı Kişisel Verilerin Korunması Kanunu’na uygun olarak işlenmesine
               büyük önem veriyoruz.
             </p>
 
-            <h2 className="font-heading text-xl font-semibold text-fg mt-8">
+            <h2 className="font-heading text-22 font-semibold text-fg mt-8">
               1. Veri Sorumlusu
             </h2>
             <p>
@@ -46,7 +46,7 @@ export default function KVKKPage() {
               E-posta: {siteConfig.contact.email}
             </p>
 
-            <h2 className="font-heading text-xl font-semibold text-fg mt-8">
+            <h2 className="font-heading text-22 font-semibold text-fg mt-8">
               2. İşlenen Kişisel Veriler
             </h2>
             <p>
@@ -54,7 +54,7 @@ export default function KVKKPage() {
               işletme adı ve mesaj içeriği bilgileriniz toplanmaktadır.
             </p>
 
-            <h2 className="font-heading text-xl font-semibold text-fg mt-8">
+            <h2 className="font-heading text-22 font-semibold text-fg mt-8">
               3. Kişisel Verilerin İşlenme Amacı
             </h2>
             <p>
@@ -63,7 +63,7 @@ export default function KVKKPage() {
               getirilmesi amacıyla işlenmektedir.
             </p>
 
-            <h2 className="font-heading text-xl font-semibold text-fg mt-8">
+            <h2 className="font-heading text-22 font-semibold text-fg mt-8">
               4. Kişisel Verilerin Aktarılması
             </h2>
             <p>
@@ -71,16 +71,16 @@ export default function KVKKPage() {
               Kişisel verileriniz, yasal zorunluluklar dışında üçüncü taraflarla paylaşılmamaktadır.
             </p>
 
-            <h2 className="font-heading text-xl font-semibold text-fg mt-8">
+            <h2 className="font-heading text-22 font-semibold text-fg mt-8">
               5. Haklarınız
             </h2>
             <p>
-              KVKK&apos;nın 11. maddesi uyarınca; kişisel verilerinizin işlenip
+              KVKK’nın 11. maddesi uyarınca; kişisel verilerinizin işlenip
               işlenmediğini öğrenme, düzeltilmesini isteme, silinmesini veya yok
               edilmesini isteme haklarınız mevcuttur.
             </p>
 
-            <p className="text-fg-subtle text-sm mt-12">
+            <p className="text-fg-subtle text-14 mt-12">
               {/* TODO: Son güncelleme tarihi hukuk danışmanı onayından sonra girilecek */}
             </p>
           </div>

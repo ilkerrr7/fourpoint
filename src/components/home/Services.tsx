@@ -58,13 +58,13 @@ export function Services() {
               variants={row}
               className="group grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-3 md:gap-8 py-8 md:py-10 border-b border-deep"
             >
-              <span className="md:col-span-1 font-heading text-sm text-fg-subtle">
+              <span className="md:col-span-1 font-heading text-14 text-fg-subtle">
                 0{index + 1}
               </span>
-              <h3 className="md:col-span-5 font-heading text-2xl md:text-3xl text-fg transition-colors duration-300 group-hover:text-fg-muted">
+              <h3 className="md:col-span-5 font-heading text-22 md:text-28 text-fg transition-colors duration-300 group-hover:text-fg-muted">
                 {service.title}
               </h3>
-              <p className="md:col-span-5 text-fg-muted text-base leading-relaxed">
+              <p className="md:col-span-5 text-fg-muted text-16 leading-relaxed">
                 {service.desc}
               </p>
               <span

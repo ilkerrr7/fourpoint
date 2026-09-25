@@ -39,7 +39,7 @@ export function Hero() {
               </h1>
 
               <div className="hero-credits hero-rise hero-rise--credits mt-8">
-                <p className="text-base text-fg-muted leading-relaxed max-w-md">
+                <p className="text-16 text-fg-muted leading-relaxed max-w-md">
                   Instagram ve Facebook reklamlarınızı stratejik yönetiyoruz. Kime, ne
                   zaman, nasıl gösterildiğini bilmeniz için şeffaf çalışıyoruz.
                 </p>

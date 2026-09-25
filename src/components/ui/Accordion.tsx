@@ -31,7 +31,7 @@ export function Accordion({ items, className = "" }: AccordionProps) {
               onClick={() => toggleItem(index)}
               aria-expanded={isOpen}
             >
-              <span className="font-heading text-lg text-fg font-medium pr-4">{item.question}</span>
+              <span className="font-heading text-18 text-fg font-medium pr-4">{item.question}</span>
               <span 
                 className={`transform transition-transform duration-300 ease-[var(--ease-out-expo)] flex-shrink-0 text-primary ${
                   isOpen ? "rotate-180" : ""
@@ -48,7 +48,7 @@ export function Accordion({ items, className = "" }: AccordionProps) {
               }`}
             >
               <div className="overflow-hidden">
-                <div className="pb-5 text-fg-muted text-base leading-relaxed">
+                <div className="pb-5 text-fg-muted text-16 leading-relaxed">
                   {item.answer}
                 </div>
               </div>

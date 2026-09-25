@@ -37,22 +37,22 @@ export default async function ProjectPage(
       <Container>
         <Link
           href="/hizmetler"
-          className="text-xs font-medium uppercase tracking-[0.14em] text-fg-muted hover:text-fg transition-colors"
+          className="text-12 font-medium uppercase tracking-[0.14em] text-fg-muted hover:text-fg transition-colors"
         >
           ← Hizmetler
         </Link>
 
         <div className="max-w-3xl mt-8">
-          <span className="text-xs font-medium uppercase tracking-[0.22em] text-accent">
+          <span className="text-12 font-medium uppercase tracking-[0.22em] text-accent">
             {project.client ?? project.year}
           </span>
           <h1
             id="project-heading"
-            className="font-heading text-4xl md:text-6xl font-medium leading-[1.05] text-fg mt-4"
+            className="font-heading text-36 md:text-72 font-medium leading-[1.05] text-fg mt-4"
           >
             {project.title}
           </h1>
-          <p className="text-fg-muted text-lg leading-relaxed mt-6">
+          <p className="text-fg-muted text-18 leading-relaxed mt-6">
             {project.summary}
           </p>
         </div>
@@ -69,23 +69,23 @@ export default async function ProjectPage(
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mt-14 max-w-4xl">
           <div className="md:col-span-8">
-            <p className="text-fg-muted text-base leading-relaxed whitespace-pre-line">
+            <p className="text-fg-muted text-16 leading-relaxed whitespace-pre-line">
               {project.description}
             </p>
             {project.result && (
-              <p className="text-fg text-base leading-relaxed mt-6 border-l-2 border-accent/60 pl-4">
+              <p className="text-fg text-16 leading-relaxed mt-6 border-l-2 border-accent/60 pl-4">
                 {project.result}
               </p>
             )}
           </div>
 
           <div className="md:col-span-4">
-            <h2 className="text-xs font-medium uppercase tracking-[0.14em] text-fg-subtle mb-3">
+            <h2 className="text-12 font-medium uppercase tracking-[0.14em] text-fg-subtle mb-3">
               Hizmetler
             </h2>
             <ul className="space-y-2">
               {project.services.map((service) => (
-                <li key={service} className="text-fg-muted text-sm">
+                <li key={service} className="text-fg-muted text-14">
                   {service}
                 </li>
               ))}
@@ -95,7 +95,7 @@ export default async function ProjectPage(
                 href={project.externalUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-6 text-sm text-accent hover:underline"
+                className="inline-block mt-6 text-14 text-accent hover:underline"
               >
                 Projeyi görüntüle →
               </a>

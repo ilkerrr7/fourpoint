@@ -21,10 +21,10 @@ export function ClosingCTA() {
           transition={{ duration: 0.9, ease: EASE_OUT_EXPO }}
         >
           <FourPointMark className="w-16 h-16 md:w-20 md:h-20 mb-10" />
-          <h2 className="font-heading text-h2-sm md:text-6xl lg:text-7xl font-medium leading-[1.05] text-fg">
+          <h2 className="font-heading text-36 md:text-72 font-medium leading-[1.05] text-fg">
             İşletmenizin reklamlarını birlikte yönetelim.
           </h2>
-          <p className="text-fg-muted text-lg mt-6 mb-10 max-w-xl mx-auto">
+          <p className="text-fg-muted text-18 mt-6 mb-10 max-w-xl mx-auto">
             Ücretsiz keşif görüşmesinde işletmenizi tanıyalım, size özel bir yol haritası çıkaralım.
           </p>
           <Button variant="primary" size="lg" href="/iletisim">

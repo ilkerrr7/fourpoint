@@ -12,7 +12,7 @@ const pricingItems = [
   },
   {
     title: "Reklam Bütçesi",
-    description: "Meta'ya doğrudan ödediğiniz reklam harcamasıdır. Bu para bize değil, reklam platformuna gider.",
+    description: "Meta’ya doğrudan ödediğiniz reklam harcamasıdır. Bu para bize değil, reklam platformuna gider.",
   },
   {
     title: "Neden Ayrı?",
@@ -45,8 +45,8 @@ function ItemGrid({ items, className = "" }: { items: typeof pricingItems; class
     >
       {items.map((pricingItem) => (
         <motion.div key={pricingItem.title} variants={item} className="depth-item py-8 border-b border-deep">
-          <h3 className="depth-item-title font-heading font-medium text-lg mb-2 text-fg">{pricingItem.title}</h3>
-          <p className="depth-item-body text-fg-muted text-sm leading-relaxed">{pricingItem.description}</p>
+          <h3 className="depth-item-title font-heading font-medium text-18 mb-2 text-fg">{pricingItem.title}</h3>
+          <p className="depth-item-body text-fg-muted text-14 leading-relaxed">{pricingItem.description}</p>
         </motion.div>
       ))}
     </motion.div>

@@ -373,7 +373,7 @@
       position: absolute;
       font-family: var(--font-heading);
       font-weight: 800;
-      font-size: clamp(18rem, 29vw, 33rem);
+      font-size: clamp(18rem, 29vw, 33rem); /* off-scale on purpose: backdrop, not text */
       line-height: 0.8;
       text-transform: uppercase;
       white-space: nowrap;
@@ -391,13 +391,13 @@
       border-top: 1px solid var(--color-deep);
     }
     :root:not([data-fx="off"]) .depth-item-title {
-      font-size: clamp(2.25rem, 3.6vw, 3.5rem);
+      font-size: var(--text-48);
       line-height: 1.02;
       font-weight: 700;
       margin-bottom: 1rem;
     }
     :root:not([data-fx="off"]) .depth-item-body {
-      font-size: clamp(1rem, 1.25vw, 1.25rem);
+      font-size: var(--text-18);
       line-height: 1.65;
       max-width: 30rem;
     }
@@ -474,7 +474,7 @@
 
     /* each plane is a full-screen moment: scale the copy with it */
     :root:not([data-fx="off"]) .depth-section--split .auto-list li {
-      font-size: clamp(1.125rem, 1.45vw, 1.5rem);
+      font-size: var(--text-22);
       padding-bottom: 1.25rem;
     }
     :root:not([data-fx="off"]) .depth-section--split .auto-list { row-gap: 1.25rem; }
@@ -483,7 +483,7 @@
       padding-top: 0;
     }
     :root:not([data-fx="off"]) .depth-section--split .auto-closing {
-      font-size: clamp(2.5rem, 3.9vw, 4rem);
+      font-size: var(--text-48);
       line-height: 1.08;
       max-width: 14em;
     }

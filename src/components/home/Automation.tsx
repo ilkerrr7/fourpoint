@@ -46,14 +46,14 @@ export function Automation() {
                 <div>
                   <SectionHeading badge="Otomasyon" title="İnsan yorulur. Sistem yorulmaz." align="left" />
                   <div className="auto-copy space-y-6 mt-10 max-w-xl">
-                    <p className="text-fg-muted text-lg leading-relaxed">
-                      Meta&apos;nın reklam açık artırması günün her saati çalışır. Bir
+                    <p className="text-fg-muted text-18 leading-relaxed">
+                      Meta’nın reklam açık artırması günün her saati çalışır. Bir
                       hesap yöneticisi ise günde iki kez bakar — iyi bir günündeyse.
                       Yorgunsa, yoğunsa, kafası başka yerdeyse gözden kaçar. Sorun
                       yeteneksizlik değil, insan olmak.
                     </p>
-                    <p className="text-fg-muted text-lg leading-relaxed">
-                      Avrupa&apos;daki ajans modellerini incelerken hep aynı şeyi
+                    <p className="text-fg-muted text-18 leading-relaxed">
+                      Avrupa’daki ajans modellerini incelerken hep aynı şeyi
                       gördük: iyi ajansları kötülerinden ayıran şey daha zeki insanlar
                       değil, daha disiplinli takip. Biz de o disiplini insana değil
                       sisteme yükledik.
@@ -64,7 +64,7 @@ export function Automation() {
 
               <div className="depth-plane depth-plane--2 auto-p2">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-fg-subtle mb-5">
+                  <p className="text-12 font-medium uppercase tracking-[0.14em] text-fg-subtle mb-5">
                     Sistemimiz sürekli izler
                   </p>
                   <motion.ul
@@ -78,9 +78,9 @@ export function Automation() {
                       <motion.li
                         key={item}
                         variants={listItem}
-                        className="flex items-start gap-3 text-fg text-base leading-relaxed border-b border-deep pb-4"
+                        className="flex items-baseline gap-3 text-fg text-16 leading-relaxed border-b border-deep pb-4"
                       >
-                        <span className="text-accent shrink-0 mt-1.5">—</span>
+                        <span className="text-accent shrink-0" aria-hidden="true">—</span>
                         {item}
                       </motion.li>
                     ))}
@@ -102,7 +102,7 @@ export function Automation() {
                   transition={{ duration: 0.8, ease: EASE_OUT_EXPO }}
                 >
                   {/* one sentence per line; the last one, the point, at full brightness */}
-                  <p className="auto-closing font-heading text-2xl md:text-3xl lg:text-4xl font-medium leading-[1.25] text-fg text-balance">
+                  <p className="auto-closing font-heading text-22 md:text-28 lg:text-36 font-medium leading-[1.25] text-fg text-balance">
                     <span className="block text-fg-muted">Karar insanın, takip sistemin.</span>{" "}
                     <span className="block text-fg-muted">Strateji, marka dili ve kreatif yön bizden.</span>{" "}
                     <span className="block">Gece üçte bütçeyi izleyen ise sistem.</span>

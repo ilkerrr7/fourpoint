@@ -36,7 +36,7 @@ export default function IletisimPage() {
             {/* Contact info sidebar */}
             <aside className="lg:col-span-2 space-y-8">
               <div>
-                <h3 className="font-heading text-lg font-semibold text-fg mb-4">
+                <h3 className="font-heading text-18 font-semibold text-fg mb-4">
                   İletişim Bilgisi
                 </h3>
                 <div className="space-y-4">
@@ -47,8 +47,8 @@ export default function IletisimPage() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-fg">E-posta</p>
-                      <a href={`mailto:${siteConfig.contact.email}`} className="text-sm text-fg-muted hover:text-fg transition-colors">
+                      <p className="text-14 font-medium text-fg">E-posta</p>
+                      <a href={`mailto:${siteConfig.contact.email}`} className="text-14 text-fg-muted hover:text-fg transition-colors">
                         {siteConfig.contact.email}
                       </a>
                     </div>
@@ -58,10 +58,10 @@ export default function IletisimPage() {
 
               {/* Info box */}
               <div className="rounded-[1rem] bg-surface border border-deep/50 p-6">
-                <h3 className="font-heading text-sm font-semibold text-fg mb-3">
+                <h3 className="font-heading text-14 font-semibold text-fg mb-3">
                   Görüşmede neler konuşacağız?
                 </h3>
-                <ul className="space-y-2 text-sm text-fg-muted">
+                <ul className="space-y-2 text-14 text-fg-muted">
                   <li className="flex items-start gap-2">
                     <svg className="w-4 h-4 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />

@@ -62,7 +62,7 @@ export default function ContactForm() {
             />
           </svg>
         </div>
-        <h3 className="font-heading text-2xl font-bold text-fg mb-3">
+        <h3 className="font-heading text-22 font-bold text-fg mb-3">
           Mesajınız İletildi
         </h3>
         <p className="text-fg-muted max-w-md mx-auto">
@@ -118,7 +118,7 @@ export default function ContactForm() {
       {/* Progress */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-medium uppercase tracking-[0.14em] text-fg-subtle">
+          <span className="text-12 font-medium uppercase tracking-[0.14em] text-fg-subtle">
             0{step} / 0{TOTAL_STEPS} — {STEP_LABELS[step - 1]}
           </span>
         </div>
@@ -153,7 +153,7 @@ export default function ContactForm() {
 
       {/* Step 2 — İhtiyaç */}
       <div data-step={2} hidden={step !== 2} className="space-y-3">
-        <p className="text-sm text-fg-muted mb-1">İhtiyacınız ne?</p>
+        <p className="text-14 text-fg-muted mb-1">İhtiyacınız ne?</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {SERVICE_OPTIONS.map((opt) => (
             <label
@@ -169,7 +169,7 @@ export default function ContactForm() {
                 required
                 className="absolute inset-0 w-full h-full appearance-none bg-transparent border-0 m-0 p-0 cursor-pointer"
               />
-              <span className="text-sm text-fg">{opt.label}</span>
+              <span className="text-14 text-fg">{opt.label}</span>
             </label>
           ))}
         </div>
@@ -230,7 +230,7 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor="note" className="block text-sm text-fg-muted mb-1.5">
+          <label htmlFor="note" className="block text-14 text-fg-muted mb-1.5">
             Not <span className="text-fg-subtle">(opsiyonel)</span>
           </label>
           <textarea
@@ -253,7 +253,7 @@ export default function ContactForm() {
               <Link href="/kvkk" target="_blank" className="text-primary hover:underline">
                 KVKK Aydınlatma Metni
               </Link>
-              &apos;ni okudum ve kişisel verilerimin işlenmesini kabul ediyorum.
+              ’ni okudum ve kişisel verilerimin işlenmesini kabul ediyorum.
             </span>
           }
           error={state?.errors?.kvkkConsent}
@@ -262,7 +262,7 @@ export default function ContactForm() {
         {/* General error message */}
         {state && !state.success && !state.message.startsWith("__eventId:") && (
           <div
-            className="rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-400 text-sm"
+            className="rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-400 text-14"
             role="alert"
           >
             {state.message}

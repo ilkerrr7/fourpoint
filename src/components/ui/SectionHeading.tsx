@@ -41,7 +41,7 @@ export function SectionHeading({ badge, title, description, align = "center", cl
           text. 0.07em of word-spacing tops the 0.212em space glyph up to the
           0.28em gap the layout was designed with. */}
       <motion.h2
-        className="font-heading text-h2-sm md:text-6xl lg:text-7xl font-medium leading-[1.05] text-fg [word-spacing:0.07em]"
+        className="font-heading text-36 md:text-72 font-medium leading-[1.05] text-fg [word-spacing:0.07em]"
         variants={wordContainer}
         initial="hidden"
         whileInView="visible"
@@ -58,7 +58,7 @@ export function SectionHeading({ badge, title, description, align = "center", cl
       </motion.h2>
       {description && (
         <motion.p
-          className={`text-fg-muted text-lg leading-relaxed ${descAlignClass}`}
+          className={`text-fg-muted text-18 leading-relaxed ${descAlignClass}`}
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}

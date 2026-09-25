@@ -27,10 +27,10 @@ export default function HakkimizdaPage() {
         <Container>
           <div className="max-w-3xl mx-auto">
             <Badge>Yaklaşımımız</Badge>
-            <h2 className="font-heading text-2xl md:text-3xl font-bold text-fg mt-4 mb-6">
+            <h2 className="font-heading text-22 md:text-28 font-bold text-fg mt-4 mb-6">
               Neden bu işi yapıyoruz?
             </h2>
-            <div className="space-y-4 text-fg-muted text-lg leading-relaxed">
+            <div className="space-y-4 text-fg-muted text-18 leading-relaxed">
               <p>
                 Birçok işletme sahibi dijital reklamlara para harcıyor ama
                 sonuç alamıyor. Hedefleme yanlış yapılıyor, raporlar anlaşılmıyor,
@@ -67,7 +67,7 @@ export default function HakkimizdaPage() {
                 </svg>
               </div>
               <h3 className="font-heading font-semibold text-fg mb-2">Şeffaflık</h3>
-              <p className="text-fg-muted text-sm leading-relaxed">
+              <p className="text-fg-muted text-14 leading-relaxed">
                 Gizli kalem, sürpriz fatura, anlaşılmayan rapor olmaz.
                 Her şeyi açıkça konuşuruz.
               </p>
@@ -80,7 +80,7 @@ export default function HakkimizdaPage() {
                 </svg>
               </div>
               <h3 className="font-heading font-semibold text-fg mb-2">Dürüstlük</h3>
-              <p className="text-fg-muted text-sm leading-relaxed">
+              <p className="text-fg-muted text-14 leading-relaxed">
                 Yapamayacağımız şeyi vaat etmeyiz. Durum ne olursa olsun,
                 gerçeği söyleriz.
               </p>
@@ -93,7 +93,7 @@ export default function HakkimizdaPage() {
                 </svg>
               </div>
               <h3 className="font-heading font-semibold text-fg mb-2">Veri Odaklılık</h3>
-              <p className="text-fg-muted text-sm leading-relaxed">
+              <p className="text-fg-muted text-14 leading-relaxed">
                 Kararlarımızı hislere değil, verilere dayandırırız.
                 Her optimizasyon ölçülebilir sonuçlara dayanır.
               </p>
@@ -108,10 +108,10 @@ export default function HakkimizdaPage() {
       {/* CTA */}
       <section className="py-16 md:py-24 bg-surface/50 text-center" aria-label="İletişim çağrısı">
         <Container>
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-fg mb-4">
+          <h2 className="font-heading text-22 md:text-28 font-bold text-fg mb-4">
             Tanışalım mı?
           </h2>
-          <p className="text-fg-muted text-lg mb-8 max-w-xl mx-auto">
+          <p className="text-fg-muted text-18 mb-8 max-w-xl mx-auto">
             İşletmenizi anlamak, ihtiyaçlarınızı dinlemek ve birlikte çalışıp
             çalışamayacağımızı değerlendirmek için bir görüşme yapalım.
           </p>

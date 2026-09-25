@@ -14,7 +14,7 @@ export default function CerezPolitikasiPage() {
       <section className="py-16 md:py-24 bg-ink" aria-labelledby="cerez-heading">
         <Container>
           <div className="max-w-3xl mx-auto prose prose-invert prose-slate">
-            <h1 id="cerez-heading" className="font-heading text-3xl md:text-4xl font-bold text-fg mb-8">
+            <h1 id="cerez-heading" className="font-heading text-28 md:text-36 font-bold text-fg mb-8">
               Çerez Politikası
             </h1>
 
@@ -26,7 +26,7 @@ export default function CerezPolitikasiPage() {
                 amacıyla hazırlanmıştır.
               </p>
 
-              <h2 className="font-heading text-xl font-semibold text-fg mt-8">
+              <h2 className="font-heading text-22 font-semibold text-fg mt-8">
                 Çerez Nedir?
               </h2>
               <p>
@@ -35,11 +35,11 @@ export default function CerezPolitikasiPage() {
                 ve reklam performansını ölçmek için kullanılır.
               </p>
 
-              <h2 className="font-heading text-xl font-semibold text-fg mt-8">
+              <h2 className="font-heading text-22 font-semibold text-fg mt-8">
                 Kullanılan Çerezler
               </h2>
 
-              <h3 className="font-heading text-lg font-semibold text-fg mt-6">
+              <h3 className="font-heading text-18 font-semibold text-fg mt-6">
                 Zorunlu Çerezler
               </h3>
               <p>
@@ -47,7 +47,7 @@ export default function CerezPolitikasiPage() {
                 Bu çerezler olmadan site düzgün çalışmaz.
               </p>
 
-              <h3 className="font-heading text-lg font-semibold text-fg mt-6">
+              <h3 className="font-heading text-18 font-semibold text-fg mt-6">
                 Analitik ve Performans Çerezleri
               </h3>
               <p>
@@ -56,7 +56,7 @@ export default function CerezPolitikasiPage() {
                 olarak takip eder.
               </p>
 
-              <table className="w-full text-sm mt-4">
+              <table className="w-full text-14 mt-4">
                 <thead>
                   <tr className="border-b border-deep/50">
                     <th className="text-left py-2 text-fg font-semibold">Çerez</th>
@@ -78,7 +78,7 @@ export default function CerezPolitikasiPage() {
                 </tbody>
               </table>
 
-              <h2 className="font-heading text-xl font-semibold text-fg mt-8">
+              <h2 className="font-heading text-22 font-semibold text-fg mt-8">
                 Çerezleri Yönetme
               </h2>
               <p>
@@ -86,7 +86,7 @@ export default function CerezPolitikasiPage() {
                 Ancak bu durumda web sitesinin bazı özellikleri düzgün çalışmayabilir.
               </p>
 
-              <h2 className="font-heading text-xl font-semibold text-fg mt-8">
+              <h2 className="font-heading text-22 font-semibold text-fg mt-8">
                 İletişim
               </h2>
               <p>
@@ -97,7 +97,7 @@ export default function CerezPolitikasiPage() {
                 adresine yazabilirsiniz.
               </p>
 
-              <p className="text-fg-subtle text-sm mt-12">
+              <p className="text-fg-subtle text-14 mt-12">
                 {/* TODO: Son güncelleme tarihi hukuk danışmanı onayından sonra girilecek */}
               </p>
             </div>
