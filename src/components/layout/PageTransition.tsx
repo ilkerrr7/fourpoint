@@ -3,52 +3,41 @@
 import { ViewTransition } from "react";
 
 /**
- * Cinematic page-to-page transition, built on React's `ViewTransition`
- * component (bundled with Next.js 16's App Router — it integrates the
- * browser's native View Transitions API, no extra dependency required).
- * Paired with <Curtain> (layout.tsx) for the dark sweep — see that file
- * for why they're synced via usePathname rather than ViewTransition's own
- * lifecycle callbacks.
+ * Page-to-page transition, built on React's `ViewTransition` component
+ * (bundled with Next.js 16's App Router — it integrates the browser's native
+ * View Transitions API, no extra dependency required).
  *
- * `ViewTransition` is still a React-canary/experimental API. Every
- * page.tsx wraps its content with this component, so this file is the
- * ONLY place that imports it — to disable or remove the feature entirely,
- * change the return below to `return <>{children}</>;` (or delete this
- * file and drop the import from each page.tsx). No other file needs to
- * change either way.
+ * Short on purpose: a transition seen on every click has to feel instant.
+ * The outgoing page fades in 150ms while the incoming one rises 8px and fades
+ * in over 240ms on an expo-out curve (fast start, soft landing) — they overlap,
+ * so the whole swap is ~240ms. Only opacity and transform animate.
  *
- * Non-directional by design: the same wipe plays on every navigation (no
- * forward/back tagging on individual links, which would touch every
- * internal <Link> across the site). Reduced motion collapses it to an
- * instant swap via the media query below — the browser's default
- * behavior when a transition has no animation.
+ * `ViewTransition` is still a React-canary/experimental API. Every page.tsx
+ * wraps its content with this component, so this file is the ONLY place that
+ * imports it — to disable the feature, change the return below to
+ * `return <>{children}</>;`. No other file needs to change.
+ *
+ * Reduced motion collapses it to an instant swap.
  */
 export function PageTransition({ children }: { children: React.ReactNode }) {
   return (
     <>
       <style jsx global>{`
         ::view-transition-old(.page-wipe) {
-          animation: page-wipe-exit 260ms cubic-bezier(0.6, 0, 1, 0.4) both;
+          animation: page-out 150ms cubic-bezier(0.16, 1, 0.3, 1) both;
         }
         ::view-transition-new(.page-wipe) {
-          animation: page-wipe-enter 560ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+          animation: page-in 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
         }
-        @keyframes page-wipe-exit {
+        @keyframes page-out {
           to {
             opacity: 0;
-            transform: scale(0.97);
           }
         }
-        @keyframes page-wipe-enter {
+        @keyframes page-in {
           from {
-            clip-path: inset(0 0 8% 0);
             opacity: 0;
-            transform: scale(1.015);
-          }
-          to {
-            clip-path: inset(0 0 0% 0);
-            opacity: 1;
-            transform: scale(1);
+            transform: translateY(8px);
           }
         }
         ::view-transition {
