@@ -36,19 +36,24 @@ export function SectionHeading({ badge, title, description, align = "center", cl
   return (
     <div className={`${alignClass} space-y-5 ${className}`} {...props}>
       {badge && <Badge>{badge}</Badge>}
+      {/* Words are inline-blocks separated by real space characters (not a flex
+          gap), so textContent / the accessible name / copy-paste read as normal
+          text. 0.07em of word-spacing tops the 0.212em space glyph up to the
+          0.28em gap the layout was designed with. */}
       <motion.h2
-        className={`font-heading text-h2-sm md:text-6xl lg:text-7xl font-medium leading-[1.05] text-fg flex flex-wrap gap-x-[0.28em] ${
-          align === "center" ? "justify-center" : "justify-start"
-        }`}
+        className="font-heading text-h2-sm md:text-6xl lg:text-7xl font-medium leading-[1.05] text-fg [word-spacing:0.07em]"
         variants={wordContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
       >
         {words.map((w, i) => (
-          <motion.span key={i} variants={wordVariant} style={{ display: "inline-block" }}>
-            {w}
-          </motion.span>
+          <React.Fragment key={i}>
+            {i > 0 && " "}
+            <motion.span variants={wordVariant} style={{ display: "inline-block" }}>
+              {w}
+            </motion.span>
+          </React.Fragment>
         ))}
       </motion.h2>
       {description && (
