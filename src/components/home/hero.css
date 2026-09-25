@@ -21,9 +21,8 @@
   --s: min(calc(100cqw / 4.932 * 0.99), calc((100svh - 14.5rem) / 2.7));
 }
 
-/* Two things the global heading rules would otherwise get wrong here:
-   - line-height: the base `h1..h6 { line-height: 1.15 }` is unlayered, so it
-     beats Tailwind's layered leading-* utilities; a title card needs it tight.
+/* - line-height lives here, not in a leading-* class, because the fitting
+     math above (the / 2.7 height cap) depends on it.
    - letter-spacing: a length set on the h1 is inherited as a fixed number of
      px, so a 219px word would get the tracking of the 72px h1. Tracking is set
      per line/word in em so every size gets its own -0.025em (the measured

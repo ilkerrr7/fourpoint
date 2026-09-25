@@ -86,11 +86,21 @@ body {
    Headings
    ============================================= */
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  line-height: 1.15;
-  color: var(--color-fg);
+/* In the base layer, so Tailwind utilities on a heading (leading-*, font-*,
+   text-*) win over these defaults. Unlayered, this rule used to beat every
+   utility, so no heading's leading/weight/colour class ever applied.
+   --tw-leading: Tailwind's text-* sizes read `var(--tw-leading, <body
+   line-height for that size>)`; setting it here keeps headings at display
+   leading instead of text-lg's 1.56 etc., while an explicit leading-* class
+   still overrides it. */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.15;
+    --tw-leading: 1.15;
+    color: var(--color-fg);
+  }
 }
 
 /* =============================================
