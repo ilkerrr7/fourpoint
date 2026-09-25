@@ -20,7 +20,8 @@
   --color-fg-subtle:  #8A867E;
 
   /* ---- Typography ---- */
-  --font-heading: "Big Shoulders", "Arial Narrow", sans-serif;
+  /* layout.tsx (next/font) sets the live value; this mirrors it */
+  --font-heading: "Big Shoulders", "Big Shoulders Fallback", sans-serif;
   --font-body:    "Inter", system-ui, sans-serif;
 
   /* ---- Display sizes ----
@@ -44,6 +45,53 @@
 
   /* ---- Transitions ---- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =============================================
+   Big Shoulders fallback — metric-matched
+   =============================================
+   next/font has no metrics for the merged "Big Shoulders" family, so it
+   generated no fallback at all: while the web font loaded, headings rendered
+   in the browser default (Times), ~25% wider than the fitted 244px hero lines,
+   then reflowed on swap. These faces make a local sans occupy the same box.
+
+   Measured in Chrome on the site's real heading strings, Big Shoulders' display
+   cut (every size >= 72px: the hero and desktop h2s) against Arial / Arial Bold:
+     weight 400: 0.679x Arial   500: 0.734x Arial   700: 0.748x Arial Bold
+   One face per weight range, because one size-adjust cannot fit all three.
+   Vertical metrics: Big Shoulders ascent 0.986em, descent 0.214em, no line gap;
+   overrides are divided by size-adjust (same formula next/font uses).
+   Sources: Arial (Windows, macOS, iOS), Liberation Sans (Linux, metric-
+   compatible with Arial), Roboto (Android, ~same average width as Arial). */
+@font-face {
+  font-family: "Big Shoulders Fallback";
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("LiberationSans"),
+    local("Roboto"), local("Roboto-Regular");
+  font-weight: 100 449;
+  size-adjust: 67.91%;
+  ascent-override: 145.19%;
+  descent-override: 31.51%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Big Shoulders Fallback";
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("LiberationSans"),
+    local("Roboto"), local("Roboto-Regular");
+  font-weight: 450 549;
+  size-adjust: 73.39%;
+  ascent-override: 134.35%;
+  descent-override: 29.16%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Big Shoulders Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"),
+    local("LiberationSans-Bold"), local("Roboto Bold"), local("Roboto-Bold");
+  font-weight: 550 900;
+  size-adjust: 74.81%;
+  ascent-override: 131.8%;
+  descent-override: 28.61%;
+  line-gap-override: 0%;
 }
 
 /* =============================================

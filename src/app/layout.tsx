@@ -25,6 +25,14 @@ const bigShoulders = Big_Shoulders({
   axes: ["opsz"],
   variable: "--font-heading",
   display: "swap",
+  // next/font has no metrics for this family (it only knows the old split
+  // "Big Shoulders Display/Text" names), so its automatic fallback fails and
+  // emits no fallback at all. The metric-matched fallback is hand-built in
+  // globals.css instead. Names are passed through verbatim, so the quotes are
+  // needed, and they must be single quotes: Turbopack inlines the list into a
+  // double-quoted JS string (double quotes here break the build).
+  adjustFontFallback: false,
+  fallback: ["'Big Shoulders Fallback'", "sans-serif"],
 });
 
 const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING !== "false";
