@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { siteConfig } from "@/lib/site-config";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "KVKK Aydınlatma Metni",
-  description: "Fourpoint Kişisel Verilerin Korunması Kanunu Aydınlatma Metni.",
-};
+  description:
+    "6698 sayılı KVKK kapsamında hangi kişisel verilerinizin hangi amaçla işlendiği, kimlerle paylaşıldığı ve haklarınız: FOUR POINT MEDYA A.Ş. aydınlatma metni.",
+  path: "/kvkk",
+});
 
 export default function KVKKPage() {
   return (

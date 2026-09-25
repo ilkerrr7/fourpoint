@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading, Badge, Button } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
 
-export const metadata: Metadata = {
-  title: "Nasıl Çalışıyoruz",
+export const metadata: Metadata = pageMetadata({
+  title: "Nasıl Çalışıyoruz: Üç Adımda Reklam Yönetimi",
   description:
-    "Üç adımlık çalışma sürecimiz: keşif görüşmesi, strateji ve kurulum, optimizasyon ve raporlama.",
-};
+    "Ücretsiz keşif görüşmesi, strateji ve kurulum, sürekli optimizasyon ve raporlama. Onayınız olmadan reklam açmıyoruz; her adımı önceden bilirsiniz.",
+  path: "/nasil-calisiyoruz",
+});
 
 const STEPS = [
   {

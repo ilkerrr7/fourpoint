@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { siteConfig } from "@/lib/site-config";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Çerez Politikası",
-  description: "Fourpoint Çerez Politikası — Web sitemizde kullanılan çerezler hakkında bilgi.",
-};
+  description:
+    "Çerezin ne olduğu, sitemizde hangi çerezleri hangi amaçla kullandığımız ve çerez tercihlerinizi tarayıcınızdan ya da sitemizden nasıl yönetebileceğiniz.",
+  path: "/cerez-politikasi",
+});
 
 export default function CerezPolitikasiPage() {
   return (

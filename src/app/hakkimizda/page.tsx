@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading, Card, Badge, Button } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
 
-export const metadata: Metadata = {
-  title: "Hakkımızda",
+export const metadata: Metadata = pageMetadata({
+  title: "Hakkımızda: Şeffaf, Veri Odaklı Reklam Yönetimi",
   description:
-    "Fourpoint olarak işletmelerin dijital reklamlarını şeffaf ve veri odaklı yönetiyoruz.",
-};
+    "FOUR POINT MEDYA A.Ş. olarak işletmelerin Instagram ve Facebook reklamlarını şeffaf ve veri odaklı yönetiyoruz. Neye inandığımızı burada anlatıyoruz.",
+  path: "/hakkimizda",
+});
 
 export default function HakkimizdaPage() {
   return (

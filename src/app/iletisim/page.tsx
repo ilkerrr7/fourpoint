@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading } from "@/components/ui";
 import ContactForm from "@/components/forms/ContactForm";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { siteConfig } from "@/lib/site-config";
 
-export const metadata: Metadata = {
-  title: "İletişim",
+export const metadata: Metadata = pageMetadata({
+  title: "İletişim: Ücretsiz Keşif Görüşmesi",
   description:
-    "Ücretsiz keşif görüşmesi için bizimle iletişime geçin. İşletmenizin reklam ihtiyaçlarını birlikte değerlendirelim.",
-};
+    "Ücretsiz keşif görüşmesi için bize yazın. İşletmenizi dinleyelim, reklam ihtiyaçlarınızı birlikte değerlendirip size özel bir yol haritası çıkaralım.",
+  path: "/iletisim",
+});
 
 export default function IletisimPage() {
   return (

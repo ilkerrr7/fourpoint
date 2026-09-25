@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading, Button } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
 
-export const metadata: Metadata = {
-  title: "Hizmetler",
+export const metadata: Metadata = pageMetadata({
+  title: "Instagram ve Facebook Reklam Hizmetleri",
   description:
-    "Instagram ve Facebook reklam yönetimi, retargeting, raporlama ve analiz hizmetlerimiz.",
-};
+    "Instagram ve Facebook reklam yönetimi, sitenizi ziyaret edenleri geri kazanan retargeting ve anlaşılır raporlama: neyi nasıl yaptığımız tek sayfada.",
+  path: "/hizmetler",
+});
 
 const SERVICES = [
   {

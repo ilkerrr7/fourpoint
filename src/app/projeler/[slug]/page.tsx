@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -17,10 +18,11 @@ export async function generateMetadata(
   const project = getProject(slug);
   if (!project) return {};
 
-  return {
+  return pageMetadata({
     title: project.title,
     description: project.summary,
-  };
+    path: `/projeler/${project.slug}`,
+  });
 }
 
 export default async function ProjectPage(

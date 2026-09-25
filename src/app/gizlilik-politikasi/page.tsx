@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { siteConfig } from "@/lib/site-config";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Gizlilik Politikası",
-  description: "Fourpoint Gizlilik Politikası — Kişisel verilerinizi nasıl koruyoruz.",
-};
+  description:
+    "Web sitemizde ve iletişim formunda paylaştığınız bilgilerin nasıl toplandığı, nasıl kullanıldığı, hangi üçüncü taraf hizmetlerle işlendiği ve nasıl korunduğu.",
+  path: "/gizlilik-politikasi",
+});
 
 export default function GizlilikPolitikasiPage() {
   return (
