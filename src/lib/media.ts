@@ -19,15 +19,17 @@ export interface MediaSlotConfig {
 
 export const mediaSlots: Record<string, MediaSlotConfig> = {
   heroMedia: {
-    type: "video",
+    type: "image",
+    src: "/media/hero.webp",
     aspectRatio: "4/5",
     priority: true,
-    alt: "Fourpoint çalışma anından görsel",
+    alt: "Karanlıkta süzülen soyut bir ışık huzmesi ve toz parçacıkları dokusu",
   },
   sectionBreak: {
     type: "image",
+    src: "/media/break.webp",
     aspectRatio: "21/9",
     priority: false,
-    alt: "Fourpoint çalışma anından görsel",
+    alt: "Ufuk boyunca yayılan soyut sis ve ışık dokusu",
   },
 };

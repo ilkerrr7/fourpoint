@@ -58,9 +58,6 @@ export function MediaSlot({ slot, className = "", revealDelay = 0 }: MediaSlotPr
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="film-grain" aria-hidden="true" />
           <FourPointMark className="w-16 h-16 md:w-20 md:h-20 opacity-[0.1]" interactive={false} />
-          <span className="absolute bottom-5 left-5 text-xs text-fg-subtle tracking-wide">
-            Medya alanı — video/görsel eklenecek
-          </span>
         </div>
       )}
     </motion.div>
