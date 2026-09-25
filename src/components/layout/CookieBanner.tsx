@@ -90,7 +90,7 @@ export default function CookieBanner() {
               <button
                 type="button"
                 onClick={handleReject}
-                className="px-4 py-2 text-14 font-medium text-fg-muted hover:text-fg transition-colors rounded-[var(--radius-button)] hover:bg-elevated"
+                className="min-h-11 px-4 py-2 text-14 font-medium text-fg-muted hover:text-fg transition-colors rounded-[var(--radius-button)] hover:bg-elevated"
                 id="cookie-reject"
               >
                 Reddet
@@ -98,7 +98,7 @@ export default function CookieBanner() {
               <button
                 type="button"
                 onClick={handleAccept}
-                className="px-5 py-2 text-14 font-semibold text-ink bg-fg rounded-[var(--radius-button)] hover:bg-fg/85 transition-colors"
+                className="min-h-11 px-5 py-2 text-14 font-semibold text-ink bg-fg rounded-[var(--radius-button)] hover:bg-fg/85 transition-colors"
                 id="cookie-accept"
               >
                 Kabul Et

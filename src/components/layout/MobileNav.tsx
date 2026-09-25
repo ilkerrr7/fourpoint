@@ -58,7 +58,7 @@ export default function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center justify-center w-10 h-10 rounded-lg text-fg-muted hover:text-fg hover:bg-elevated/50 transition-colors"
+            className="flex items-center justify-center w-11 h-11 rounded-lg text-fg-muted hover:text-fg hover:bg-elevated/50 transition-colors"
             aria-label="Menüyü kapat"
             id="mobile-menu-close"
           >

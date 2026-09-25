@@ -72,7 +72,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 py-12 md:py-16 sm:grid-cols-2 lg:grid-cols-4">
           {/* Column 1: Brand + Contact */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2.5 group">
+            <Link href="/" className="flex items-center gap-2.5 group min-h-11">
               <Image
                 src="/logo.svg"
                 alt={`${siteConfig.name} logo`}
@@ -91,7 +91,7 @@ export default function Footer() {
             <div className="space-y-2 text-14 text-fg-subtle">
               <p>
                 <span className="sr-only">E-posta: </span>
-                <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-fg transition-colors">
+                <a href={`mailto:${siteConfig.contact.email}`} className="inline-flex min-h-11 items-center md:min-h-0 hover:text-fg transition-colors">
                   {siteConfig.contact.email}
                 </a>
               </p>
@@ -103,12 +103,12 @@ export default function Footer() {
             <h3 className="font-heading text-14 font-semibold text-fg uppercase tracking-wider mb-4">
               Hizmetler
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="md:space-y-2.5">
               {FOOTER_SERVICES.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-14 text-fg-muted hover:text-fg transition-colors duration-200"
+                    className="inline-flex min-h-11 items-center md:min-h-0 text-14 text-fg-muted hover:text-fg transition-colors duration-200"
                   >
                     {item.label}
                   </Link>
@@ -122,12 +122,12 @@ export default function Footer() {
             <h3 className="font-heading text-14 font-semibold text-fg uppercase tracking-wider mb-4">
               Şirket
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="md:space-y-2.5">
               {FOOTER_COMPANY.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-14 text-fg-muted hover:text-fg transition-colors duration-200"
+                    className="inline-flex min-h-11 items-center md:min-h-0 text-14 text-fg-muted hover:text-fg transition-colors duration-200"
                   >
                     {item.label}
                   </Link>
@@ -141,12 +141,12 @@ export default function Footer() {
             <h3 className="font-heading text-14 font-semibold text-fg uppercase tracking-wider mb-4">
               Yasal
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="md:space-y-2.5">
               {FOOTER_LEGAL.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="text-14 text-fg-muted hover:text-fg transition-colors duration-200"
+                    className="inline-flex min-h-11 items-center md:min-h-0 text-14 text-fg-muted hover:text-fg transition-colors duration-200"
                   >
                     {item.label}
                   </Link>
@@ -156,7 +156,7 @@ export default function Footer() {
                 <button
                   type="button"
                   onClick={openCookieBanner}
-                  className="text-14 text-fg-muted hover:text-fg transition-colors duration-200"
+                  className="inline-flex min-h-11 items-center md:min-h-0 text-14 text-fg-muted hover:text-fg transition-colors duration-200"
                 >
                   Çerez Tercihleri
                 </button>
@@ -180,7 +180,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-9 h-9 rounded-[var(--radius-button)] text-fg-subtle hover:text-fg hover:bg-elevated transition-colors duration-200"
+                  className="flex items-center justify-center w-11 h-11 rounded-[var(--radius-button)] text-fg-subtle hover:text-fg hover:bg-elevated transition-colors duration-200"
                   aria-label={social.label}
                 >
                   {social.icon}

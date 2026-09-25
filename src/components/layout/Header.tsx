@@ -59,7 +59,7 @@ export default function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 group"
+            className="flex items-center gap-2.5 group min-h-11"
             aria-label="Fourpoint ana sayfaya dön"
           >
             <Image
@@ -99,7 +99,7 @@ export default function Header() {
             {/* Mobile hamburger */}
             <button
               type="button"
-              className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-fg-muted hover:text-fg hover:bg-elevated/50 transition-colors"
+              className="md:hidden flex items-center justify-center w-11 h-11 -mr-1.5 rounded-lg text-fg-muted hover:text-fg hover:bg-elevated/50 transition-colors"
               onClick={() => setIsMobileMenuOpen(true)}
               aria-label="Menüyü aç"
               aria-expanded={isMobileMenuOpen}

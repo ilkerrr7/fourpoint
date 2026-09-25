@@ -48,7 +48,7 @@ export default function IletisimPage() {
                     </div>
                     <div>
                       <p className="text-14 font-medium text-fg">E-posta</p>
-                      <a href={`mailto:${siteConfig.contact.email}`} className="text-14 text-fg-muted hover:text-fg transition-colors">
+                      <a href={`mailto:${siteConfig.contact.email}`} className="inline-flex min-h-11 items-center md:min-h-0 text-14 text-fg-muted hover:text-fg transition-colors">
                         {siteConfig.contact.email}
                       </a>
                     </div>

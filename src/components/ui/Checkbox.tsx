@@ -13,7 +13,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     return (
       <div className={`w-full ${className}`}>
-        <div className="flex items-start">
+        {/* the whole row is the label: box, gap and text form one hit target */}
+        <label htmlFor={checkboxId} className="flex items-start min-h-11 py-3 cursor-pointer select-none">
           <div className="flex items-center h-5 mt-0.5">
             <div
               className={`relative w-5 h-5 rounded-[2px] border flex items-center justify-center transition-colors bg-surface border-deep has-checked:bg-fg has-checked:border-fg ${
@@ -42,12 +43,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               </svg>
             </div>
           </div>
-          <div className="ml-3 text-14 flex-1">
-            <label htmlFor={checkboxId} className="text-fg-muted cursor-pointer select-none">
-              {label} {required && <span className="text-primary">*</span>}
-            </label>
-          </div>
-        </div>
+          <span className="ml-3 text-14 flex-1 text-fg-muted">
+            {label} {required && <span className="text-primary">*</span>}
+          </span>
+        </label>
         {error && <p className="text-red-400 text-14 mt-1">{error}</p>}
       </div>
     );
