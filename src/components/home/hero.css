@@ -17,8 +17,9 @@
 
 .hero-stage {
   position: relative;
-  /* width-fitted, but capped by height so the credits stay on the first screen */
-  --s: min(calc(100cqw / 4.932 * 0.99), calc((100svh - 14.5rem) / 2.7));
+  /* width-fitted, but capped by height so headline + credits (stacked below
+     it by default) stay near the first screen */
+  --s: min(calc(100cqw / 4.932 * 0.99), calc((100svh - 22rem) / 2.7));
 }
 
 /* - line-height lives here, not in a leading-* class, because the fitting
@@ -58,11 +59,25 @@
   opacity: 0.1;
 }
 
-@media (min-width: 1024px) {
+/* Credits beside the short last line, hung from its cap height: their top is
+   pinned to the top of "ulaşsın.", so however tall the block gets it can only
+   grow downward (into the hero's bottom padding), never up into line 2.
+   (Bottom/baseline alignment broke whenever the credits were taller than a
+   line: 210px vs 172px at 1024x768, climbing into "insanlara".)
+   Cap top of line 3 = 2 line boxes (2 x 0.9em) + 0.036em: Big Shoulders'
+   baseline sits 0.836em into a 0.9 line box and its cap height is 0.8em.
+   Needs a column of >= ~30rem beside "ulaşsın." (narrower wraps the paragraph
+   to 4+ lines and the buttons to two rows): a container >= 1080px guarantees
+   that; below it the credits flow under the headline. */
+@container (min-width: 1080px) {
+  .hero-stage {
+    --s: min(calc(100cqw / 4.932 * 0.99), calc((100svh - 14.5rem) / 2.7));
+  }
   .hero-credits {
     position: absolute;
     right: 0;
-    bottom: calc(var(--s) * 0.16); /* on the last line's baseline, not its box */
+    top: calc(var(--s) * 1.836);
+    margin-top: 0;
     /* whatever the last line ("ulaşsın.", 2.617em) leaves free, up to 34rem */
     width: min(34rem, calc(100cqw - var(--s) * 2.617 - 2rem));
   }

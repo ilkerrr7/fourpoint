@@ -61,7 +61,7 @@ export function Hero() {
                 </motion.span>
               </motion.h1>
 
-              <motion.div variants={fadeUp} className="hero-credits mt-8 lg:mt-0">
+              <motion.div variants={fadeUp} className="hero-credits mt-8">
                 <p className="text-base text-fg-muted leading-relaxed max-w-md">
                   Instagram ve Facebook reklamlarınızı stratejik yönetiyoruz. Kime, ne
                   zaman, nasıl gösterildiğini bilmeniz için şeffaf çalışıyoruz.
