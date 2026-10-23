@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig, officeAddressLine, officeMapsUrl, formatPhone } from "@/lib/site-config";
 
 const FOOTER_SERVICES = [
   { label: "Instagram Reklam Yönetimi", href: "/hizmetler" },
@@ -88,14 +88,35 @@ export default function Footer() {
               İşletmenizin dijital reklamlarını doğru hedef kitleye,
               doğru bütçeyle ulaştırıyoruz.
             </p>
-            <div className="space-y-2 text-14 text-fg-subtle">
+            <address className="not-italic space-y-2 text-14 text-fg-subtle">
+              <p className="font-medium text-fg">{siteConfig.displayName}</p>
+              <p>
+                <span className="sr-only">Ofis: </span>
+                <a
+                  href={officeMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block leading-relaxed hover:text-fg transition-colors"
+                  title="Google Maps'te aç"
+                >
+                  {officeAddressLine}
+                </a>
+              </p>
+              {siteConfig.contact.phone && (
+                <p>
+                  <span className="sr-only">Telefon: </span>
+                  <a href={`tel:${siteConfig.contact.phone}`} className="inline-flex min-h-11 items-center md:min-h-0 hover:text-fg transition-colors">
+                    {formatPhone(siteConfig.contact.phone)}
+                  </a>
+                </p>
+              )}
               <p>
                 <span className="sr-only">E-posta: </span>
                 <a href={`mailto:${siteConfig.contact.email}`} className="inline-flex min-h-11 items-center md:min-h-0 hover:text-fg transition-colors">
                   {siteConfig.contact.email}
                 </a>
               </p>
-            </div>
+            </address>
           </div>
 
           {/* Column 2: Services */}
@@ -164,6 +185,35 @@ export default function Footer() {
             </ul>
           </div>
         </div>
+
+        {/* Ticari künye — site-config'teki legal.showInFooter açılınca görünür */}
+        {siteConfig.legal.showInFooter && (
+          <div className="border-t border-deep/30 py-5">
+            <p className="text-12 text-fg-subtle leading-relaxed">
+              <span className="text-fg-muted">{siteConfig.companyName}</span>
+              {siteConfig.contact.address && (
+                <>
+                  <span aria-hidden="true"> · </span>
+                  <span>Merkez: {siteConfig.contact.address}</span>
+                </>
+              )}
+              {siteConfig.contact.phone && (
+                <>
+                  <span aria-hidden="true"> · </span>
+                  <a href={`tel:${siteConfig.contact.phone}`} className="hover:text-fg transition-colors">
+                    Tel: {formatPhone(siteConfig.contact.phone)}
+                  </a>
+                </>
+              )}
+              {siteConfig.legal.mersisNo && (
+                <>
+                  <span aria-hidden="true"> · </span>
+                  <span>MERSİS No: {siteConfig.legal.mersisNo}</span>
+                </>
+              )}
+            </p>
+          </div>
+        )}
 
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-deep/30 py-6 sm:flex-row">

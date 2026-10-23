@@ -7,6 +7,7 @@ import CookieBanner from "@/components/layout/CookieBanner";
 import MetaPixel from "@/components/meta/MetaPixel";
 import { siteConfig } from "@/lib/site-config";
 import { OG_IMAGE } from "@/lib/metadata";
+import { localBusinessJsonLd } from "@/lib/schema";
 import "./globals.css";
 import "./effects.css";
 
@@ -95,6 +96,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             is parsed, before the first paint. (beforeInteractive only queues
             the code for Next's runtime, ~2s later on a slow phone.) */}
         <script dangerouslySetInnerHTML={{ __html: FONT_SWAP_SCRIPT }} />
+        {/* LocalBusiness şeması (schema.org) — ofis adresi ve iletişim */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: localBusinessJsonLd() }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-ink text-fg font-body">
         <MotionConfig reducedMotion="user">

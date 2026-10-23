@@ -31,11 +31,46 @@ export const siteConfig = {
 
   keywords,
 
+  /** Footer ve LocalBusiness şemasında görünen marka adı */
+  displayName: "Four Point Medya",
+
   contact: {
     email: "info@fourpointmedya.com",
 
-    /** Fiziksel adres (KVKK, yasal metinler için) */
+    /**
+     * Telefon. Boşken footer'da ve şemada hiç gösterilmez; dolduğunda
+     * E.164 biçiminde yazılmalı (örn. "+905XXXXXXXXX"), footer tel: linkini
+     * ve okunur biçimi bundan türetir.
+     */
+    phone: "",
+
+    /** Ofis adresi (footer, iletişim sayfası, LocalBusiness şeması) */
+    office: {
+      /** Bina / plaza adı */
+      building: "Plaza Cubes, Tarihi Bomonti Bira Fabrikası",
+      street: "Merkez Mah. Silahşör Cad. Birahane Sk. No:42",
+      postalCode: "34384",
+      district: "Şişli",
+      city: "İstanbul",
+      /** Google Maps'te yeni sekmede açılan arama */
+      mapsQuery: "Plaza Cubes Bomonti Bira Fabrikası Şişli",
+      /** İletişim sayfasındaki harita iframe'i */
+      mapsEmbedSrc:
+        "https://maps.google.com/maps?q=Plaza+Cubes+Bomonti+Bira+Fabrikası,+Birahane+Sk.+No:42,+Şişli,+İstanbul&output=embed",
+    },
+
+    /** Sicil (merkez) adresi — KVKK ve yasal metinler için */
     address: "Zühre Sokak No:18 Daire:3, Kağıthane/İstanbul",
+  },
+
+  /**
+   * Footer'daki ticari künye. `showInFooter` false iken hiçbiri render
+   * edilmez; true yapıldığında unvan, sicil adresi, telefon ve MERSİS
+   * (dolu olanlar) footer'ın alt şeridinde gösterilir.
+   */
+  legal: {
+    showInFooter: false,
+    mersisNo: "",
   },
 
   social: {
@@ -47,3 +82,23 @@ export const siteConfig = {
 
 /** Kolaylık tip çıkarımı */
 export type SiteConfig = typeof siteConfig;
+
+/** Ofis adresi, tek satır (footer, iletişim sayfası). */
+export const officeAddressLine = (() => {
+  const o = siteConfig.contact.office;
+  return `${o.building}, ${o.street}, ${o.postalCode} ${o.district}/${o.city}`;
+})();
+
+/** Ofisi Google Maps'te arama olarak açan link (yeni sekme için). */
+export const officeMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  siteConfig.contact.office.mapsQuery,
+)}`;
+
+/**
+ * Telefonu okunur biçime çevirir: "+905359132748" → "0535 913 27 48".
+ * Tanınmayan biçimler olduğu gibi döner.
+ */
+export function formatPhone(e164: string): string {
+  const m = /^\+90(\d{3})(\d{3})(\d{2})(\d{2})$/.exec(e164);
+  return m ? `0${m[1]} ${m[2]} ${m[3]} ${m[4]}` : e164;
+}
