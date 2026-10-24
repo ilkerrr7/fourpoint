@@ -1,4 +1,5 @@
 import type { ContactFormData } from '@/types';
+import { sanitizeHeaderValue } from '@/lib/escape';
 
 export async function sendWhatsAppNotification(
   data: ContactFormData
@@ -12,13 +13,17 @@ export async function sendWhatsAppNotification(
       throw new Error('Missing WhatsApp environment variables');
     }
 
+    // One field per line, so a value carrying its own newlines must not be
+    // able to forge extra lines and misrepresent the lead.
+    const line = (value: string) => sanitizeHeaderValue(value, 200);
+
     const messageText = `*Yeni İletişim Formu Başvurusu*\n\n` +
-      `*İşletme:* ${data.businessName}\n` +
-      `*İsim:* ${data.firstName} ${data.lastName}\n` +
-      `*Telefon:* ${data.phone}\n` +
-      `*Sektör:* ${data.sector}\n` +
-      `*Bütçe:* ${data.budgetRange}\n\n` +
-      `*Mesaj:* ${data.message || '-'}`;
+      `*İşletme:* ${line(data.businessName)}\n` +
+      `*İsim:* ${line(`${data.firstName} ${data.lastName}`)}\n` +
+      `*Telefon:* ${line(data.phone)}\n` +
+      `*Sektör:* ${line(data.sector)}\n` +
+      `*Bütçe:* ${line(data.budgetRange)}\n\n` +
+      `*Mesaj:* ${sanitizeHeaderValue(data.message || '-', 1000)}`;
 
     const response = await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
       method: 'POST',

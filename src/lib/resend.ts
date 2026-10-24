@@ -1,4 +1,5 @@
 import type { ContactFormData } from '@/types';
+import { escapeHtml, sanitizeHeaderValue } from '@/lib/escape';
 
 export async function sendContactNotification(
   data: ContactFormData
@@ -12,40 +13,42 @@ export async function sendContactNotification(
       throw new Error('Missing Resend environment variables');
     }
 
+    // Every value below is visitor-supplied. Escaping is what keeps a name
+    // containing markup from running in whoever opens this notification.
     const htmlBody = `
       <h2>Yeni İletişim Formu Başvurusu</h2>
       <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
         <tr>
           <td style="padding: 8px; border: 1px solid #ddd;"><strong>Ad:</strong></td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${data.firstName}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.firstName)}</td>
         </tr>
         <tr>
           <td style="padding: 8px; border: 1px solid #ddd;"><strong>Soyad:</strong></td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${data.lastName}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.lastName)}</td>
         </tr>
         <tr>
           <td style="padding: 8px; border: 1px solid #ddd;"><strong>İşletme Adı:</strong></td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${data.businessName}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.businessName)}</td>
         </tr>
         <tr>
           <td style="padding: 8px; border: 1px solid #ddd;"><strong>Telefon:</strong></td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${data.phone}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.phone)}</td>
         </tr>
         <tr>
           <td style="padding: 8px; border: 1px solid #ddd;"><strong>E-posta:</strong></td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${data.email}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.email)}</td>
         </tr>
         <tr>
           <td style="padding: 8px; border: 1px solid #ddd;"><strong>Sektör:</strong></td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${data.sector}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.sector)}</td>
         </tr>
         <tr>
           <td style="padding: 8px; border: 1px solid #ddd;"><strong>Bütçe:</strong></td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${data.budgetRange}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.budgetRange)}</td>
         </tr>
         <tr>
           <td style="padding: 8px; border: 1px solid #ddd;"><strong>Mesaj:</strong></td>
-          <td style="padding: 8px; border: 1px solid #ddd;">${data.message || '-'}</td>
+          <td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(data.message || '-')}</td>
         </tr>
       </table>
     `;
@@ -59,7 +62,9 @@ export async function sendContactNotification(
       body: JSON.stringify({
         from: fromEmail,
         to: notificationEmail,
-        subject: `Yeni İletişim: ${data.businessName} - ${data.firstName} ${data.lastName}`,
+        subject: sanitizeHeaderValue(
+          `Yeni İletişim: ${data.businessName} - ${data.firstName} ${data.lastName}`,
+        ),
         html: htmlBody,
       }),
     });
