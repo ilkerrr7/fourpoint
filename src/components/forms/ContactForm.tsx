@@ -11,6 +11,8 @@ import type { FormActionResult } from "@/types";
 const SERVICE_OPTIONS = [
   { value: "instagram", label: "Instagram Reklam Yönetimi" },
   { value: "facebook", label: "Facebook Reklam Yönetimi" },
+  { value: "google-reklam", label: "Google Reklamları" },
+  { value: "google-haritalar", label: "Google Haritalar / Yerel Görünürlük" },
   { value: "retargeting", label: "Retargeting" },
   { value: "raporlama", label: "Raporlama ve Analiz" },
   { value: "icerik", label: "İçerik Çekimi / Prodüksiyon" },
