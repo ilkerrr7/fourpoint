@@ -67,7 +67,9 @@ const csp = [
   `media-src 'self'`,
   `worker-src 'self' blob:`,
   `manifest-src 'self'`,
-  `upgrade-insecure-requests`,
+  // Browsers ignore this one in a report-only policy and say so in the
+  // console, so it is only sent once the policy actually enforces.
+  ...(CSP_REPORT_ONLY ? [] : [`upgrade-insecure-requests`]),
 ].join("; ");
 
 /**

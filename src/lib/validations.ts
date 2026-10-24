@@ -1,25 +1,8 @@
 import { z } from 'zod';
 
-export const SECTOR_OPTIONS = [
-  { value: 'e-ticaret', label: 'E-Ticaret' },
-  { value: 'restoran-kafe', label: 'Restoran / Kafe' },
-  { value: 'saglik', label: 'Sağlık' },
-  { value: 'egitim', label: 'Eğitim' },
-  { value: 'emlak', label: 'Emlak' },
-  { value: 'guzellik', label: 'Güzellik & Bakım' },
-  { value: 'hizmet', label: 'Hizmet Sektörü' },
-  { value: 'uretim', label: 'Üretim' },
-  { value: 'diger', label: 'Diğer' },
-];
-
-export const BUDGET_OPTIONS = [
-  { value: '5000-alti', label: '₺5.000 ve altı' },
-  { value: '5000-15000', label: '₺5.000 – ₺15.000' },
-  { value: '15000-30000', label: '₺15.000 – ₺30.000' },
-  { value: '30000-50000', label: '₺30.000 – ₺50.000' },
-  { value: '50000-ustu', label: '₺50.000 ve üstü' },
-  { value: 'bilmiyorum', label: 'Henüz belirlemedim' },
-];
+// Re-exported so existing imports of the option lists keep working; they are
+// defined without zod so the client bundle can take them alone.
+export { SECTOR_OPTIONS, BUDGET_OPTIONS } from '@/lib/form-options';
 
 /**
  * Names and the business name end up in an email subject and in a WhatsApp

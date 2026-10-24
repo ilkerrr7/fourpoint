@@ -4,7 +4,7 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { submitContactForm } from "@/actions/contact-form";
 import { Input, Select, Checkbox, Button } from "@/components/ui";
-import { SECTOR_OPTIONS, BUDGET_OPTIONS } from "@/lib/validations";
+import { SECTOR_OPTIONS, BUDGET_OPTIONS } from "@/lib/form-options";
 import { trackLead } from "@/lib/meta-pixel-events";
 import type { FormActionResult } from "@/types";
 
