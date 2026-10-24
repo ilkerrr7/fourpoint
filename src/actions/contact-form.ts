@@ -3,7 +3,7 @@
 import { headers, cookies } from "next/headers";
 import { contactFormSchema } from "@/lib/validations";
 import { sendContactNotification } from "@/lib/resend";
-import { sendWhatsAppNotification } from "@/lib/whatsapp";
+import { sendWhatsAppNotification, isWhatsAppConfigured } from "@/lib/whatsapp";
 import { sendLeadEvent } from "@/lib/meta-capi";
 import { rateLimiter } from "@/lib/rate-limit";
 import type { ContactFormData, FormActionResult } from "@/types";
@@ -79,9 +79,12 @@ export async function submitContactForm(
   const userAgent = headersList.get("user-agent") || "";
 
   // --- 7. Send notifications & CAPI event in parallel ---
+  // WhatsApp yalnızca yapılandırılmışsa denenir; yoksa sessizce atlanır.
   const [emailResult, whatsappResult, capiResult] = await Promise.allSettled([
     sendContactNotification(validData),
-    sendWhatsAppNotification(validData),
+    isWhatsAppConfigured()
+      ? sendWhatsAppNotification(validData)
+      : Promise.resolve({ success: true, skipped: true }),
     sendLeadEvent({
       eventId,
       email: validData.email,

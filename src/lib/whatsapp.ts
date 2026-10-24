@@ -1,6 +1,19 @@
 import type { ContactFormData } from '@/types';
 import { sanitizeHeaderValue } from '@/lib/escape';
 
+/**
+ * WhatsApp bildirimi isteğe bağlıdır. Üç değişken de tanımlı değilse çağrı
+ * hiç yapılmaz ve loga hata düşmez; değişkenler eklendiği anda (yeniden
+ * deploy sonrası) otomatik devreye girer.
+ */
+export function isWhatsAppConfigured(): boolean {
+  return Boolean(
+    process.env.WHATSAPP_TOKEN &&
+      process.env.WHATSAPP_PHONE_NUMBER_ID &&
+      process.env.WHATSAPP_RECIPIENT,
+  );
+}
+
 export async function sendWhatsAppNotification(
   data: ContactFormData
 ): Promise<{ success: boolean; error?: string }> {

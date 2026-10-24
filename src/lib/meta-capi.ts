@@ -21,12 +21,17 @@ export async function sendLeadEvent(params: {
     const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
     const pixelId = process.env.META_PIXEL_ID;
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    // Meta Test Events: Events Manager → Test Events sekmesindeki "TEST1234"
+    // biçimli kod. Tanımlıyken Lead olayı gerçek veriye değil, Test Events
+    // paneline düşer. Form testi bitince değişkeni kaldırıp yeniden deploy edin.
+    const testEventCode = process.env.META_TEST_EVENT_CODE;
 
     if (!accessToken || !pixelId) {
       throw new Error('Missing Meta CAPI environment variables');
     }
 
     const payload = {
+      ...(testEventCode ? { test_event_code: testEventCode } : {}),
       data: [
         {
           event_name: 'Lead',
