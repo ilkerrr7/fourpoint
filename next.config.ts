@@ -21,7 +21,7 @@ import type { NextConfig } from "next";
  * /iletisim. Fonts are self-hosted by next/font, so no font CDN is needed;
  * fonts.gstatic.com is listed only so a hand-added <link> would not break.
  */
-const CSP_REPORT_ONLY = true;
+const CSP_REPORT_ONLY = false;
 
 const META = ["https://connect.facebook.net", "https://www.facebook.com", "https://graph.facebook.com"];
 
