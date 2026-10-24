@@ -39,14 +39,20 @@ export default function HashScroll() {
       return;
     }
 
-    // Layout is stable by this point (headings hold a metric-matched fallback
-    // and every media slot reserves its aspect ratio), but one frame lets the
-    // first paint settle before measuring.
-    const frame = requestAnimationFrame(() => {
-      const target = document.getElementById(id);
-      if (!target || window.scrollY > 0) return;
-      target.scrollIntoView({ block: "start", behavior: "instant" });
-    });
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const land = () => target.scrollIntoView({ block: "start", behavior: "instant" });
+
+    // Land immediately rather than waiting for a frame: a link opened in a
+    // background tab gets no animation frames at all until it is looked at,
+    // and the visitor would arrive at the top of the page.
+    land();
+
+    // Layout is stable by now (headings hold a metric-matched fallback and
+    // every media slot reserves its aspect ratio), but a second pass on the
+    // next frame costs nothing and absorbs any late shift.
+    const frame = requestAnimationFrame(land);
 
     return () => cancelAnimationFrame(frame);
   }, []);
