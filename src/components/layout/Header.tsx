@@ -10,6 +10,7 @@ import type { NavLink } from "@/types";
 
 const NAV_LINKS: NavLink[] = [
   { label: "Hizmetler", href: "/hizmetler" },
+  { label: "AR-GE", href: "/#ar-ge" },
   { label: "Nasıl Çalışıyoruz", href: "/nasil-calisiyoruz" },
   { label: "Hakkımızda", href: "/hakkimizda" },
   { label: "İletişim", href: "/iletisim" },

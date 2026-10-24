@@ -12,7 +12,7 @@ const pricingItems = [
   },
   {
     title: "Reklam Bütçesi",
-    description: "Meta’ya doğrudan ödediğiniz reklam harcamasıdır. Bu para bize değil, reklam platformuna gider.",
+    description: "Meta veya Google'a doğrudan ödediğiniz reklam harcamasıdır. Bu para bize değil, reklam platformuna gider.",
   },
   {
     title: "Neden Ayrı?",

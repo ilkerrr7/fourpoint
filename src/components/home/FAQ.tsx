@@ -8,6 +8,14 @@ import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const faqItems = [
   {
+    question: "Google reklamı mı, Meta reklamı mı daha iyi?",
+    answer: "İkisi farklı işler görür. Google, ürününüzü ya da hizmetinizi zaten arayan kişiye ulaşır; Meta ise henüz aramayan ama ilgilenebilecek kitleye. Çoğu işletme için doğru cevap ikisinin dengeli kullanımıdır. Görüşmede işinize uygun dağılımı birlikte belirleriz."
+  },
+  {
+    question: "Google Haritalar'da üst sıralara çıkabilir miyim?",
+    answer: "Haritalardaki sıralamayı Google belirler; kimse garanti veremez. Biz işletme profilinizi eksiksiz kurar, güncel tutar ve yerel reklamlarla görünürlüğünüzü artırırız."
+  },
+  {
     question: "Daha önce reklam verdim, sonuç alamadım. Sizinle fark ne olacak?",
     answer: "Çoğu başarısız reklam deneyiminin sebebi yanlış hedefleme ve takipsizliktir. Biz her kampanyayı veriye dayalı kurar, sürekli izler ve optimize ederiz. İlk görüşmede durumunuzu birlikte değerlendiririz."
   },

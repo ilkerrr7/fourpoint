@@ -16,10 +16,13 @@ const container = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
+// The clip box gets a margin on every side: Big Shoulders' descenders (ğ ş ç
+// y p) and the dot of İ sit outside the line box of an inline-block span, so a
+// tight inset(0 …) end state cut them off. The wipe still starts fully clipped.
 const item = {
-  hidden: { clipPath: "inset(0 0 100% 0)", opacity: 0, y: "0.2em" },
+  hidden: { clipPath: "inset(-0.15em -0.05em 100% -0.05em)", opacity: 0, y: "0.2em" },
   visible: {
-    clipPath: "inset(0 0 0% 0)",
+    clipPath: "inset(-0.15em -0.05em -0.3em -0.05em)",
     opacity: 1,
     y: 0,
     transition: { duration: 0.7, ease: EASE_OUT_EXPO },

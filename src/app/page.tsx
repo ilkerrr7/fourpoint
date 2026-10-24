@@ -7,6 +7,7 @@ import { PainPoints } from "@/components/home/PainPoints";
 import { Services } from "@/components/home/Services";
 import { MediaBreak } from "@/components/home/MediaBreak";
 import { Automation } from "@/components/home/Automation";
+import { RnD } from "@/components/home/RnD";
 import { Process } from "@/components/home/Process";
 import { Differentiators } from "@/components/home/Differentiators";
 import { PricingLogic } from "@/components/home/PricingLogic";
@@ -15,7 +16,7 @@ import { ClosingCTA } from "@/components/home/ClosingCTA";
 import { CableJoint } from "@/components/effects/CableJoint";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Instagram ve Facebook Reklam Yönetimi | Fourpoint",
+  title: "Meta ve Google Reklam Yönetimi | Fourpoint",
   description: siteConfig.description,
   path: "/",
   absolute: true,
@@ -31,6 +32,7 @@ export default function HomePage() {
       <MediaBreak />
       <CableJoint id="break-automation" />
       <Automation />
+      <RnD />
       <Process />
       <Differentiators />
       <CableJoint id="differentiators-pricing" />

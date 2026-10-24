@@ -27,7 +27,7 @@ export const siteConfig = {
 
   /** Site açıklaması — meta description, OG vb. */
   description:
-    "Instagram ve Facebook reklamlarınızı doğru hedef kitleye ulaştırıyoruz. Bütçenizi verimli kullanmanız için stratejik reklam yönetimi.",
+    "Instagram, Facebook ve Google reklamlarınızı şeffaf ölçümle yönetiyoruz. Kaç müşteri geldi, nereden geldi, kaça geldi; hepsini görürsünüz.",
 
   keywords,
 

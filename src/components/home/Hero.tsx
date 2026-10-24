@@ -25,7 +25,7 @@ export function Hero() {
         <div className="flex min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] flex-col justify-start pt-10 md:justify-center md:pt-8 pb-20">
           <div className="hero-fit">
             <div className="hero-rise hero-rise--eyebrow">
-              <Badge>Meta Reklam Yönetimi</Badge>
+              <Badge>Meta &amp; Google Reklam Yönetimi</Badge>
             </div>
 
             <div className="hero-stage mt-6">
@@ -40,8 +40,8 @@ export function Hero() {
 
               <div className="hero-credits hero-rise hero-rise--credits mt-8">
                 <p className="text-16 text-fg-muted leading-relaxed max-w-md">
-                  Instagram ve Facebook reklamlarınızı stratejik yönetiyoruz. Kime, ne
-                  zaman, nasıl gösterildiğini bilmeniz için şeffaf çalışıyoruz.
+                  Instagram, Facebook ve Google reklamlarınızı stratejik yönetiyoruz.
+                  Kime, ne zaman, nasıl gösterildiğini bilmeniz için şeffaf çalışıyoruz.
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
                   <Button variant="primary" size="md" href="/iletisim">

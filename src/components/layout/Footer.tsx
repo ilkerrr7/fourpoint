@@ -4,11 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { siteConfig, officeAddressLine, officeMapsUrl, formatPhone } from "@/lib/site-config";
 
+// Anchors into the home page sections (Services tabs, the web/content strip, R&D)
 const FOOTER_SERVICES = [
-  { label: "Instagram Reklam Yönetimi", href: "/hizmetler" },
-  { label: "Facebook Reklam Yönetimi", href: "/hizmetler" },
-  { label: "Retargeting", href: "/hizmetler" },
-  { label: "Raporlama ve Analiz", href: "/hizmetler" },
+  { label: "Meta Reklamları", href: "/#hizmetler" },
+  { label: "Google Reklamları", href: "/#hizmetler-google" },
+  { label: "Web & İçerik", href: "/#web-icerik" },
+  { label: "AR-GE", href: "/#ar-ge" },
 ];
 
 const FOOTER_COMPANY = [
