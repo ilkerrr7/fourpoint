@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui";
 
 const COOKIE_CONSENT_KEY = "fp-cookie-consent";
 
@@ -108,23 +109,15 @@ export default function CookieBanner() {
                 </strong>
               </span>
             )}
+            {/* KVKK çerez rehberi: reddetme kabul etmekle eşit görünürlükte.
+                İki seçenek de aynı boyut, aynı ikincil stil, yan yana. */}
             <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={handleReject}
-                className="min-h-11 px-4 py-2 text-14 font-medium text-fg-muted hover:text-fg transition-colors rounded-[var(--radius-button)] hover:bg-elevated"
-                id="cookie-reject"
-              >
+              <Button variant="secondary" size="sm" onClick={handleReject} id="cookie-reject" className="min-w-28">
                 Reddet
-              </button>
-              <button
-                type="button"
-                onClick={handleAccept}
-                className="min-h-11 px-5 py-2 text-14 font-semibold text-ink bg-fg rounded-[var(--radius-button)] hover:bg-fg/85 transition-colors"
-                id="cookie-accept"
-              >
+              </Button>
+              <Button variant="secondary" size="sm" onClick={handleAccept} id="cookie-accept" className="min-w-28">
                 Kabul Et
-              </button>
+              </Button>
             </div>
           </div>
         </div>

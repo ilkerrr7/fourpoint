@@ -75,8 +75,7 @@ export const siteConfig = {
 
   social: {
     instagram: "https://www.instagram.com/fourpoint2026/",
-    // TODO: Sayfanın varlığı doğrulanmadı; yoksa boş string yapın, footer ve JSON-LD otomatik düşer.
-    facebook: "https://facebook.com/fourpointmedya",
+    facebook: "", // Sayfa yok (2026-10-25). Açılırsa URL buraya; footer ve JSON-LD otomatik gösterir.
     linkedin: "", // TODO: LinkedIn profili oluşturulduğunda ekle
   },
 } as const;
