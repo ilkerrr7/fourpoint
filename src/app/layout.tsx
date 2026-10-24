@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Big_Shoulders } from "next/font/google";
+import { Inter, Big_Shoulders, Poppins } from "next/font/google";
 import { MotionConfig } from "motion/react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -14,6 +14,14 @@ import "./effects.css";
 const inter = Inter({
   subsets: ["latin", "latin-ext"],
   variable: "--font-body",
+  display: "swap",
+});
+
+// Header wordmark ("FOUR POINT") only: one weight, basic Latin is enough.
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: "600",
+  variable: "--font-brand",
   display: "swap",
 });
 
@@ -87,7 +95,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       // jump instantly on page navigation instead of animating the scroll.
       data-scroll-behavior="smooth"
       data-fx={effectsOff ? "off" : undefined}
-      className={`${inter.variable} ${bigShoulders.variable} h-full antialiased`}
+      className={`${inter.variable} ${bigShoulders.variable} ${poppins.variable} h-full antialiased`}
       // data-fonts is set by FONT_SWAP_SCRIPT before hydration
       suppressHydrationWarning
     >

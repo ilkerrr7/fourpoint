@@ -9,10 +9,10 @@ interface FourPointMarkProps {
 }
 
 /**
- * The Four Point compass mark, rendered as inline SVG so it can be
- * CSS-3D-tilted. Tilt is scroll-linked (base motion) plus a pointer-follow
- * offset on hover-capable desktops — see useTilt for the disable rules
- * (reduced motion, mobile, low-power devices).
+ * The Four Point mark (same artwork as /public/logo.svg), rendered as inline
+ * SVG so it can be CSS-3D-tilted. Tilt is scroll-linked (base motion) plus a
+ * pointer-follow offset on hover-capable desktops — see useTilt for the
+ * disable rules (reduced motion, mobile, low-power devices).
  */
 export function FourPointMark({ className = "", interactive = true }: FourPointMarkProps) {
   const tiltRef = useTilt<HTMLDivElement>(interactive);
@@ -23,22 +23,21 @@ export function FourPointMark({ className = "", interactive = true }: FourPointM
         ref={tiltRef}
         style={interactive ? { transformStyle: "preserve-3d", willChange: "transform" } : undefined}
       >
-        <svg viewBox="0 0 48 48" fill="none" className="w-full h-full" aria-hidden="true">
-          <path
-            fillRule="evenodd"
-            fill="var(--color-fg)"
-            opacity="0.12"
-            d="M24 9.25a14.75 14.75 0 1 1 0 29.5 14.75 14.75 0 0 1 0-29.5Zm0 1.5a13.25 13.25 0 1 0 0 26.5 13.25 13.25 0 0 0 0-26.5Z"
-          />
-          <path fill="var(--color-fg)" d="M24 2l-4 22h4Z" />
-          <path fill="var(--color-accent)" d="M24 2v22h4Z" />
-          <path fill="var(--color-fg)" d="M40 24l-16-4v4Z" />
-          <path fill="var(--color-accent)" d="M40 24H24v4Z" />
-          <path fill="var(--color-fg)" d="M24 46l4-22h-4Z" />
-          <path fill="var(--color-accent)" d="M24 46V24h-4Z" />
-          <path fill="var(--color-fg)" d="M8 24l16 4v-4Z" />
-          <path fill="var(--color-accent)" d="M8 24h16v-4Z" />
-          <path fill="var(--color-fg)" opacity="0.7" d="M35 13l-7 5 2 2Z" />
+        <svg viewBox="150 150 700 700" fill="none" className="w-full h-full" aria-hidden="true">
+          <polygon fill="#38BDF8" points="491.0,196 454,326 491.0,326" />
+          <polygon fill="#0A84FF" points="509.0,196 546,326 509.0,326" />
+          <polygon fill="#38BDF8" points="830,500 704,454 704,500" />
+          <polygon fill="#0A84FF" points="830,500 704,546 704,500" />
+          <polygon fill="#38BDF8" points="509.0,836 546,700 509.0,700" />
+          <polygon fill="#0A84FF" points="491.0,836 454,700 491.0,700" />
+          <polygon fill="#38BDF8" points="170,500 296,546 296,500" />
+          <polygon fill="#0A84FF" points="170,500 296,454 296,500" />
+          <g fill="#F4F1EA" transform="translate(500 500) scale(0.8) translate(-510 -500)">
+            <path d="M302 652 L302 432 Q302 342 392 342 L501.0 342 L501.0 398 L392 398 Q358 398 358 432 L358 612 Z" />
+            <polygon points="354,452 476,452 456,504 354,504" />
+            <polygon points="519.0,342 575.0,342 575.0,636 519.0,686" />
+            <path d="M571.0 342 L612 342 A108 108 0 0 1 612 558 L571.0 558 L571.0 502 L612 502 A52 52 0 0 0 612 398 L571.0 398 Z" />
+          </g>
         </svg>
       </div>
     </div>

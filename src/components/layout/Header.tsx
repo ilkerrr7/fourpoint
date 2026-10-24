@@ -60,18 +60,18 @@ export default function Header() {
           <Link
             href="/"
             className="flex items-center gap-2.5 group min-h-11"
-            aria-label="Fourpoint ana sayfaya dön"
+            aria-label="FOUR POINT ana sayfaya dön"
           >
             <Image
               src="/logo.svg"
-              alt="Fourpoint logo"
+              alt="FOUR POINT logo"
               width={32}
               height={32}
               className="h-8 w-8 text-fg transition-transform duration-200 ease-out group-hover:scale-110 motion-reduce:group-hover:scale-100"
               priority
             />
-            <span className="font-heading text-18 font-medium text-fg tracking-tight">
-              Fourpoint
+            <span className="font-brand text-14 md:text-16 font-semibold leading-none tracking-[0.2em] text-fg whitespace-nowrap">
+              FOUR POINT
             </span>
           </Link>
 

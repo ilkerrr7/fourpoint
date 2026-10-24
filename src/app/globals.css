@@ -23,6 +23,8 @@
   /* layout.tsx (next/font) sets the live value; this mirrors it */
   --font-heading: "Big Shoulders", "Big Shoulders Fallback", sans-serif;
   --font-body:    "Inter", system-ui, sans-serif;
+  /* header wordmark only — layout.tsx (next/font) sets the live value */
+  --font-brand:   "Poppins", system-ui, sans-serif;
 
   /* ---- Type scale — 9 steps, named by px at a 16px root ----
      Every text size on the site is one of these. Tailwind's default sizes are
