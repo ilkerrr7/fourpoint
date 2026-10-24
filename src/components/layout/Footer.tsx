@@ -4,11 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { siteConfig, officeAddressLine, officeMapsUrl, formatPhone } from "@/lib/site-config";
 
-// Anchors into the home page sections (Services tabs, the web/content strip, R&D)
+// Absolute paths, so every one of these works from any page. The three
+// service anchors point at /hizmetler, where each group is a real section
+// with its own copy; AR-GE lives only on the home page.
 const FOOTER_SERVICES = [
-  { label: "Meta Reklamları", href: "/#hizmetler" },
-  { label: "Google Reklamları", href: "/#hizmetler-google" },
-  { label: "Web & İçerik", href: "/#web-icerik" },
+  { label: "Meta Reklamları", href: "/hizmetler#hizmetler-meta" },
+  { label: "Google Reklamları", href: "/hizmetler#hizmetler-google" },
+  { label: "Web & İçerik", href: "/hizmetler#web-icerik" },
   { label: "AR-GE", href: "/#ar-ge" },
 ];
 

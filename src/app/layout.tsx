@@ -4,6 +4,7 @@ import { MotionConfig } from "motion/react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CookieBanner from "@/components/layout/CookieBanner";
+import HashScroll from "@/components/layout/HashScroll";
 import MetaPixel from "@/components/meta/MetaPixel";
 import { siteConfig } from "@/lib/site-config";
 import { OG_IMAGE } from "@/lib/metadata";
@@ -113,6 +114,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-ink text-fg font-body">
         <MotionConfig reducedMotion="user">
           <MetaPixel />
+          <HashScroll />
           <Header />
           <main className="flex-1 pt-16 md:pt-20">{children}</main>
           <Footer />

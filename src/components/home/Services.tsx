@@ -63,7 +63,9 @@ const row = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT_EXPO } },
 };
 
-/** `/#hizmetler-google` (footer) opens the section on the Google tab. */
+/** `/#hizmetler-google` opens this section on the Google tab. The footer now
+ *  links to /hizmetler#hizmetler-google, but links shared before that still
+ *  land here, so the hash is kept. */
 const GOOGLE_HASH = "#hizmetler-google";
 
 export function Services() {
@@ -161,7 +163,9 @@ export function Services() {
           {services[tab].map((service, index) => (
             <motion.a
               key={service.title}
-              href="/hizmetler"
+              // The tab ids match the section ids on /hizmetler, so a card
+              // lands on the group it belongs to rather than the page top.
+              href={`/hizmetler#hizmetler-${tab}`}
               variants={row}
               className="group grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-3 md:gap-8 py-8 md:py-10 border-b border-deep"
             >
