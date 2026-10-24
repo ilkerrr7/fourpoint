@@ -5,6 +5,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/schema";
 import { getProject, projects } from "@/lib/projects";
 
 export async function generateStaticParams() {
@@ -35,6 +37,7 @@ export default async function ProjectPage(
 
   return (
     <PageTransition>
+    <JsonLd data={breadcrumbJsonLd([{ name: project.title, path: `/projeler/${project.slug}` }])} />
     <section className="py-section-sm bg-ink" aria-labelledby="project-heading">
       <Container>
         <Link
@@ -50,7 +53,7 @@ export default async function ProjectPage(
           </span>
           <h1
             id="project-heading"
-            className="font-heading text-36 md:text-72 font-medium leading-[1.05] text-fg mt-4"
+            className="text-fg mt-4"
           >
             {project.title}
           </h1>
@@ -59,7 +62,7 @@ export default async function ProjectPage(
           </p>
         </div>
 
-        <div className="mt-12 aspect-[16/9] relative overflow-hidden rounded-[var(--radius-card)] bg-surface border border-deep">
+        <div className="mt-12 aspect-[16/9] relative overflow-hidden rounded-none bg-surface border border-deep">
           <Image
             src={project.coverImage}
             alt={project.title}
@@ -75,7 +78,7 @@ export default async function ProjectPage(
               {project.description}
             </p>
             {project.result && (
-              <p className="text-fg text-16 leading-relaxed mt-6 border-l-2 border-accent/60 pl-4">
+              <p className="text-fg text-16 leading-relaxed mt-6 border-l-2 border-primary/60 pl-4">
                 {project.result}
               </p>
             )}
@@ -97,7 +100,7 @@ export default async function ProjectPage(
                 href={project.externalUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-6 text-14 text-accent hover:underline"
+                className="inline-block mt-6 text-14 text-primary hover:underline"
               >
                 Projeyi görüntüle →
               </a>
@@ -110,7 +113,7 @@ export default async function ProjectPage(
             {project.gallery.map((image) => (
               <div
                 key={image}
-                className="aspect-[4/3] relative overflow-hidden rounded-[var(--radius-card)] bg-surface border border-deep"
+                className="aspect-[4/3] relative overflow-hidden rounded-none bg-surface border border-deep"
               >
                 <Image src={image} alt="" fill className="object-cover" />
               </div>

@@ -23,8 +23,11 @@
    ============================================= */
 
 :root {
-  --fx-azure: #649cd8;      /* = --color-accent */
-  --fx-azure-hot: #d4e6f8;  /* accent tinted toward white: the "lit" core */
+  /* Grafik çizgiler kurumsal kimlikten: elektrik mavisi gövde, gök mavisi
+     "yanan" çekirdek. İki renk de marka paleti; degrade yok, yalnızca
+     tek renkli saydamlık geçişleri. */
+  --fx-line: var(--marka-elektrik);
+  --fx-line-hot: var(--marka-gok);
 }
 
 /* ---------------------------------------------
@@ -98,11 +101,11 @@
   stroke-dashoffset: -1; /* parked past the end */
   opacity: 0;            /* static state: no light in transit */
 }
-.cable-head { stroke: var(--fx-azure-hot); stroke-width: 1.6; }
+.cable-head { stroke: var(--fx-line-hot); stroke-width: 1.6; }
 /* stacked, ever-fainter strokes fake a soft bloom with no animated filter */
-.cable-head-mid { stroke: var(--fx-azure); stroke-width: 5; stroke-opacity: 0.32; }
-.cable-head-glow { stroke: var(--fx-azure); stroke-width: 10; stroke-opacity: 0.09; }
-.cable-head-outer { stroke: var(--fx-azure); stroke-width: 18; stroke-opacity: 0.04; }
+.cable-head-mid { stroke: var(--fx-line); stroke-width: 5; stroke-opacity: 0.32; }
+.cable-head-glow { stroke: var(--fx-line); stroke-width: 10; stroke-opacity: 0.09; }
+.cable-head-outer { stroke: var(--fx-line); stroke-width: 18; stroke-opacity: 0.04; }
 
 .cable-node {
   position: absolute;
@@ -111,10 +114,10 @@
   height: 8px;
   margin-left: -4px;
   border-radius: 9999px;
-  background: var(--fx-azure-hot);
+  background: var(--fx-line-hot);
   box-shadow:
-    0 0 0 4px rgb(100 156 216 / 0.16),
-    0 0 18px 4px rgb(100 156 216 / 0.5);
+    0 0 0 4px rgb(10 132 255 / 0.16),
+    0 0 18px 4px rgb(10 132 255 / 0.5);
 }
 
 @keyframes cable-charge {
@@ -372,12 +375,12 @@
     :root:not([data-fx="off"]) .depth-ghost {
       position: absolute;
       font-family: var(--font-heading);
-      font-weight: 800;
+      font-weight: 600;
       font-size: clamp(18rem, 29vw, 33rem); /* off-scale on purpose: backdrop, not text */
       line-height: 0.8;
       text-transform: uppercase;
       white-space: nowrap;
-      color: rgb(100 156 216 / 0.06);
+      color: rgb(10 132 255 / 0.06);
     }
     :root:not([data-fx="off"]) .depth-ghost--a { left: -1vw; top: 22%; }
     :root:not([data-fx="off"]) .depth-ghost--b { right: 3vw; bottom: -5%; }
@@ -393,7 +396,7 @@
     :root:not([data-fx="off"]) .depth-item-title {
       font-size: var(--text-48);
       line-height: 1.02;
-      font-weight: 700;
+      font-weight: 600;
       margin-bottom: 1rem;
     }
     :root:not([data-fx="off"]) .depth-item-body {

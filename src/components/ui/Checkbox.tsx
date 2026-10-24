@@ -17,7 +17,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         <label htmlFor={checkboxId} className="flex items-start min-h-11 py-3 cursor-pointer select-none">
           <div className="flex items-center h-5 mt-0.5">
             <div
-              className={`relative w-5 h-5 rounded-[2px] border flex items-center justify-center transition-colors bg-surface border-deep has-checked:bg-fg has-checked:border-fg ${
+              className={`relative w-5 h-5 rounded-[var(--radius-button)] border flex items-center justify-center transition-colors bg-surface border-line-strong has-checked:bg-accent has-checked:border-accent ${
                 error ? 'border-red-500' : ''
               }`}
             >

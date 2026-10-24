@@ -28,7 +28,7 @@ export default function NotFound() {
       <Container className="relative z-10">
         <div className="flex min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)] flex-col justify-center py-20">
           <Badge>404</Badge>
-          <h1 className="mt-6 font-heading font-bold text-48 md:text-72 leading-[0.95] tracking-[-0.02em] text-fg max-w-3xl">
+          <h1 className="mt-6 text-fg max-w-3xl">
             Aradığınız sayfa bulunamadı.
           </h1>
           <p className="mt-6 max-w-xl text-18 text-fg-muted leading-relaxed">

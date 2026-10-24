@@ -6,11 +6,11 @@ export const OG_IMAGE = {
   url: "/media/og-image.png",
   width: 1200,
   height: 630,
-  alt: "Fourpoint — Reklamlarınız doğru insanlara ulaşsın. Meta reklam yönetimi.",
+  alt: "Four Point Medya — Reklamlarınız doğru insanlara ulaşsın.",
 } as const;
 
 interface PageMetaInput {
-  /** Page title; the layout template appends " | Fourpoint" unless `absolute`. */
+  /** Page title; the layout template appends " | Four Point Medya" unless `absolute`. */
   title: string;
   /** Unique, page-specific description (roughly 120–160 characters). */
   description: string;

@@ -61,11 +61,11 @@ export default function Header() {
           <Link
             href="/"
             className="flex items-center gap-2.5 group min-h-11"
-            aria-label="FOUR POINT ana sayfaya dön"
+            aria-label="Four Point Medya ana sayfaya dön"
           >
             <Image
               src="/logo.svg"
-              alt="FOUR POINT logo"
+              alt="Four Point Medya"
               width={32}
               height={32}
               className="h-8 w-8 text-fg transition-transform duration-200 ease-out group-hover:scale-110 motion-reduce:group-hover:scale-100"
@@ -100,7 +100,7 @@ export default function Header() {
             {/* Mobile hamburger */}
             <button
               type="button"
-              className="md:hidden flex items-center justify-center w-11 h-11 -mr-1.5 rounded-lg text-fg-muted hover:text-fg hover:bg-elevated/50 transition-colors"
+              className="md:hidden flex items-center justify-center w-11 h-11 -mr-1.5 rounded-[var(--radius-button)] text-fg-muted hover:text-fg hover:bg-elevated/50 transition-colors"
               onClick={() => setIsMobileMenuOpen(true)}
               aria-label="Menüyü aç"
               aria-expanded={isMobileMenuOpen}

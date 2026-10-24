@@ -45,7 +45,7 @@ function ItemGrid({ items, className = "" }: { items: typeof pricingItems; class
     >
       {items.map((pricingItem) => (
         <motion.div key={pricingItem.title} variants={item} className="depth-item py-8 border-b border-deep">
-          <h3 className="depth-item-title font-heading font-medium text-18 mb-2 text-fg">{pricingItem.title}</h3>
+          <h3 className="depth-item-title mb-2 text-fg">{pricingItem.title}</h3>
           <p className="depth-item-body text-fg-muted text-14 leading-relaxed">{pricingItem.description}</p>
         </motion.div>
       ))}

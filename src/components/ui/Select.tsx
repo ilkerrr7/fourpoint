@@ -30,7 +30,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             name={name}
             required={required}
             defaultValue=""
-            className={`w-full bg-surface border ${error ? 'border-red-500' : 'border-deep'} rounded-[var(--radius-button)] px-4 py-3 text-fg focus:border-accent focus:ring-1 focus:ring-accent/40 outline-none transition-[border-color,box-shadow] duration-150 appearance-none cursor-pointer`}
+            className={`w-full bg-surface border ${error ? 'border-red-500' : 'border-line-strong'} rounded-[var(--radius-button)] px-4 py-3 text-fg focus:border-accent focus:ring-1 focus:ring-accent/40 outline-none transition-[border-color,box-shadow] duration-150 appearance-none cursor-pointer`}
             {...props}
           >
             <option value="" disabled>

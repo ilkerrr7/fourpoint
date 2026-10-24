@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading, Badge, Button, Card } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/schema";
 
 export const metadata: Metadata = pageMetadata({
   title: "Meta ve Google Reklam Hizmetleri",
   description:
-    "Instagram, Facebook ve Google reklam yönetimi, Google Haritalar görünürlüğü, retargeting ve anlaşılır raporlama: neyi nasıl yaptığımız tek sayfada.",
+    "Meta ve Google reklam yönetimi, retargeting ve anlaşılır raporlama. Four Point Medya ile reklam bütçenizin nereye gittiğini her zaman bilin.",
   path: "/hizmetler",
 });
 
@@ -169,11 +171,13 @@ const SUPPORT: { title: string; description: string }[] = [
 export default function HizmetlerPage() {
   return (
     <PageTransition>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Hizmetler", path: "/hizmetler" }])} />
       {/* Header */}
       <section className="py-16 md:py-24 bg-ink" aria-labelledby="hizmetler-heading">
         <Container>
           <SectionHeading
-            id="hizmetler-heading"
+            as="h1"
+            headingId="hizmetler-heading"
             badge="Hizmetler"
             title="İşletmeniz için ne yapıyoruz?"
             description="Meta ve Google'da işletmenizin reklamlarını stratejik olarak yönetiyoruz. Her adımı şeffaf, her sonucu ölçülebilir."
@@ -207,7 +211,7 @@ export default function HizmetlerPage() {
               <Badge>{group.label}</Badge>
               <h2
                 id={`${group.id}-heading`}
-                className="font-heading text-28 md:text-48 font-medium text-fg leading-[1.1]"
+                className="text-fg"
               >
                 {group.title}
               </h2>
@@ -225,7 +229,7 @@ export default function HizmetlerPage() {
                   </span>
 
                   <div className="md:col-span-11">
-                    <h3 className="font-heading text-22 md:text-28 font-medium text-fg mb-4">
+                    <h3 className="text-fg mb-4">
                       {service.title}
                     </h3>
                     <p className="text-fg-muted text-18 leading-relaxed mb-6 max-w-2xl">
@@ -237,7 +241,7 @@ export default function HizmetlerPage() {
                           key={detail}
                           className="flex items-baseline gap-3 text-fg-muted text-14"
                         >
-                          <span className="text-accent shrink-0" aria-hidden="true">—</span>
+                          <span className="text-primary shrink-0" aria-hidden="true">—</span>
                           {detail}
                         </li>
                       ))}
@@ -261,7 +265,7 @@ export default function HizmetlerPage() {
             <Badge>Destek Hizmetleri</Badge>
             <h2
               id="web-icerik-heading"
-              className="font-heading text-28 md:text-48 font-medium text-fg leading-[1.1]"
+              className="text-fg"
             >
               Reklamın çalışması için gerekenler
             </h2>
@@ -273,7 +277,7 @@ export default function HizmetlerPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-10 md:mt-12">
             {SUPPORT.map((item) => (
               <Card key={item.title} hover className="h-full p-6 md:p-8 flex flex-col">
-                <h3 className="font-heading text-22 md:text-28 text-fg">{item.title}</h3>
+                <h3 className="text-fg">{item.title}</h3>
                 <p className="text-fg-muted text-16 leading-relaxed mt-3">{item.description}</p>
               </Card>
             ))}
@@ -284,7 +288,7 @@ export default function HizmetlerPage() {
       {/* CTA */}
       <section className="py-16 md:py-24 bg-ink text-center" aria-label="İletişim çağrısı">
         <Container>
-          <h2 className="font-heading text-22 md:text-28 font-bold text-fg mb-4">
+          <h2 className="text-fg mb-4">
             Hangi hizmete ihtiyacınız olduğundan emin değil misiniz?
           </h2>
           <p className="text-fg-muted text-18 mb-8 max-w-xl mx-auto">

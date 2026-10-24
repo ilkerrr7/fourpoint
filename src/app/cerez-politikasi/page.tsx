@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/schema";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = pageMetadata({
@@ -14,17 +16,18 @@ export const metadata: Metadata = pageMetadata({
 export default function CerezPolitikasiPage() {
   return (
     <PageTransition>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Çerez Politikası", path: "/cerez-politikasi" }])} />
       <section className="py-16 md:py-24 bg-ink" aria-labelledby="cerez-heading">
         <Container>
           <div className="max-w-3xl mx-auto prose prose-invert prose-slate">
-            <h1 id="cerez-heading" className="font-heading text-28 md:text-36 font-bold text-fg mb-8">
+            <h1 id="cerez-heading" className="font-heading text-28 md:text-36 font-semibold text-fg mb-8">
               Çerez Politikası
             </h1>
 
             {/* TODO: Hukuki metin buraya eklenecek */}
             <div className="space-y-6 text-fg-muted leading-relaxed">
               <p>
-                Bu çerez politikası, <strong className="text-fg">Fourpoint</strong> web sitesinde
+                Bu çerez politikası, <strong className="text-fg">Four Point Medya</strong> web sitesinde
                 kullanılan çerezler ve benzer teknolojiler hakkında sizi bilgilendirmek
                 amacıyla hazırlanmıştır.
               </p>

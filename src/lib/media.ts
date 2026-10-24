@@ -23,6 +23,7 @@ export const mediaSlots: Record<string, MediaSlotConfig> = {
     src: "/media/break.webp",
     aspectRatio: "21/9",
     priority: false,
-    alt: "Ufuk boyunca yayılan soyut sis ve ışık dokusu",
+    // Dekoratif: anlam taşımaz, ekran okuyucu için boş alt (bölüm aria-hidden).
+    alt: "",
   },
 };

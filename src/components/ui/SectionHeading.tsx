@@ -11,6 +11,10 @@ export interface SectionHeadingProps
   title: string;
   description?: string;
   align?: "left" | "center";
+  /** "h1" on a page's title block (every page has exactly one), "h2" for sections. */
+  as?: "h1" | "h2";
+  /** id for the heading element itself (aria-labelledby targets). */
+  headingId?: string;
 }
 
 const wordContainer = {
@@ -18,8 +22,8 @@ const wordContainer = {
   visible: { transition: { staggerChildren: 0.045 } },
 };
 
-// The clip box gets a margin on every side: Big Shoulders' descenders (ğ ş ç
-// y p) and the dot of İ sit outside the line box of an inline-block span, so a
+// The clip box gets a margin on every side: descenders (ğ ş ç y p) and the
+// dot of İ sit outside the line box of an inline-block span, so a
 // tight inset(0 …) end state cut them off. The wipe still starts fully clipped.
 const wordVariant = {
   hidden: { clipPath: "inset(-0.15em -0.05em 100% -0.05em)", opacity: 0, y: "0.25em" },
@@ -31,7 +35,8 @@ const wordVariant = {
   },
 };
 
-export function SectionHeading({ badge, title, description, align = "center", className = "", ...props }: SectionHeadingProps) {
+export function SectionHeading({ badge, title, description, align = "center", as = "h2", headingId, className = "", ...props }: SectionHeadingProps) {
+  const Heading = as === "h1" ? motion.h1 : motion.h2;
   const alignClass = align === "center" ? "text-center flex flex-col items-center" : "text-left flex flex-col items-start";
   const descAlignClass = align === "center" ? "max-w-2xl mx-auto" : "max-w-2xl";
   const words = title.split(" ");
@@ -43,8 +48,10 @@ export function SectionHeading({ badge, title, description, align = "center", cl
           gap), so textContent / the accessible name / copy-paste read as normal
           text. 0.07em of word-spacing tops the 0.212em space glyph up to the
           0.28em gap the layout was designed with. */}
-      <motion.h2
-        className="font-heading text-36 md:text-72 font-medium leading-[1.05] text-fg [word-spacing:0.07em]"
+      {/* size, weight and leading come from the brand heading rules in globals.css */}
+      <Heading
+        id={headingId}
+        className="text-fg [word-spacing:0.07em]"
         variants={wordContainer}
         initial="hidden"
         whileInView="visible"
@@ -58,7 +65,7 @@ export function SectionHeading({ badge, title, description, align = "center", cl
             </motion.span>
           </React.Fragment>
         ))}
-      </motion.h2>
+      </Heading>
       {description && (
         <motion.p
           className={`text-fg-muted text-18 leading-relaxed ${descAlignClass}`}

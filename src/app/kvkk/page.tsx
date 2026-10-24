@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/schema";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = pageMetadata({
@@ -14,10 +16,11 @@ export const metadata: Metadata = pageMetadata({
 export default function KVKKPage() {
   return (
     <PageTransition>
+      <JsonLd data={breadcrumbJsonLd([{ name: "KVKK Aydınlatma Metni", path: "/kvkk" }])} />
     <section className="py-16 md:py-24 bg-ink" aria-labelledby="kvkk-heading">
       <Container>
         <div className="max-w-3xl mx-auto prose prose-invert prose-slate">
-          <h1 id="kvkk-heading" className="font-heading text-28 md:text-36 font-bold text-fg mb-8">
+          <h1 id="kvkk-heading" className="font-heading text-28 md:text-36 font-semibold text-fg mb-8">
             KVKK Aydınlatma Metni
           </h1>
 

@@ -1,52 +1,24 @@
 /* =============================================
-   Hero — typographic title card
+   Hero — tipografik başlık kartı
    =============================================
-   Flush left, three lines at one size, the longest spans the content width.
-   The credits sit in the void beside the short last line, and the compass
-   mark bleeds off the right edge.
+   Sola yaslı üç satır. Boyut kurumsal kimlikten gelir: H1 için
+   clamp(40px, 7vw, 96px) (globals.css başlık kuralı), Poppins 600.
+   Önceki sürüm satırları kapsayıcı genişliğine ölçerek 185px'e çıkıyordu;
+   Poppins daha geniş bir yazı tipi olduğu için o ölçüm kaldırıldı. */
 
-   The headline is sized from the CONTAINER's width (cqw), not from the
-   viewport, so "full content width" holds whatever the layout does around it.
-   Per-line widths below are measured, in em, for Big Shoulders at display
-   size with the headline's -0.025em tracking:
-     Reklamlarınız 4.498 · doğru (400) 1.612 · insanlara 3.129
-     ulaşsın. 2.617 · "doğru insanlara" 4.932
-   0.99 / 0.985 leave a hair of slack so a line never touches the edge. */
-
-.hero-fit { container-type: inline-size; }
-
-.hero-stage {
-  position: relative;
-  /* width-fitted, but capped by height so headline + credits (stacked below
-     it by default) stay near the first screen; 2.85 = 3 lines x 0.95 */
-  --s: min(calc(100cqw / 4.932 * 0.99), calc((100svh - 22rem) / 2.85));
-}
-
-/* - line-height lives here, not in a leading-* class, because the fitting
-     math above (the / 2.7 height cap) depends on it.
-   - letter-spacing: a length set on the h1 is inherited as a fixed number of
-     px, so a 219px word would get the tracking of the 72px h1. Tracking is set
-     per line/word in em so every size gets its own -0.025em (the measured
-     widths above assume exactly that). */
 .hero-title {
-  font-size: var(--s);
-  /* 0.95, not 0.9: the ğ/ş tails of one line no longer touch the next */
-  line-height: 0.95;
+  /* globals.css'teki h1 kuralı boyut, satır aralığı ve harf aralığını verir */
+  max-width: 12em;
 }
-.hero-line,
-.hero-w1,
-.hero-w2 { letter-spacing: -0.025em; }
 
 .hero-line {
   display: block;
   white-space: nowrap;
 }
 
-/* Entrance: CSS only, and it only MOVES things — the text is fully visible on
-   the first paint (no opacity/clip start state, no JS, nothing waits for
-   hydration). Lines settle up in a short stagger; eyebrow and credits follow.
-   The metric-matched font fallback (globals.css) keeps the boxes identical
-   when Big Shoulders arrives, so there is no layout shift either. */
+/* Giriş: yalnızca CSS ve yalnızca hareket. Metin ilk boyamada tamamen
+   görünür (opaklık/kırpma başlangıcı yok, JS yok, hidrasyon beklenmez).
+   Satırlar kısa bir kaymayla yerine oturur; etiket ve alt metin takip eder. */
 @keyframes hero-rise {
   from { transform: translateY(var(--rise)); }
   to   { transform: none; }
@@ -65,7 +37,7 @@
   .hero-rise--eyebrow { animation-delay: 0ms; }
 }
 
-/* ---- the one non-type element: FourPointMark, huge and quiet ---- */
+/* ---- tek tipografi dışı öğe: FP işareti, büyük ve sessiz ---- */
 .hero-mark {
   --m: min(62vw, 95svh);
   position: absolute;
@@ -79,36 +51,9 @@
   opacity: 0.1;
 }
 
-/* Credits beside the short last line, hung from its cap height: their top is
-   pinned to the top of "ulaşsın.", so however tall the block gets it can only
-   grow downward (into the hero's bottom padding), never up into line 2.
-   (Bottom/baseline alignment broke whenever the credits were taller than a
-   line: 210px vs 172px at 1024x768, climbing into "insanlara".)
-   Cap top of line 3 = 2 line boxes (2 x 0.95em) + 0.061em: Big Shoulders'
-   baseline sits 0.861em into a 0.95 line box and its cap height is 0.8em.
-   Needs a column of >= ~30rem beside "ulaşsın." (narrower wraps the paragraph
-   to 4+ lines and the buttons to two rows): a container >= 1080px guarantees
-   that; below it the credits flow under the headline. */
-@container (min-width: 1080px) {
-  .hero-stage {
-    --s: min(calc(100cqw / 4.932 * 0.99), calc((100svh - 14.5rem) / 2.85));
-  }
-  .hero-credits {
-    position: absolute;
-    right: 0;
-    top: calc(var(--s) * 1.961);
-    margin-top: 0;
-    /* whatever the last line ("ulaşsın.", 2.617em) leaves free, up to 34rem */
-    width: min(34rem, calc(100cqw - var(--s) * 2.617 - 2rem));
-  }
-}
-
-/* phones: every line fitted to the full width on its own, "doğru" as a huge
-   light word between two bold ones: a poster, not a paragraph */
+/* telefon: "doğru" kendi satırında kalır, böylece 40px'te
+   "doğru insanlara" 375px ekrandan taşmaz */
 @media (max-width: 639px) {
-  .hero-l1 { font-size: calc(100cqw / 4.498 * 0.985); }
-  .hero-w1 { display: block; font-size: calc(100cqw / 1.612 * 0.985); }
-  .hero-w2 { display: block; font-size: calc(100cqw / 3.129 * 0.985); }
-  .hero-l3 { font-size: calc(100cqw / 2.617 * 0.985); }
+  .hero-w1 { display: block; }
   .hero-mark { width: 118vw; right: -44vw; top: 16%; transform: none; }
 }

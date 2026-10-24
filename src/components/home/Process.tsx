@@ -45,7 +45,7 @@ export function Process() {
           {steps.map((step, index) => (
             <motion.div key={step.title} variants={stepItem}>
               <span className="font-heading text-48 text-fg-subtle">0{index + 1}</span>
-              <h3 className="font-heading text-22 font-medium mt-4 mb-3 text-fg">
+              <h3 className="mt-4 mb-3 text-fg">
                 {step.title}
               </h3>
               <p className="text-fg-muted text-16 leading-relaxed">

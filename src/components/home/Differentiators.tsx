@@ -46,8 +46,8 @@ export function Differentiators() {
               transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
             >
               <Badge>Farkımız</Badge>
-              <h2 className="font-heading text-36 md:text-48 font-medium mt-5 text-fg leading-[1.1]">
-                Neden Fourpoint?
+              <h2 className="mt-5 text-fg">
+                Neden Four Point?
               </h2>
             </motion.div>
           </div>
@@ -65,7 +65,7 @@ export function Differentiators() {
                 variants={row}
                 className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-8 py-7 border-b border-deep"
               >
-                <h3 className="sm:col-span-4 font-heading text-18 font-medium text-fg">{item.title}</h3>
+                <h3 className="sm:col-span-4 text-fg">{item.title}</h3>
                 <p className="sm:col-span-8 text-fg-muted text-14 leading-relaxed">{item.description}</p>
               </motion.div>
             ))}

@@ -53,25 +53,25 @@ export function StrandCompare({ className = "" }: { className?: string }) {
           </filter>
           {/* both cables fade in from and out into the dark at the frame edges
               (shared by all three layers below) */}
-          <linearGradient id="strand-fade-azure" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={VIEW_H}>
-            <stop offset="0" style={{ stopColor: "var(--fx-azure)", stopOpacity: 0 }} />
-            <stop offset="0.14" style={{ stopColor: "var(--fx-azure)", stopOpacity: 1 }} />
-            <stop offset="0.86" style={{ stopColor: "var(--fx-azure)", stopOpacity: 1 }} />
-            <stop offset="1" style={{ stopColor: "var(--fx-azure)", stopOpacity: 0 }} />
+          <linearGradient id="strand-fade-line" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={VIEW_H}>
+            <stop offset="0" style={{ stopColor: "var(--fx-line)", stopOpacity: 0 }} />
+            <stop offset="0.14" style={{ stopColor: "var(--fx-line)", stopOpacity: 1 }} />
+            <stop offset="0.86" style={{ stopColor: "var(--fx-line)", stopOpacity: 1 }} />
+            <stop offset="1" style={{ stopColor: "var(--fx-line)", stopOpacity: 0 }} />
           </linearGradient>
           <linearGradient id="strand-fade-hot" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={VIEW_H}>
-            <stop offset="0" style={{ stopColor: "var(--fx-azure-hot)", stopOpacity: 0 }} />
-            <stop offset="0.14" style={{ stopColor: "var(--fx-azure-hot)", stopOpacity: 1 }} />
-            <stop offset="0.86" style={{ stopColor: "var(--fx-azure-hot)", stopOpacity: 1 }} />
-            <stop offset="1" style={{ stopColor: "var(--fx-azure-hot)", stopOpacity: 0 }} />
+            <stop offset="0" style={{ stopColor: "var(--fx-line-hot)", stopOpacity: 0 }} />
+            <stop offset="0.14" style={{ stopColor: "var(--fx-line-hot)", stopOpacity: 1 }} />
+            <stop offset="0.86" style={{ stopColor: "var(--fx-line-hot)", stopOpacity: 1 }} />
+            <stop offset="1" style={{ stopColor: "var(--fx-line-hot)", stopOpacity: 0 }} />
           </linearGradient>
         </defs>
         <g filter="url(#strand-blur)">
-          <path d={STEADY_D} stroke="url(#strand-fade-azure)" style={{ strokeOpacity: 0.2 }} />
+          <path d={STEADY_D} stroke="url(#strand-fade-line)" style={{ strokeOpacity: 0.2 }} />
           <path
             d={ERRATIC_D}
             pathLength={1}
-            stroke="url(#strand-fade-azure)"
+            stroke="url(#strand-fade-line)"
             strokeDasharray={gapDashes}
             style={{ strokeOpacity: 0.12 }}
           />
@@ -83,8 +83,8 @@ export function StrandCompare({ className = "" }: { className?: string }) {
           never re-records the flickering strand. */}
       <svg viewBox={box} preserveAspectRatio="xMidYMid meet" className="strand-steady-svg">
         <g className="strand-steady">
-          <path className="strand-line" d={STEADY_D} pathLength={1} stroke="url(#strand-fade-azure)" />
-          <path className="strand-packets-glow" d={STEADY_D} pathLength={1} stroke="url(#strand-fade-azure)" />
+          <path className="strand-line" d={STEADY_D} pathLength={1} stroke="url(#strand-fade-line)" />
+          <path className="strand-packets-glow" d={STEADY_D} pathLength={1} stroke="url(#strand-fade-line)" />
           <path className="strand-packets" d={STEADY_D} pathLength={1} stroke="url(#strand-fade-hot)" />
         </g>
       </svg>
@@ -101,7 +101,7 @@ export function StrandCompare({ className = "" }: { className?: string }) {
                 <path
                   d={ERRATIC_D}
                   pathLength={1}
-                  stroke="url(#strand-fade-azure)"
+                  stroke="url(#strand-fade-line)"
                   strokeDasharray={dash}
                   strokeDashoffset={off}
                   className="strand-seg-glow"
@@ -110,7 +110,7 @@ export function StrandCompare({ className = "" }: { className?: string }) {
                 <path
                   d={ERRATIC_D}
                   pathLength={1}
-                  stroke="url(#strand-fade-azure)"
+                  stroke="url(#strand-fade-line)"
                   strokeDasharray={dash}
                   strokeDashoffset={off}
                   className="strand-seg-core"

@@ -10,7 +10,7 @@ const projects: { title: string; status: Status; desc: string }[] = [
   {
     title: "7/24 Reklam Otomasyonu",
     status: "Geliştiriliyor",
-    desc: "Meta ve Google'da bütçeyi, kitleyi ve kreatif performansını gece gündüz izleyen sistem.",
+    desc: "Meta ve Google'da bütçeyi, kitleyi ve kreatif performansını gece gündüz izlemek için tasarlanan sistem.",
   },
   {
     title: "Kreatif Yenileme",
@@ -29,10 +29,10 @@ const projects: { title: string; status: Status; desc: string }[] = [
   },
 ];
 
-// "Aktif" is the one live item, so it alone gets the sky-blue of the mark;
+// "Aktif" is the one live item, so it alone gets the brand sky blue (accent);
 // the in-progress states stay in the neutral greys of the palette.
 const STATUS_CLASS: Record<Status, string> = {
-  Aktif: "text-[#38BDF8] border-[#38BDF8]/40 bg-[#38BDF8]/10",
+  Aktif: "text-accent border-accent/40 bg-accent/10",
   Geliştiriliyor: "text-fg-muted border-deep bg-elevated",
   Yakında: "text-fg-subtle border-deep bg-elevated/60",
 };
@@ -76,7 +76,7 @@ export function RnD() {
                     {project.status}
                   </span>
                 </div>
-                <h3 className="font-heading text-22 md:text-28 text-fg mt-6">{project.title}</h3>
+                <h3 className="text-fg mt-6">{project.title}</h3>
                 <p className="text-fg-muted text-16 leading-relaxed mt-3">{project.desc}</p>
               </Card>
             </motion.div>

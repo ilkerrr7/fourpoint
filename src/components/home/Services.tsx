@@ -172,14 +172,14 @@ export function Services() {
               <span className="md:col-span-1 font-heading text-14 text-fg-subtle">
                 0{index + 1}
               </span>
-              <h3 className="md:col-span-5 font-heading text-22 md:text-28 text-fg">
+              <h3 className="md:col-span-5 text-fg">
                 {service.title}
               </h3>
               <p className="md:col-span-5 text-fg-muted text-16 leading-relaxed transition-colors duration-200 group-hover:text-fg">
                 {service.desc}
               </p>
               <span
-                className="md:col-span-1 justify-self-start md:justify-self-end text-fg-subtle transition-[color,transform] duration-200 ease-out group-hover:text-accent group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0"
+                className="md:col-span-1 justify-self-start md:justify-self-end text-fg-subtle transition-[color,transform] duration-200 ease-out group-hover:text-primary group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0"
                 aria-hidden="true"
               >
                 →

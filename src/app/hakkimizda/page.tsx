@@ -2,24 +2,29 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading, Card, Badge, Button } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/schema";
 
 export const metadata: Metadata = pageMetadata({
   title: "Hakkımızda: Şeffaf, Veri Odaklı Reklam Yönetimi",
   description:
-    "FOUR POINT MEDYA A.Ş. olarak işletmelerin Instagram ve Facebook reklamlarını şeffaf ve veri odaklı yönetiyoruz. Neye inandığımızı burada anlatıyoruz.",
+    "Four Point Medya, işletmelerin Meta ve Google reklamlarını şeffaf ve veriye dayalı yönetir. Gizli maliyet yok, anlaşılır rapor, hesap sizin adınıza.",
   path: "/hakkimizda",
 });
 
 export default function HakkimizdaPage() {
   return (
     <PageTransition>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Hakkımızda", path: "/hakkimizda" }])} />
       {/* Header */}
       <section className="py-16 md:py-24 bg-ink" aria-labelledby="hakkimizda-heading">
         <Container>
           <SectionHeading
+            as="h1"
+            headingId="hakkimizda-heading"
             badge="Hakkımızda"
             title="İşletmelerin yanında, dürüst ve şeffaf."
-            description="Fourpoint, Meta platformlarında reklam yönetimi yapan bir dijital pazarlama ajansıdır."
+            description="Four Point Medya, Meta (Instagram, Facebook) ve Google'da reklam yönetimi yapan bir dijital pazarlama ajansıdır."
           />
         </Container>
       </section>
@@ -29,7 +34,7 @@ export default function HakkimizdaPage() {
         <Container>
           <div className="max-w-3xl mx-auto">
             <Badge>Yaklaşımımız</Badge>
-            <h2 className="font-heading text-22 md:text-28 font-bold text-fg mt-4 mb-6">
+            <h2 className="text-fg mt-4 mb-6">
               Neden bu işi yapıyoruz?
             </h2>
             <div className="space-y-4 text-fg-muted text-18 leading-relaxed">
@@ -39,7 +44,7 @@ export default function HakkimizdaPage() {
                 bütçe nereye gidiyor belli olmuyor.
               </p>
               <p>
-                Fourpoint olarak bu sorunu çözmek için yola çıktık. Amacımız
+                Four Point olarak bu sorunu çözmek için yola çıktık. Amacımız
                 işletmelerin reklam süreçlerini şeffaf, anlaşılır ve sonuç
                 odaklı yönetmek.
               </p>
@@ -62,7 +67,7 @@ export default function HakkimizdaPage() {
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto mt-10">
             <Card variant="surface" hover className="p-6">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+              <div className="w-10 h-10 rounded-[var(--radius-button)] bg-primary/10 text-primary flex items-center justify-center mb-4">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -76,7 +81,7 @@ export default function HakkimizdaPage() {
             </Card>
 
             <Card variant="surface" hover className="p-6">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+              <div className="w-10 h-10 rounded-[var(--radius-button)] bg-primary/10 text-primary flex items-center justify-center mb-4">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
                 </svg>
@@ -89,7 +94,7 @@ export default function HakkimizdaPage() {
             </Card>
 
             <Card variant="surface" hover className="p-6">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+              <div className="w-10 h-10 rounded-[var(--radius-button)] bg-primary/10 text-primary flex items-center justify-center mb-4">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" />
                 </svg>
@@ -110,7 +115,7 @@ export default function HakkimizdaPage() {
       {/* CTA */}
       <section className="py-16 md:py-24 bg-surface/50 text-center" aria-label="İletişim çağrısı">
         <Container>
-          <h2 className="font-heading text-22 md:text-28 font-bold text-fg mb-4">
+          <h2 className="text-fg mb-4">
             Tanışalım mı?
           </h2>
           <p className="text-fg-muted text-18 mb-8 max-w-xl mx-auto">

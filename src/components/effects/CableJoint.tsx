@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { Container } from "@/components/ui/Container";
 
 /**
- * A neon cable bridging two sections: a thin azure filament that drops out of
+ * A neon cable bridging two sections: a thin electric-blue filament that drops out of
  * the bottom of one section and docks just above the next section's eyebrow,
  * with a pulse of light that runs down it as you scroll (see effects.css).
  *
@@ -56,7 +56,7 @@ const joints: Record<CableJointId, CableGeometry> = {
     start: [210, 30],
     end: [12, 272],
   },
-  // "Neden Fourpoint?" → "Ücretlendirme" (centred eyebrow)
+  // "Neden Four Point?" → "Ücretlendirme" (centred eyebrow)
   "differentiators-pricing": {
     anchor: "center",
     w: 340,
@@ -115,8 +115,8 @@ export function CableJoint({ id }: { id: CableJointId }) {
                   x2="0"
                   y2={g.start[1] + 70}
                 >
-                  <stop offset="0" style={{ stopColor: "var(--fx-azure)", stopOpacity: 0 }} />
-                  <stop offset="1" style={{ stopColor: "var(--fx-azure)", stopOpacity: 1 }} />
+                  <stop offset="0" style={{ stopColor: "var(--fx-line)", stopOpacity: 0 }} />
+                  <stop offset="1" style={{ stopColor: "var(--fx-line)", stopOpacity: 1 }} />
                 </linearGradient>
               </defs>
               <path className="cable-base" d={g.d} pathLength={1} stroke={`url(#${fadeId})`} />

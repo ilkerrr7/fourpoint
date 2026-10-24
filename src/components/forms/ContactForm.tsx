@@ -45,7 +45,7 @@ export default function ContactForm() {
   if (isSuccess) {
     return (
       <div
-        className="rounded-[1rem] bg-surface border border-deep/50 p-8 md:p-12 text-center"
+        className="rounded-[var(--radius-card)] bg-surface border border-deep/50 p-8 md:p-12 text-center"
         role="alert"
         id="form-success"
       >
@@ -64,7 +64,7 @@ export default function ContactForm() {
             />
           </svg>
         </div>
-        <h3 className="font-heading text-22 font-bold text-fg mb-3">
+        <h3 className="text-fg mb-3">
           Mesajınız İletildi
         </h3>
         <p className="text-fg-muted max-w-md mx-auto">
@@ -107,7 +107,7 @@ export default function ContactForm() {
       ref={formRef}
       action={formAction}
       onKeyDown={handleKeyDown}
-      className="rounded-[1rem] bg-surface border border-deep/50 p-6 md:p-8 space-y-6"
+      className="rounded-[var(--radius-card)] bg-surface border border-deep/50 p-6 md:p-8 space-y-6"
       id="contact-form"
       noValidate={false}
     >
@@ -126,7 +126,7 @@ export default function ContactForm() {
         </div>
         <div className="h-px bg-deep relative overflow-hidden">
           <div
-            className="absolute inset-y-0 left-0 bg-accent transition-[width] duration-500 ease-[var(--ease-out-expo)]"
+            className="absolute inset-y-0 left-0 bg-primary transition-[width] duration-500 ease-[var(--ease-out-expo)]"
             style={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
           />
         </div>
@@ -160,7 +160,7 @@ export default function ContactForm() {
           {SERVICE_OPTIONS.map((opt) => (
             <label
               key={opt.value}
-              className="relative block border border-deep rounded-[var(--radius-button)] p-4 cursor-pointer transition-colors has-checked:border-fg has-checked:bg-elevated"
+              className="relative block border border-line-strong rounded-[var(--radius-button)] p-4 cursor-pointer transition-colors has-checked:border-fg has-checked:bg-elevated"
             >
               <input
                 type="radio"
@@ -241,7 +241,7 @@ export default function ContactForm() {
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Eklemek istediğiniz bir şey varsa yazabilirsiniz..."
-            className="w-full bg-surface border border-deep rounded-[var(--radius-button)] px-4 py-3 text-fg placeholder:text-fg-subtle focus:border-accent focus:ring-1 focus:ring-accent/40 outline-none transition resize-none"
+            className="w-full bg-surface border border-line-strong rounded-[var(--radius-button)] px-4 py-3 text-fg placeholder:text-fg-subtle focus:border-accent focus:ring-1 focus:ring-accent/40 outline-none transition resize-none"
           />
         </div>
         <input type="hidden" name="message" value={message} readOnly />
@@ -264,7 +264,7 @@ export default function ContactForm() {
         {/* General error message */}
         {state && !state.success && !state.message.startsWith("__eventId:") && (
           <div
-            className="rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-400 text-14"
+            className="rounded-[var(--radius-button)] bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-400 text-14"
             role="alert"
           >
             {state.message}

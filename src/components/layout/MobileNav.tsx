@@ -49,7 +49,7 @@ export default function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
         aria-modal="true"
         aria-label="Mobil navigasyon"
         tabIndex={-1}
-        className={`fixed top-0 right-0 z-50 h-full w-72 bg-surface border-l border-deep/50 shadow-2xl transform transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed top-0 right-0 z-50 h-full w-72 bg-surface border-l border-deep/50 transform transition-transform duration-300 ease-out md:hidden ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -58,7 +58,7 @@ export default function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center justify-center w-11 h-11 rounded-lg text-fg-muted hover:text-fg hover:bg-elevated/50 transition-colors"
+            className="flex items-center justify-center w-11 h-11 rounded-[var(--radius-button)] text-fg-muted hover:text-fg hover:bg-elevated/50 transition-colors"
             aria-label="Menüyü kapat"
             id="mobile-menu-close"
           >

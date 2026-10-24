@@ -12,12 +12,12 @@ const keywords: string[] = [
   "facebook reklam",
   "dijital pazarlama ajansı",
   "sosyal medya reklamcılığı",
-  "fourpoint medya",
+  "four point medya",
 ];
 
 export const siteConfig = {
   /** Site adı (başlıklarda, OG etiketlerinde) */
-  name: "Fourpoint",
+  name: "Four Point Medya",
 
   /** Canlı URL */
   url: "https://fourpointmedya.com",
@@ -74,8 +74,9 @@ export const siteConfig = {
   },
 
   social: {
-    instagram: "https://instagram.com/fourpointmedya", // TODO: Gerçek profil onaylandığında güncelle
-    facebook: "https://facebook.com/fourpointmedya", // TODO: Gerçek profil onaylandığında güncelle
+    instagram: "https://www.instagram.com/fourpoint2026/",
+    // TODO: Sayfanın varlığı doğrulanmadı; yoksa boş string yapın, footer ve JSON-LD otomatik düşer.
+    facebook: "https://facebook.com/fourpointmedya",
     linkedin: "", // TODO: LinkedIn profili oluşturulduğunda ekle
   },
 } as const;

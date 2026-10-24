@@ -78,7 +78,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2.5 group min-h-11">
               <Image
                 src="/logo.svg"
-                alt={`${siteConfig.name} logo`}
+                alt="Four Point Medya"
                 width={28}
                 height={28}
                 className="h-7 w-7 text-fg"
@@ -190,6 +190,7 @@ export default function Footer() {
         </div>
 
         {/* Ticari künye — site-config'teki legal.showInFooter açılınca görünür */}
+        {/* TODO: MERSİS no — şirket kuruluşu tamamlanınca site-config legal.mersisNo doldurulup showInFooter açılacak */}
         {siteConfig.legal.showInFooter && (
           <div className="border-t border-deep/30 py-5">
             <p className="text-12 text-fg-subtle leading-relaxed">

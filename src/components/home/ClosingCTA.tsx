@@ -9,6 +9,8 @@ import { EASE_OUT_EXPO } from "@/lib/motion";
 export function ClosingCTA() {
   return (
     <section className="relative py-32 md:py-40 overflow-hidden bg-surface border-t border-deep">
+      {/* logo arkasında gece mavisi spot: kimliğin izin verdiği tek geçiş */}
+      <div className="spot-gece" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
       <div className="film-grain" aria-hidden="true" />
 
@@ -21,7 +23,7 @@ export function ClosingCTA() {
           transition={{ duration: 0.9, ease: EASE_OUT_EXPO }}
         >
           <FourPointMark className="w-16 h-16 md:w-20 md:h-20 mb-10" />
-          <h2 className="font-heading text-36 md:text-72 font-medium leading-[1.05] text-fg">
+          <h2 className="text-fg">
             İşletmenizin reklamlarını birlikte yönetelim.
           </h2>
           <p className="text-fg-muted text-18 mt-6 mb-10 max-w-xl mx-auto">

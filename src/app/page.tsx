@@ -14,9 +14,12 @@ import { PricingLogic } from "@/components/home/PricingLogic";
 import { FAQ } from "@/components/home/FAQ";
 import { ClosingCTA } from "@/components/home/ClosingCTA";
 import { CableJoint } from "@/components/effects/CableJoint";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqPageJsonLd } from "@/lib/schema";
+import { faqItems } from "@/lib/faq";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Meta ve Google Reklam Yönetimi | Fourpoint",
+  title: "Meta ve Google Reklam Yönetimi | Four Point Medya",
   description: siteConfig.description,
   path: "/",
   absolute: true,
@@ -25,6 +28,8 @@ export const metadata: Metadata = pageMetadata({
 export default function HomePage() {
   return (
     <PageTransition>
+      {/* SSS bölümüyle aynı veriden üretilir, elle yazılmaz */}
+      <JsonLd data={faqPageJsonLd(faqItems)} />
       <Hero />
       <CableJoint id="hero-pain" />
       <PainPoints />

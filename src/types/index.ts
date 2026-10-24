@@ -1,5 +1,5 @@
 /* =============================================
-   Fourpoint — Shared TypeScript Types
+   Four Point Medya — Shared TypeScript Types
    ============================================= */
 
 /** Contact form field values */

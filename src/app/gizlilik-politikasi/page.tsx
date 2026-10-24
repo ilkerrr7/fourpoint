@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { Container } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/schema";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = pageMetadata({
@@ -14,10 +16,11 @@ export const metadata: Metadata = pageMetadata({
 export default function GizlilikPolitikasiPage() {
   return (
     <PageTransition>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Gizlilik Politikası", path: "/gizlilik-politikasi" }])} />
       <section className="py-16 md:py-24 bg-ink" aria-labelledby="gizlilik-heading">
         <Container>
           <div className="max-w-3xl mx-auto prose prose-invert prose-slate">
-            <h1 id="gizlilik-heading" className="font-heading text-28 md:text-36 font-bold text-fg mb-8">
+            <h1 id="gizlilik-heading" className="font-heading text-28 md:text-36 font-semibold text-fg mb-8">
               Gizlilik Politikası
             </h1>
 
@@ -25,7 +28,7 @@ export default function GizlilikPolitikasiPage() {
             <div className="space-y-6 text-fg-muted leading-relaxed">
               <p>
                 Bu gizlilik politikası, <strong className="text-fg">{siteConfig.companyName}</strong>’nin
-                (bundan böyle &quot;Fourpoint&quot; olarak anılacaktır) web sitesi üzerinden
+                (bundan böyle &quot;Four Point&quot; olarak anılacaktır) web sitesi üzerinden
                 toplanan kişisel verilerin nasıl işlendiğini açıklar.
               </p>
 

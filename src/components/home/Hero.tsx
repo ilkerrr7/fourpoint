@@ -3,8 +3,9 @@ import { FourPointMark } from "@/components/decorative/FourPointMark";
 import "./hero.css";
 
 /**
- * Purely typographic hero: the headline is the image. Sizing lives in
- * hero.css (container-query fitted, measured per line).
+ * Purely typographic hero: the headline is the image. Size comes from the
+ * brand H1 rule in globals.css (clamp 40–96px, Poppins 600); hero.css only
+ * handles the line layout and the entrance. "doğru" is the one accent word.
  *
  * A server component on purpose: the headline, eyebrow and CTAs are in the
  * HTML and visible on the very first paint — no hydration, no JS needed. The
@@ -14,6 +15,8 @@ import "./hero.css";
 export function Hero() {
   return (
     <section className="hero relative overflow-clip bg-ink min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)]">
+      {/* kurumsal kimliğin izin verdiği tek renkli geçiş: gece mavisi spot */}
+      <div className="spot-gece" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
       <div className="film-grain" aria-hidden="true" />
 
@@ -29,10 +32,10 @@ export function Hero() {
             </div>
 
             <div className="hero-stage mt-6">
-              <h1 className="hero-title font-heading font-bold text-fg">
+              <h1 className="hero-title text-fg">
                 <span className="hero-line hero-l1">Reklamlarınız</span>
                 <span className="hero-line hero-l2">
-                  <em className="hero-w1 not-italic font-normal text-fg-muted">doğru</em>{" "}
+                  <em className="hero-w1 not-italic font-normal text-accent">doğru</em>{" "}
                   <span className="hero-w2">insanlara</span>
                 </span>
                 <span className="hero-line hero-l3">ulaşsın.</span>

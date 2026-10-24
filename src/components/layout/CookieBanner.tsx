@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 const COOKIE_CONSENT_KEY = "fp-cookie-consent";
@@ -8,6 +8,7 @@ const COOKIE_CONSENT_KEY = "fp-cookie-consent";
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [currentConsent, setCurrentConsent] = useState<string | null>(null);
+  const bannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Check if user has already made a choice
@@ -20,6 +21,26 @@ export default function CookieBanner() {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  // Sabit konumlu banner açıkken sayfanın altına kendi yüksekliği kadar boşluk
+  // bırakır: footer'ın son satırı (sosyal ikonlar, telif) banner'ın altında
+  // kalmaz, en alta kaydırınca tıklanabilir olur. Kapanınca boşluk kalkar.
+  useEffect(() => {
+    if (!isVisible) {
+      document.body.style.paddingBottom = "";
+      return;
+    }
+    const reserve = () => {
+      const h = bannerRef.current?.offsetHeight ?? 0;
+      document.body.style.paddingBottom = h ? `${h}px` : "";
+    };
+    reserve();
+    window.addEventListener("resize", reserve);
+    return () => {
+      window.removeEventListener("resize", reserve);
+      document.body.style.paddingBottom = "";
+    };
+  }, [isVisible]);
 
   useEffect(() => {
     const handleOpen = () => setIsVisible(true);
@@ -55,6 +76,7 @@ export default function CookieBanner() {
 
   return (
     <div
+      ref={bannerRef}
       className={`fixed bottom-0 left-0 right-0 z-50 p-4 transition-transform duration-500 ease-out ${
         isVisible ? "translate-y-0" : "translate-y-full"
       }`}
@@ -62,7 +84,7 @@ export default function CookieBanner() {
       aria-label="Çerez onayı"
       id="cookie-banner"
     >
-      <div className="mx-auto max-w-4xl rounded-[var(--radius-card)] bg-surface border border-deep shadow-2xl shadow-ink/60 p-4 md:p-6">
+      <div className="mx-auto max-w-4xl rounded-[var(--radius-card)] bg-surface border border-deep p-4 md:p-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex-1">
             <p className="text-14 text-fg-muted leading-relaxed">

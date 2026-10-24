@@ -55,8 +55,10 @@ export function Automation() {
                     <p className="text-fg-muted text-18 leading-relaxed">
                       Avrupa’daki ajans modellerini incelerken hep aynı şeyi
                       gördük: iyi ajansları kötülerinden ayıran şey daha zeki insanlar
-                      değil, daha disiplinli takip. Biz de o disiplini insana değil
-                      sisteme yükledik.
+                      değil, daha disiplinli takip. Geliştirdiğimiz sistem; bütçe
+                      akışını, kreatif yorgunluğunu ve ani maliyet artışlarını 7/24
+                      izlemek için tasarlanıyor. Bugün ölçüm altyapımız aktif;
+                      otomasyon modülleri geliştirme aşamasında.
                     </p>
                   </div>
                 </div>
@@ -65,7 +67,7 @@ export function Automation() {
               <div className="depth-plane depth-plane--2 auto-p2">
                 <div>
                   <p className="text-12 font-medium uppercase tracking-[0.14em] text-fg-subtle mb-5">
-                    Sistemimiz sürekli izler
+                    Sistem şunları izlemek için tasarlanıyor
                   </p>
                   <motion.ul
                     className="auto-list space-y-4"
@@ -80,7 +82,7 @@ export function Automation() {
                         variants={listItem}
                         className="flex items-baseline gap-3 text-fg text-16 leading-relaxed border-b border-deep pb-4"
                       >
-                        <span className="text-accent shrink-0" aria-hidden="true">—</span>
+                        <span className="text-primary shrink-0" aria-hidden="true">—</span>
                         {item}
                       </motion.li>
                     ))}
@@ -105,7 +107,7 @@ export function Automation() {
                   <p className="auto-closing font-heading text-22 md:text-28 lg:text-36 font-medium leading-[1.25] text-fg text-balance">
                     <span className="block text-fg-muted">Karar insanın, takip sistemin.</span>{" "}
                     <span className="block text-fg-muted">Strateji, marka dili ve kreatif yön bizden.</span>{" "}
-                    <span className="block">Gece üçte bütçeyi izleyen ise sistem.</span>
+                    <span className="block">Gece üçte bütçeyi izleyecek olan ise sistem.</span>
                   </p>
                 </motion.div>
               </div>

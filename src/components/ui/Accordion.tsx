@@ -27,7 +27,7 @@ export function Accordion({ items, className = "" }: AccordionProps) {
           <div key={index} className="border-b border-deep/30 last:border-b-0">
             <button
               type="button"
-              className="group w-full py-5 flex justify-between items-center text-left rounded-sm"
+              className="group w-full py-5 flex justify-between items-center text-left rounded-[var(--radius-button)]"
               onClick={() => toggleItem(index)}
               aria-expanded={isOpen}
             >
