@@ -49,9 +49,11 @@ export function CekimVitrini({ cekimler }: { cekimler: Cekim[] }) {
         </motion.div>
 
         {/* Telefonda şerit kenara taşar (-mx-4 px-4), kartlar scroll-snap ile
-            tek tek durur; md'den itibaren beşli ızgaraya döner. */}
+            tek tek durur; md'den itibaren beşli ızgaraya döner.
+            scroll-pl: snap bölgesi varsayılan olarak dolguyu yok sayar, ilk
+            kartı kenara yapıştırırdı; bu, 16px'lik kenar boşluğunu korur. */}
         <motion.ul
-          className="mt-10 md:mt-12 flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 sm:-mx-6 sm:px-6 md:grid md:grid-cols-5 md:gap-6 md:overflow-visible md:mx-0 md:px-0"
+          className="mt-10 md:mt-12 flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 scroll-pl-4 sm:-mx-6 sm:px-6 sm:scroll-pl-6 md:grid md:grid-cols-5 md:gap-6 md:overflow-visible md:mx-0 md:px-0 md:scroll-pl-0"
           variants={izgara}
           initial="hidden"
           whileInView="visible"
