@@ -1,0 +1,8 @@
+# Ham kayıtlar depoya girmez: siteye yalnızca scripts/web-video.sh'in ürettiği
+# web sürümü (-web.mp4) ve posteri (-poster.jpg) girer.
+*.mov
+*.MOV
+*.avi
+*.mkv
+*.mp4
+!*-web.mp4

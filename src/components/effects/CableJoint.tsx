@@ -46,7 +46,7 @@ const joints: Record<CableJointId, CableGeometry> = {
     start: [170, 60],
     end: [12, 202],
   },
-  // Photo break → "Otomasyon" (left-aligned eyebrow)
+  // Çekim vitrini (yoksa foto break) → "Otomasyon" (left-aligned eyebrow)
   "break-automation": {
     anchor: "left",
     w: 250,
