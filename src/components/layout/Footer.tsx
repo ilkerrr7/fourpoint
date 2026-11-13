@@ -113,6 +113,18 @@ export default function Footer() {
                   </a>
                 </p>
               )}
+              {siteConfig.contact.whatsapp && (
+                <p>
+                  <a
+                    href={siteConfig.contact.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-11 items-center md:min-h-0 hover:text-fg transition-colors"
+                  >
+                    WhatsApp
+                  </a>
+                </p>
+              )}
               <p>
                 <span className="sr-only">E-posta: </span>
                 <a href={`mailto:${siteConfig.contact.email}`} className="inline-flex min-h-11 items-center md:min-h-0 hover:text-fg transition-colors">

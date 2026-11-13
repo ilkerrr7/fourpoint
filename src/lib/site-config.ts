@@ -42,7 +42,10 @@ export const siteConfig = {
      * E.164 biçiminde yazılmalı (örn. "+905XXXXXXXXX"), footer tel: linkini
      * ve okunur biçimi bundan türetir.
      */
-    phone: "",
+    phone: "+905433082859",
+
+    /** WhatsApp sohbet linki (iletişim sayfası ve footer). Boşken gösterilmez. */
+    whatsapp: "https://wa.me/905433082859",
 
     /** Ofis adresi (footer, iletişim sayfası, LocalBusiness şeması) */
     office: {
@@ -59,8 +62,8 @@ export const siteConfig = {
         "https://maps.google.com/maps?q=Plaza+Cubes+Bomonti+Bira+Fabrikası,+Birahane+Sk.+No:42,+Şişli,+İstanbul&output=embed",
     },
 
-    /** Sicil (merkez) adresi — KVKK ve yasal metinler için */
-    address: "Zühre Sokak No:18 Daire:3, Kağıthane/İstanbul",
+    /** Sicil (merkez) adresi — KVKK ve yasal metinler için. 2026-11-13: resmi adres Bomonti ofisi. */
+    address: "Plaza Cubes, Tarihi Bomonti Bira Fabrikası, Merkez Mah. Silahşör Cad. Birahane Sk. No:42, 34384 Şişli/İstanbul",
   },
 
   /**
@@ -95,7 +98,7 @@ export const officeMapsUrl = `https://www.google.com/maps/search/?api=1&query=${
 )}`;
 
 /**
- * Telefonu okunur biçime çevirir: "+905359132748" → "0535 913 27 48".
+ * Telefonu okunur biçime çevirir: "+905433082859" → "0543 308 28 59".
  * Tanınmayan biçimler olduğu gibi döner.
  */
 export function formatPhone(e164: string): string {

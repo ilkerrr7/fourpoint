@@ -5,7 +5,7 @@ import type { FaqItem } from "@/lib/faq";
 /**
  * schema.org yapısal verisi.
  *
- * Kural: sitede yazmayan hiçbir bilgi şemaya girmez. Telefon, açılış saati,
+ * Kural: sitede yazmayan hiçbir bilgi şemaya girmez. Açılış saati,
  * puan/yorum ve fiyat yoktur, çünkü sitede yoktur. Boş alanlar (telefon,
  * sosyal profiller) hiç yazılmaz.
  */
