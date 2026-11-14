@@ -1545,3 +1545,241 @@
     }
   }
 }
+
+/* ---------------------------------------------
+   Service diagrams — one small moving drawing per service (ServiceDiagram.tsx)
+   ---------------------------------------------
+   Pure SVG + CSS, 240x160 each. Same language as the cables: electric
+   traces, ONE sky-blue lit element per drawing, low-alpha cream structure
+   lines; fills either none or one colour at low alpha. No text, numbers,
+   axes or icons.
+
+   Structure is fixed, light travels: frames, rows and arms never leave the
+   screen; a loop only moves the light (a running head with an electric
+   tail, a filling line, a breathing highlight, a flash where the light
+   arrives). Static state = finished drawing: structure complete, lit
+   element lit, no head in transit. Loops are time-based and run only while
+   on screen and active (InViewGate data-live="on"), under the usual
+   reduced-motion / data-fx guards.
+
+   Running lights: a short dash on a pathLength=1 path walked from offset
+   --lead (its own length) to -1, so it enters at the start and leaves at
+   the end; the tail is the same walk with a longer dash (0.3). */
+
+.sema {
+  /* stroke widths are authored for a 240x160 canvas; the multiplier keeps
+     them near 1px on screen whatever the drawing is scaled to */
+  --sema-sw: 1;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+}
+.sema--stage { --sema-sw: 0.6; }
+.sema--small { --sema-sw: 1.8; }
+.sema svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sema-frame { stroke: color-mix(in srgb, var(--marka-krem) 22%, transparent); stroke-width: calc(1px * var(--sema-sw)); }
+.sema-faint { stroke: color-mix(in srgb, var(--marka-krem) 14%, transparent); stroke-width: calc(1px * var(--sema-sw)); }
+.sema-mark  { fill: color-mix(in srgb, var(--marka-krem) 40%, transparent); }
+.sema-line { stroke: var(--fx-line); stroke-width: calc(1px * var(--sema-sw)); stroke-opacity: 0.42; }
+.sema-charged { stroke: var(--fx-line); stroke-width: calc(1.25px * var(--sema-sw)); stroke-opacity: 0.75; }
+.sema-node { fill: var(--fx-line); fill-opacity: 0.7; }
+.sema-hot { stroke: var(--fx-line-hot); stroke-width: calc(1.5px * var(--sema-sw)); }
+.sema-dot { fill: var(--fx-line-hot); }
+.sema-glow { fill: var(--fx-line-hot); opacity: 0.12; }
+.sema-fill { fill: var(--fx-line-hot); fill-opacity: 0.1; stroke: var(--fx-line-hot); stroke-width: calc(1.25px * var(--sema-sw)); }
+.sema-head {
+  --lead: 0.04;
+  stroke: var(--fx-line-hot);
+  stroke-width: calc(2.2px * var(--sema-sw));
+  stroke-dasharray: 0.04 3;
+  stroke-dashoffset: -1; /* parked past the end */
+  opacity: 0;
+}
+.sema-tail {
+  --lead: 0.3;
+  stroke: var(--fx-line);
+  stroke-width: calc(1.25px * var(--sema-sw));
+  stroke-opacity: 0.75;
+  stroke-dasharray: 0.3 3;
+  stroke-dashoffset: -1;
+  opacity: 0;
+}
+/* static details per drawing */
+.hr-ring { transform-box: fill-box; transform-origin: center; }
+.hr-ring--a { opacity: 0.5; }
+.hr-ring--b { transform: scale(2); opacity: 0.25; }
+.ar-typing { transform-box: fill-box; transform-origin: left center; }
+.yt-bar { transform-box: fill-box; transform-origin: left center; }
+.yt-knob { transform: translateX(168px); }
+.al-box { stroke: color-mix(in srgb, var(--marka-krem) 22%, transparent); stroke-width: calc(1px * var(--sema-sw)); fill: var(--fx-line-hot); fill-opacity: 0; }
+.al-1 { transform: translateY(-6px); }
+.al-1 .al-box { stroke: var(--fx-line-hot); stroke-width: calc(1.25px * var(--sema-sw)); fill-opacity: 0.08; }
+.rp-row { opacity: 0.7; }
+.pm-0, .rp-0 { --d: 0s; }
+.pm-1 { --d: 0.12s; }
+.pm-2 { --d: 0.24s; }
+.pm-3 { --d: 0.36s; }
+.rp-1 { --d: 0.45s; }
+.rp-2 { --d: 0.9s; }
+.rp-3 { --d: 1.35s; }
+.rp-4 { --d: 1.8s; }
+.rp-5 { --d: 2.25s; }
+
+/* ---- keyframes ---- */
+@keyframes sema-ig-flow {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-180px); } /* five cards: seamless */
+}
+/* a light running the whole path inside one window of the cycle */
+@keyframes sema-run-0-28 {
+  0%        { stroke-dashoffset: var(--lead); opacity: 0; }
+  1%        { opacity: 1; }
+  28%       { stroke-dashoffset: -1; opacity: 1; }
+  29%, 100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes sema-run-0-30 {
+  0%        { stroke-dashoffset: var(--lead); opacity: 0; }
+  1%        { opacity: 1; }
+  30%       { stroke-dashoffset: -1; opacity: 1; }
+  31%, 100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes sema-run-0-45 {
+  0%        { stroke-dashoffset: var(--lead); opacity: 0; }
+  1%        { opacity: 1; }
+  45%       { stroke-dashoffset: -1; opacity: 1; }
+  46%, 100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes sema-run-0-50 {
+  0%        { stroke-dashoffset: var(--lead); opacity: 0; }
+  1%        { opacity: 1; }
+  50%       { stroke-dashoffset: -1; opacity: 1; }
+  51%, 100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes sema-run-30-55 {
+  0%, 30%   { stroke-dashoffset: var(--lead); opacity: 0; }
+  31%       { opacity: 1; }
+  55%       { stroke-dashoffset: -1; opacity: 1; }
+  56%, 100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes sema-run-40-68 {
+  0%, 40%   { stroke-dashoffset: var(--lead); opacity: 0; }
+  41%       { opacity: 1; }
+  68%       { stroke-dashoffset: -1; opacity: 1; }
+  69%, 100% { stroke-dashoffset: -1; opacity: 0; }
+}
+/* a node or a structure line brightens as the light reaches it */
+@keyframes sema-flash-30 { 0%, 28% { fill-opacity: 0.7; } 31% { fill-opacity: 1; } 45%, 100% { fill-opacity: 0.7; } }
+@keyframes sema-flash-55 { 0%, 53% { fill-opacity: 0.7; } 56% { fill-opacity: 1; } 70%, 100% { fill-opacity: 0.7; } }
+@keyframes sema-stroke-flash-22 { 0%, 19% { stroke-opacity: 0.42; } 23% { stroke-opacity: 1; } 36%, 100% { stroke-opacity: 0.42; } }
+@keyframes sema-stroke-flash-28 { 0%, 26% { stroke-opacity: 0.42; } 30%, 38% { stroke-opacity: 1; } 44%, 100% { stroke-opacity: 0.42; } }
+@keyframes sema-stroke-flash-45 { 0%, 43% { stroke-opacity: 0.75; } 47% { stroke-opacity: 1; } 62%, 100% { stroke-opacity: 0.75; } }
+/* the lit element: dim while the light is away, lit when it arrives */
+@keyframes sema-rt-page {
+  0%, 66%   { fill-opacity: 0.03; stroke-opacity: 0.35; }
+  70%, 94%  { fill-opacity: 0.1; stroke-opacity: 1; }
+  100%      { fill-opacity: 0.03; stroke-opacity: 0.35; }
+}
+@keyframes sema-dt-end  { 0%, 48% { opacity: 0.3; } 52%, 90% { opacity: 1; } 97%, 100% { opacity: 0.3; } }
+@keyframes sema-dt-glow { 0%, 48% { opacity: 0; }   52%, 90% { opacity: 0.12; } 97%, 100% { opacity: 0; } }
+@keyframes sema-ar-typing {
+  0%           { transform: scaleX(0); opacity: 1; }
+  22%, 86%     { transform: scaleX(1); opacity: 1; }
+  94%          { transform: scaleX(1); opacity: 0; }
+  94.01%, 100% { transform: scaleX(0); opacity: 0; }
+}
+@keyframes sema-ar-band { 0%, 26% { opacity: 0; } 34%, 82% { opacity: 1; } 90%, 100% { opacity: 0; } }
+@keyframes sema-hr-ring {
+  0%   { transform: scale(0.25); opacity: 0.9; }
+  100% { transform: scale(3); opacity: 0; }
+}
+@keyframes sema-yt-bar {
+  0%           { transform: scaleX(0); opacity: 1; }
+  72%, 90%     { transform: scaleX(1); opacity: 1; }
+  97%          { transform: scaleX(1); opacity: 0; }
+  97.01%, 100% { transform: scaleX(0); opacity: 0; }
+}
+@keyframes sema-yt-knob {
+  0%           { transform: translateX(0); opacity: 1; }
+  72%, 90%     { transform: translateX(168px); opacity: 1; }
+  97%          { transform: translateX(168px); opacity: 0; }
+  97.01%, 100% { transform: translateX(0); opacity: 0; }
+}
+@keyframes sema-yt-play { 0%, 70% { stroke-opacity: 0.75; } 75%, 92% { stroke-opacity: 1; } 98%, 100% { stroke-opacity: 0.75; } }
+@keyframes sema-al-lift {
+  0%, 24%  { transform: translateY(-6px); }
+  33%, 92% { transform: translateY(0); }
+  100%     { transform: translateY(-6px); }
+}
+@keyframes sema-al-box {
+  0%, 24%  { stroke: var(--fx-line-hot); stroke-width: calc(1.25px * var(--sema-sw)); fill-opacity: 0.08; }
+  33%, 92% { stroke: color-mix(in srgb, var(--marka-krem) 22%, transparent); stroke-width: calc(1px * var(--sema-sw)); fill-opacity: 0; }
+  100%     { stroke: var(--fx-line-hot); stroke-width: calc(1.25px * var(--sema-sw)); fill-opacity: 0.08; }
+}
+@keyframes sema-rp-pulse { 0% { opacity: 0.7; } 5% { opacity: 1; } 16%, 100% { opacity: 0.7; } }
+
+/* ---- motion: only on screen and active, only when allowed ---- */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-fx="off"]) .sema[data-live="on"] .ig-feed { animation: sema-ig-flow 7.2s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .fb-spoke  { animation: sema-run-0-30 4s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .fb-branch { animation: sema-run-30-55 4s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .fb-node   { animation: sema-flash-30 4s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .fb-leaf   { animation: sema-flash-55 4s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .rt-out  { animation: sema-run-0-28 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .rt-away { animation: sema-stroke-flash-28 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .rt-back { animation: sema-run-40-68 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .rt-page { animation: sema-rt-page 5s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .ar-typing { animation: sema-ar-typing 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .ar-band   { animation: sema-ar-band 5s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .hr-ring    { animation: sema-hr-ring 2.4s ease-out infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .hr-ring--b { animation-delay: -1.2s; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .pm-run { animation: sema-run-0-45 3.6s linear infinite; animation-delay: calc(var(--d, 0s) - 3.6s); }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .pm-out { animation: sema-stroke-flash-45 3.6s linear infinite; animation-delay: calc(var(--d, 0s) - 3.6s); }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .yt-bar  { animation: sema-yt-bar 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .yt-knob { animation: sema-yt-knob 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .yt-play { animation: sema-yt-play 5s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .al-card         { animation: sema-al-lift 4.5s ease-in-out infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .al-card .al-box { animation: sema-al-box 4.5s ease-in-out infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .al-0, :root:not([data-fx="off"]) .sema[data-live="on"] .al-0 .al-box { animation-delay: -1.5s; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .al-2, :root:not([data-fx="off"]) .sema[data-live="on"] .al-2 .al-box { animation-delay: -3s; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .rp-row { animation: sema-rp-pulse 5s linear infinite; animation-delay: calc(var(--d, 0s) - 5s); }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .dt-run      { animation: sema-run-0-50 4s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .dt-box      { animation: sema-stroke-flash-22 4s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .dt-end      { animation: sema-dt-end 4s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .dt-end-glow { animation: sema-dt-glow 4s linear infinite; }
+}
+
+/* ---------------------------------------------
+   Services rows — the active row (Services.tsx)
+   ---------------------------------------------
+   The active row's number turns sky blue and its title full brightness;
+   other titles sit one step down (fg-muted, 8.9:1 on ink). Colour only,
+   200ms (the Tailwind transition on the elements). Two sources, same look:
+   data-active from React (pointer/focus, or the stage on wide screens) and
+   :has() on the row's own small drawing being live (touch screens, where
+   the reading band picks the row). */
+.svc-row[data-active="on"] .svc-num,
+.svc-row:has(.sema[data-live="on"]) .svc-num {
+  color: var(--color-accent);
+}
+.svc-row[data-active="on"] .svc-title,
+.svc-row:has(.sema[data-live="on"]) .svc-title {
+  color: var(--color-fg);
+}
