@@ -1,4 +1,4 @@
-import { Container, Badge, Button } from "@/components/ui";
+import { Container, Badge, Button, Arrow } from "@/components/ui";
 import { FourPointMark } from "@/components/decorative/FourPointMark";
 import "./hero.css";
 
@@ -52,7 +52,7 @@ export function Hero() {
                     Ücretsiz Görüşme Al
                   </Button>
                   <Button variant="ghost" size="md" href="/nasil-calisiyoruz">
-                    Nasıl Çalışıyoruz →
+                    Nasıl Çalışıyoruz <Arrow />
                   </Button>
                 </div>
               </div>

@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { submitContactForm } from "@/actions/contact-form";
-import { Input, Select, Checkbox, Button } from "@/components/ui";
+import { Input, Select, Checkbox, Button, Arrow } from "@/components/ui";
 import { SECTOR_OPTIONS, BUDGET_OPTIONS } from "@/lib/form-options";
 import { trackLead } from "@/lib/meta-pixel-events";
 import type { FormActionResult } from "@/types";
@@ -45,7 +45,7 @@ export default function ContactForm() {
   if (isSuccess) {
     return (
       <div
-        className="rounded-[var(--radius-card)] bg-surface border border-deep/50 p-8 md:p-12 text-center"
+        className="form-enter rounded-[var(--radius-card)] bg-surface border border-deep/50 p-8 md:p-12 text-center"
         role="alert"
         id="form-success"
       >
@@ -133,7 +133,7 @@ export default function ContactForm() {
       </div>
 
       {/* Step 1 — İşletme */}
-      <div data-step={1} hidden={step !== 1} className="space-y-5">
+      <div data-step={1} hidden={step !== 1} className="form-step space-y-5">
         <Input
           label="İşletme Adı"
           id="businessName"
@@ -154,7 +154,7 @@ export default function ContactForm() {
       </div>
 
       {/* Step 2 — İhtiyaç */}
-      <div data-step={2} hidden={step !== 2} className="space-y-3">
+      <div data-step={2} hidden={step !== 2} className="form-step space-y-3">
         <p className="text-14 text-fg-muted mb-1">İhtiyacınız ne?</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {SERVICE_OPTIONS.map((opt) => (
@@ -178,7 +178,7 @@ export default function ContactForm() {
       </div>
 
       {/* Step 3 — Bütçe */}
-      <div data-step={3} hidden={step !== 3} className="space-y-5">
+      <div data-step={3} hidden={step !== 3} className="form-step space-y-5">
         <Select
           label="Aylık Reklam Bütçesi"
           id="budgetRange"
@@ -191,7 +191,7 @@ export default function ContactForm() {
       </div>
 
       {/* Step 4 — İletişim */}
-      <div data-step={4} hidden={step !== 4} className="space-y-5">
+      <div data-step={4} hidden={step !== 4} className="form-step space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
             label="Ad"
@@ -261,15 +261,15 @@ export default function ContactForm() {
           error={state?.errors?.kvkkConsent}
         />
 
-        {/* General error message */}
-        {state && !state.success && !state.message.startsWith("__eventId:") && (
-          <div
-            className="rounded-[var(--radius-button)] bg-red-500/10 border border-red-500/30 px-4 py-3 text-red-400 text-14"
-            role="alert"
-          >
-            {state.message}
-          </div>
-        )}
+        {/* General error message: a reserved line (like the field errors), so
+            the buttons below never move when it appears */}
+        <p
+          className="field-error text-red-400 text-14 min-h-5"
+          data-on={state && !state.success && !state.message.startsWith("__eventId:") ? "1" : "0"}
+          role="alert"
+        >
+          {state && !state.success && !state.message.startsWith("__eventId:") ? state.message : "\u00a0"}
+        </p>
       </div>
 
       {/* Step navigation */}
@@ -284,7 +284,7 @@ export default function ContactForm() {
 
         {step < TOTAL_STEPS ? (
           <Button type="button" variant="secondary" size="md" onClick={goNext}>
-            İleri →
+            İleri <Arrow />
           </Button>
         ) : (
           <Button type="submit" variant="primary" size="lg" disabled={isPending}>

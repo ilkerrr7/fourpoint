@@ -25,7 +25,8 @@ const wordContainer = {
 // The clip box gets a margin on every side: descenders (ğ ş ç y p) and the
 // dot of İ sit outside the line box of an inline-block span, so a
 // tight inset(0 …) end state cut them off. The wipe still starts fully clipped.
-const wordVariant = {
+// Section headings (h2) below the fold use it.
+const wordWipe = {
   hidden: { clipPath: "inset(-0.15em -0.05em 100% -0.05em)", opacity: 0, y: "0.25em" },
   visible: {
     clipPath: "inset(-0.15em -0.05em -0.3em -0.05em)",
@@ -34,12 +35,20 @@ const wordVariant = {
     transition: { duration: 0.65, ease: EASE_OUT_EXPO },
   },
 };
+// Page titles (h1) sit in the first screen: the hero rule applies — the text
+// is fully visible on the very first paint (no opacity or clip start, nothing
+// waits for hydration), the entrance is movement only.
+const wordRise = {
+  hidden: { y: "0.25em" },
+  visible: { y: 0, transition: { duration: 0.65, ease: EASE_OUT_EXPO } },
+};
 
 export function SectionHeading({ badge, title, description, align = "center", as = "h2", headingId, className = "", ...props }: SectionHeadingProps) {
   const Heading = as === "h1" ? motion.h1 : motion.h2;
   const alignClass = align === "center" ? "text-center flex flex-col items-center" : "text-left flex flex-col items-start";
   const descAlignClass = align === "center" ? "max-w-2xl mx-auto" : "max-w-2xl";
   const words = title.split(" ");
+  const wordVariant = as === "h1" ? wordRise : wordWipe;
 
   return (
     <div className={`${alignClass} space-y-5 ${className}`} {...props}>
@@ -66,11 +75,13 @@ export function SectionHeading({ badge, title, description, align = "center", as
           </React.Fragment>
         ))}
       </Heading>
+      {/* description: visible on first paint, movement only (it was the LCP
+          element on the sub pages and used to wait for hydration at opacity 0) */}
       {description && (
         <motion.p
           className={`text-fg-muted text-18 leading-relaxed ${descAlignClass}`}
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 14 }}
+          whileInView={{ y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, delay: 0.2, ease: EASE_OUT_EXPO }}
         >

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Arrow } from "@/components/ui";
 import { pageMetadata } from "@/lib/metadata";
 import Image from "next/image";
 import Link from "next/link";
@@ -100,9 +101,9 @@ export default async function ProjectPage(
                 href={project.externalUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-6 text-14 text-primary hover:underline"
+                className="group inline-block mt-6 text-14 text-primary hover:underline"
               >
-                Projeyi görüntüle →
+                Projeyi görüntüle <Arrow />
               </a>
             )}
           </div>

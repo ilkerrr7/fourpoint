@@ -11,6 +11,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Four Point Medya, işletmelerin Meta ve Google reklamlarını şeffaf ve veriye dayalı yönetir. Gizli maliyet yok, anlaşılır rapor, hesap sizin adınıza.",
   path: "/hakkimizda",
+  shareImage: "file",
 });
 
 export default function HakkimizdaPage() {

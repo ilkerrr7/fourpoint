@@ -26,7 +26,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           className={`w-full bg-surface border ${error ? 'border-red-500' : 'border-line-strong'} rounded-[var(--radius-button)] px-4 py-3 text-fg placeholder:text-fg-subtle focus:border-accent focus:ring-1 focus:ring-accent/40 outline-none transition-[border-color,box-shadow] duration-150`}
           {...props}
         />
-        {error && <p className="text-red-400 text-14 mt-1">{error}</p>}
+        {/* yer ayrılmış hata satırı: mesaj belirince alanlar kaymaz, yalnızca
+            opaklık ve 4px kayma (effects.css .field-error) */}
+        <p className="field-error text-red-400 text-14 mt-1 min-h-5" data-on={error ? "1" : "0"} aria-live="polite">
+          {error ?? "\u00a0"}
+        </p>
       </div>
     );
   }

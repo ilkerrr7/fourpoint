@@ -13,6 +13,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Meta ve Google reklam yönetimi, retargeting ve anlaşılır raporlama. Four Point Medya ile reklam bütçenizin nereye gittiğini her zaman bilin.",
   path: "/hizmetler",
+  shareImage: "file",
 });
 
 interface Service {

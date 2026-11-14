@@ -1799,3 +1799,45 @@
 .svc-row:has(.sema[data-live="on"]) .svc-title {
   color: var(--color-fg);
 }
+
+/* ---------------------------------------------
+   Polish — form states, arrow links (step 4)
+   ---------------------------------------------
+   Colour, opacity and small transforms only; nothing here changes layout
+   while it runs. Reduced motion: the states switch instantly. */
+
+/* field error line: always in the layout (min-height on the element), the
+   message fades and settles 4px when it appears */
+.field-error {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+.field-error[data-on="1"] {
+  opacity: 1;
+  transform: none;
+}
+/* the active step, the success card and the server error settle in */
+@keyframes form-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+/* arrows at the end of text links slide 4px on hover of the link (.group) */
+.arrow-shift {
+  display: inline-block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .field-error {
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  }
+  .form-step:not([hidden]),
+  .form-enter {
+    animation: form-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .arrow-shift {
+    transition: transform 0.2s ease-out;
+  }
+  .group:hover .arrow-shift,
+  .group:focus-visible .arrow-shift {
+    transform: translateX(4px);
+  }
+}
