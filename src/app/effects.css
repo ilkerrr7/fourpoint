@@ -492,3 +492,220 @@
     }
   }
 }
+
+/* ---------------------------------------------
+   Cable joints without scroll timelines
+   ---------------------------------------------
+   Firefox and Safari before 26 (most iPhones) have no animation-timeline, so
+   the cables above used to sit still there. In those browsers the same
+   keyframes play once, on a timer, when the cable comes on screen: InViewOnce
+   sets data-live="wait" after hydration and "on" when seen. Without JS the
+   attribute is absent and the unguarded, finished state shows. */
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports not (animation-timeline: view()) {
+    :root:not([data-fx="off"]) .cable-anchor[data-live="wait"] .cable-charged {
+      stroke-dashoffset: 1;
+    }
+    :root:not([data-fx="off"]) .cable-anchor[data-live="wait"] .cable-node {
+      opacity: 0.18;
+      transform: scale(0.5);
+    }
+
+    :root:not([data-fx="off"]) .cable-anchor[data-live="on"] .cable-charged {
+      animation: cable-charge 0.9s cubic-bezier(0.5, 0, 0.5, 1) both;
+    }
+    :root:not([data-fx="off"]) .cable-anchor[data-live="on"] .cable-head,
+    :root:not([data-fx="off"]) .cable-anchor[data-live="on"] .cable-head-mid,
+    :root:not([data-fx="off"]) .cable-anchor[data-live="on"] .cable-head-glow,
+    :root:not([data-fx="off"]) .cable-anchor[data-live="on"] .cable-head-outer {
+      animation: cable-head-run 0.9s cubic-bezier(0.5, 0, 0.5, 1) both;
+    }
+    /* the node lights as the head reaches it */
+    :root:not([data-fx="off"]) .cable-anchor[data-live="on"] .cable-node {
+      animation: cable-node-ignite 0.35s ease-out 0.75s both;
+    }
+  }
+}
+
+/* ---------------------------------------------
+   Status dot — "Aktif / Geliştiriliyor / Yakında", console "İzliyor"
+   ---------------------------------------------
+   Takes the label's colour. Static state: a plain dot (hollow for "soon").
+   Loops need a [data-live="on"] ancestor, i.e. the section is on screen. */
+
+.status-dot {
+  position: relative;
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.5rem;
+  border-radius: 9999px;
+  background: currentColor;
+}
+.status-dot--soon {
+  background: transparent;
+  border: 1px solid currentColor;
+}
+.status-dot--live::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+}
+
+@keyframes status-ping {
+  from { transform: scale(1); opacity: 0.55; }
+  70%, to { transform: scale(3); opacity: 0; }
+}
+@keyframes status-breathe {
+  from { opacity: 1; }
+  to   { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-fx="off"]) [data-live="on"] .status-dot--live::after {
+    animation: status-ping 2s ease-out infinite;
+  }
+  :root:not([data-fx="off"]) [data-live="on"] .status-dot--dev {
+    animation: status-breathe 1.4s ease-in-out infinite alternate;
+  }
+}
+
+/* ---------------------------------------------
+   Value strip — a slow line between pain points and services
+   ---------------------------------------------
+   Four identical groups; the track moves left by exactly one of them, so the
+   loop has no seam. Static state: the line at rest, clipped at the edge. */
+
+.value-strip {
+  overflow: clip;
+  background: var(--color-ink);
+  border-top: 1px solid var(--color-deep);
+}
+.value-track {
+  display: flex;
+  width: max-content;
+}
+.value-group {
+  display: flex;
+  flex: none;
+  align-items: center;
+  margin: 0;
+  padding: 1.125rem 0;
+  list-style: none;
+}
+.value-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-right: 2.5rem;
+  white-space: nowrap;
+  font-size: var(--text-13);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-fg-subtle);
+}
+/* the same short graphic rule the eyebrows carry */
+.value-rule {
+  width: 1.5rem;
+  height: 1px;
+  background: var(--fx-line);
+}
+
+@keyframes value-run {
+  to { transform: translateX(-25%); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-fx="off"]) .value-strip[data-live="on"] .value-track {
+    animation: value-run 44s linear infinite;
+  }
+}
+
+/* ---------------------------------------------
+   Engine console — radar + feed (EngineConsole.tsx)
+   ---------------------------------------------
+   The radar is a canvas (engine-radar.ts). The feed is a list that gains a row
+   at the top every few seconds: the list slides down by one row while the new
+   row fades in, and the oldest row leaves under the clip. Under reduced
+   motion the global rule makes both instant: the feed still updates, nothing
+   moves. */
+
+.engine-clip {
+  --engine-row: 4.25rem;
+  /* minus the last row's rule, which would double the footer's border */
+  height: calc(var(--engine-row) * 5 - 1px);
+  overflow: hidden;
+}
+.engine-feed {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+}
+.engine-row {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr);
+  align-items: center;
+  height: var(--engine-row);
+  padding-inline: 1rem;
+  border-bottom: 1px solid var(--color-deep);
+}
+@media (min-width: 768px) {
+  .engine-row { padding-inline: 1.5rem; }
+}
+.engine-time {
+  font-size: var(--text-12);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-fg-subtle);
+}
+.engine-tag,
+.engine-text {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: color 0.6s ease-out;
+}
+.engine-tag {
+  font-size: var(--text-12);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-fg-subtle);
+}
+.engine-text {
+  margin-top: 0.125rem;
+  font-size: var(--text-15);
+  color: var(--color-fg-muted);
+}
+/* the newest signal is the only one at full brightness */
+.engine-row--new .engine-tag { color: var(--color-accent); }
+.engine-row--new .engine-text { color: var(--color-fg); }
+
+/* two names, one motion: switching between them restarts the slide */
+@keyframes engine-shift-a {
+  from { transform: translateY(calc(-1 * var(--engine-row))); }
+  to   { transform: none; }
+}
+@keyframes engine-shift-b {
+  from { transform: translateY(calc(-1 * var(--engine-row))); }
+  to   { transform: none; }
+}
+@keyframes engine-row-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.engine-row--enter {
+  animation: engine-row-in 0.7s ease-out both;
+}
+:root[data-fx="off"] .engine-feed,
+:root[data-fx="off"] .engine-row--enter {
+  animation-duration: 0.01ms;
+}

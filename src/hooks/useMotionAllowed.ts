@@ -22,7 +22,9 @@ export function useMotionAllowed(): boolean {
 
   if (typeof navigator !== "undefined") {
     const nav = navigator as NavigatorWithHints;
-    if ((nav.deviceMemory ?? Infinity) <= 4) return false;
+    // Under 4 GB only. The old "<= 4" also switched motion off on ordinary
+    // 4 GB Windows laptops, which handle a transform-only tilt without effort.
+    if ((nav.deviceMemory ?? Infinity) < 4) return false;
     if (nav.connection?.saveData) return false;
   }
 

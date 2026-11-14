@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useInView } from "motion/react";
 import { Container, SectionHeading, Card } from "@/components/ui";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 
@@ -37,6 +38,14 @@ const STATUS_CLASS: Record<Status, string> = {
   Yakında: "text-fg-subtle border-deep bg-elevated/60",
 };
 
+// The dot in front of each label (effects.css): a pulse for the live item, a
+// slow breath for work in progress, a hollow ring for what has not started.
+const STATUS_DOT: Record<Status, string> = {
+  Aktif: "status-dot--live",
+  Geliştiriliyor: "status-dot--dev",
+  Yakında: "status-dot--soon",
+};
+
 const gridContainer = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
@@ -48,8 +57,17 @@ const card = {
 };
 
 export function RnD() {
+  // the status dots only loop while the section is on screen
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref);
+
   return (
-    <section id="ar-ge" className="py-section bg-ink border-t border-deep">
+    <section
+      ref={ref}
+      id="ar-ge"
+      className="py-section bg-ink border-t border-deep"
+      data-live={inView ? "on" : "off"}
+    >
       <Container>
         <SectionHeading
           badge="AR-GE"
@@ -73,6 +91,7 @@ export function RnD() {
                   <span
                     className={`inline-flex items-center h-6 px-2.5 rounded-[var(--radius-badge)] border text-12 font-medium uppercase tracking-[0.12em] whitespace-nowrap ${STATUS_CLASS[project.status]}`}
                   >
+                    <span className={`status-dot ${STATUS_DOT[project.status]}`} aria-hidden="true" />
                     {project.status}
                   </span>
                 </div>

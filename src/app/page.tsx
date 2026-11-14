@@ -5,7 +5,8 @@ import { siteConfig } from "@/lib/site-config";
 import { Hero } from "@/components/home/Hero";
 import { PainPoints } from "@/components/home/PainPoints";
 import { Services } from "@/components/home/Services";
-import { MediaBreak } from "@/components/home/MediaBreak";
+import { ValueStrip } from "@/components/home/ValueStrip";
+import { EngineConsole } from "@/components/home/EngineConsole";
 import { Automation } from "@/components/home/Automation";
 import { RnD } from "@/components/home/RnD";
 import { Process } from "@/components/home/Process";
@@ -33,8 +34,9 @@ export default function HomePage() {
       <Hero />
       <CableJoint id="hero-pain" />
       <PainPoints />
+      <ValueStrip />
       <Services />
-      <MediaBreak />
+      <EngineConsole />
       <CableJoint id="break-automation" />
       <Automation />
       <RnD />
