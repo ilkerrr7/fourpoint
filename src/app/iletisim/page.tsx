@@ -195,12 +195,6 @@ export default function IletisimPage() {
               className="lg:col-span-3"
               src={siteConfig.contact.office.mapsEmbedSrc}
               title={`${siteConfig.displayName} ofis konumu — Google Maps`}
-              mapsUrl={officeMapsUrl}
-              address={[
-                siteConfig.contact.office.building,
-                siteConfig.contact.office.street,
-                `${siteConfig.contact.office.postalCode} ${siteConfig.contact.office.district}/${siteConfig.contact.office.city}`,
-              ]}
             />
 
             {/* Adres + e-posta */}
