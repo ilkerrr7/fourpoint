@@ -73,8 +73,8 @@ girer (dirsek). Eyebrow hizaları bugünkü koda göre:
 | Konsol | — | ray, konsolun solundan geçer (konsol kapsayıcıdan 100px içeride; 25px kuralı kendiliğinden sağlanır) |
 | Otomasyon | sol | ray (düğüm) |
 | AR-GE | sol | ray (düğüm) |
-| Süreç | orta | dirsek: sol → orta (yeni), orta ray |
-| Neden Four Point? | sol | dirsek: orta → sol (yeni), sol ray |
+| Süreç | orta | dirsek: sol → sol (çıkıntı), sol ray — bkz. §9 karar 6 |
+| Neden Four Point? | sol | dirsek: sol → sol (çıkıntı), sol ray |
 | Ücretlendirme | orta | dirsek: sol → orta (bugünkü differentiators→pricing), orta ray |
 | SSS | orta | dirsek: orta → sağ (yeni), sağ ray |
 | Kapanış | orta | dirsek: sağ → orta (bugünkü faq→closing, sağdan gelen hareket korunur), işaretin üstünde biter |
@@ -82,6 +82,12 @@ girer (dirsek). Eyebrow hizaları bugünkü koda göre:
 Karar: faq→closing dirseğinin sağdan gelen hareketi korunur. Bunun için SSS
 boyunca ray sağ kenarda koşar; Ücretlendirme'nin orta rayından sağa bir
 dirsekle geçilir. Yedi dirsek, dördü bugünkü geometri, üçü yeni.
+
+Güncelleme (2026-11-14, süreç rotası): Süreç bölümüne adımları bağlayan
+yatay bir rota eklendi (ProcessRoute). Orta ray bu rotayı ortasından
+kesiyordu; ray Süreç boyunca solda kalır, rnd→process ve
+process→differentiators dirsekleri aynı raya dönen çıkıntı olur. Hat orta
+şeride ilk kez Ücretlendirme'de geçer.
 
 Karar: ray yalnızca 1360px ve üstünde (ilk eşik 1280'di; orada ray ekranın
 8px içinde kalıyor ve dirsek halosu kenarda kesiliyordu). Kapsayıcı 1280px'te
@@ -170,6 +176,9 @@ Korumasız (sunucu) hal her zaman tam ve okunur: hat dolu çizilir.
 5. Telefonda raylar gizli; dirsekler statik değil, bugünkü davranış aynen
    kalır (scroll timeline varsa kaydırmayla, yoksa InViewOnce ile tek
    seferlik).
+6. (Süreç rotası, 2026-11-14) Süreç boyunca ray solda: orta ray, adımları
+   bağlayan yatay rotayla çakışıyordu. Başlık ortalı kalır; düğüm, SSS'teki
+   gibi, kenar boşluğunda eyebrow hizasında.
 
 ## 10. Uygulama sırası (onaydan sonra)
 

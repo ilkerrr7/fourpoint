@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { Container, SectionHeading } from "@/components/ui";
+import { ProcessRoute, RouteStep } from "@/components/effects/ProcessRoute";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const steps = [
@@ -35,24 +36,31 @@ export function Process() {
       <Container>
         <SectionHeading badge="Süreç" title="Nasıl çalışıyoruz?" description="Üç adımda net bir süreç. Sürpriz yok, gizli adım yok." />
 
+        {/* Süreç rotası (effects.css "Process route"): adımlar tek bir hatla
+            bağlı, düğümler sırayla yanar. Metin canlanması eskisi gibi
+            (stagger) — varyantlar RouteStep üzerinden içeriğe iner. */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 max-w-5xl mx-auto mt-16 md:mt-20"
+          className="max-w-5xl mx-auto mt-16 md:mt-20"
           variants={stepContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          {steps.map((step, index) => (
-            <motion.div key={step.title} variants={stepItem}>
-              <span className="font-heading text-48 text-fg-subtle">0{index + 1}</span>
-              <h3 className="mt-4 mb-3 text-fg">
-                {step.title}
-              </h3>
-              <p className="text-fg-muted text-16 leading-relaxed">
-                {step.desc}
-              </p>
-            </motion.div>
-          ))}
+          <ProcessRoute>
+            {steps.map((step, index) => (
+              <RouteStep key={step.title} index={index}>
+                <motion.div variants={stepItem}>
+                  <span className="font-heading text-48 text-fg-subtle">0{index + 1}</span>
+                  <h3 className="mt-4 mb-3 text-fg">
+                    {step.title}
+                  </h3>
+                  <p className="text-fg-muted text-16 leading-relaxed">
+                    {step.desc}
+                  </p>
+                </motion.div>
+              </RouteStep>
+            ))}
+          </ProcessRoute>
         </motion.div>
       </Container>
     </section>

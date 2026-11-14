@@ -1246,3 +1246,302 @@
     }
   }
 }
+
+/* ---------------------------------------------
+   Process route — one line through the steps (ProcessRoute.tsx)
+   ---------------------------------------------
+   Markup: .route (grid) > .route-step* > .route-node + .route-seg
+   (base / charged / head) + content. All plain boxes, no SVG, no text.
+   Colours follow the cable language: trace and charged part --fx-line,
+   lit dot --fx-line-hot, the socket ring a low-alpha structure line in
+   the brand cream. The last step has no segment (:last-child).
+
+   Two layouts:
+     vertical   (default, and .route--v everywhere): the line runs down the
+                left of the steps, a node at --route-y from each step's top;
+                the gap between steps is the step's own padding, so a step's
+                box reaches exactly to the next node.
+     horizontal (.route--h at 768px and up): a node row above the content,
+                segments running right to the next step's node.
+
+   Static state (unguarded): every segment charged, every node lit, no
+   head. Motion: scroll timelines where supported — horizontal: the subject
+   is .route-track, a zero-height box on the node row (timeline-scope on the
+   grid makes its name visible to every step); with the scrollport cut to
+   the 45%–80% band, `cover` runs exactly while the row climbs from 80% of
+   the viewport to the 45% reading line, whatever the grid's height, and
+   segment i owns the i-th share of that climb. Vertical: each step is its
+   own subject at the reading line, as the light rails are. Without scroll
+   timelines each step plays once when seen (data-live), horizontal pieces
+   staggered by --route-dur. No loops. */
+
+.route {
+  --route-gap: 2.5rem;   /* between steps (grid gap / step padding) */
+  --route-ring: 18px;    /* socket ring (= node box) */
+  --route-y: 26px;       /* vertical: node centre below the step's top */
+  --route-dur: 0.9s;     /* fallback: one segment */
+  position: relative;
+  display: grid;
+  gap: 0;
+}
+
+.route-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--route-ring) / 2);
+  height: 0;
+  pointer-events: none;
+}
+
+.route-step {
+  position: relative;
+  padding-left: 2rem;
+}
+.route-step:not(:last-child) {
+  padding-bottom: var(--route-gap);
+}
+
+/* ---- node: ring + dot ---- */
+.route-node {
+  position: absolute;
+  left: 0;
+  top: calc(var(--route-y) - var(--route-ring) / 2);
+  width: var(--route-ring);
+  height: var(--route-ring);
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--marka-krem) 22%, transparent);
+  pointer-events: none;
+}
+.route-node::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 9999px;
+  background: var(--fx-line-hot);
+  box-shadow:
+    0 0 0 4px rgb(10 132 255 / 0.16),
+    0 0 18px 4px rgb(10 132 255 / 0.5);
+}
+
+/* ---- segment: from this node's ring to the next node's ring ----
+   The box is a ring-wide band along the line; base, charged part and head
+   sit on its centre line. */
+.route-seg {
+  position: absolute;
+  left: 0;
+  width: var(--route-ring);
+  top: calc(var(--route-y) + var(--route-ring) / 2);
+  bottom: calc(var(--route-ring) / 2 - var(--route-y));
+  pointer-events: none;
+}
+.route-step:last-child .route-seg {
+  display: none;
+}
+.route-seg-base,
+.route-seg-charged,
+.route-seg-head {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  translate: -50% 0;
+}
+.route-seg-base {
+  width: 1px;
+  background: var(--fx-line);
+  opacity: 0.22;
+}
+.route-seg-charged {
+  width: 1.25px;
+  background: var(--fx-line);
+  opacity: 0.6;
+  transform-origin: top;
+}
+/* a dot on the bottom edge of a segment-tall box (vertical) or on the right
+   edge of a segment-wide box (horizontal): translating the box walks the dot
+   along the line, transform only. Opacity 0 at both ends: a finished piece
+   shows no second head. */
+.route-seg-head {
+  width: var(--route-ring);
+  opacity: 0;
+  background: radial-gradient(
+    circle 9px at 50% 100%,
+    var(--fx-line-hot) 0 1.6px,
+    color-mix(in srgb, var(--fx-line) 32%, transparent) 2.5px,
+    color-mix(in srgb, var(--fx-line) 9%, transparent) 5px,
+    transparent 9px
+  );
+}
+
+@keyframes route-charge-x {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes route-head-x {
+  0%        { transform: translateX(-100%); opacity: 0; }
+  1%, 99%   { opacity: 1; }
+  100%      { transform: translateX(0); opacity: 0; }
+}
+
+/* ---- horizontal layout ---- */
+@media (min-width: 768px) {
+  .route--h {
+    --route-gap: 2rem;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: var(--route-gap);
+  }
+  .route--h .route-step {
+    padding-left: 0;
+    padding-bottom: 0;
+    padding-top: calc(var(--route-ring) + 0.875rem);
+  }
+  .route--h .route-node {
+    top: 0;
+  }
+  .route--h .route-seg {
+    left: var(--route-ring);
+    right: calc(-1 * var(--route-gap));
+    top: 0;
+    bottom: auto;
+    width: auto;
+    height: var(--route-ring);
+  }
+  .route--h .route-seg-base,
+  .route--h .route-seg-charged,
+  .route--h .route-seg-head {
+    top: 50%;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    translate: 0 -50%;
+  }
+  .route--h .route-seg-base {
+    width: auto;
+    height: 1px;
+  }
+  .route--h .route-seg-charged {
+    width: auto;
+    height: 1.25px;
+    transform-origin: left;
+  }
+  .route--h .route-seg-head {
+    width: auto;
+    height: var(--route-ring);
+    background: radial-gradient(
+      circle 9px at 100% 50%,
+      var(--fx-line-hot) 0 1.6px,
+      color-mix(in srgb, var(--fx-line) 32%, transparent) 2.5px,
+      color-mix(in srgb, var(--fx-line) 9%, transparent) 5px,
+      transparent 9px
+    );
+  }
+}
+
+/* ---- motion ---- */
+@media (prefers-reduced-motion: no-preference) {
+  /* scroll timelines: vertical = each step at the reading line */
+  @supports (animation-timeline: view()) {
+    :root:not([data-fx="off"]) .route:not([data-motion="off"]) .route-step {
+      view-timeline: --step block;
+      view-timeline-inset: 45% 55%;
+    }
+    :root:not([data-fx="off"]) .route:not([data-motion="off"]) .route-seg-charged {
+      will-change: transform;
+      animation: rail-charge linear both;
+      animation-timeline: --step;
+      animation-range: cover;
+    }
+    :root:not([data-fx="off"]) .route:not([data-motion="off"]) .route-seg-head {
+      will-change: transform, opacity;
+      animation: rail-head linear both;
+      animation-timeline: --step;
+      animation-range: cover;
+    }
+    :root:not([data-fx="off"]) .route:not([data-motion="off"]) .route-node::before {
+      animation: cable-node-ignite ease-out both;
+      animation-timeline: --step;
+      animation-range: cover 0% cover 3%;
+    }
+
+    /* horizontal: the node row (.route-track) is the subject; it climbs from
+       80% of the viewport (band bottom) to the 45% reading line; segment i
+       draws over its share of that climb, node i lights as its segment starts */
+    @media (min-width: 768px) {
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) {
+        timeline-scope: --route;
+      }
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) .route-track {
+        view-timeline: --route block;
+        view-timeline-inset: 45% 20%;
+      }
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) .route-step {
+        view-timeline: none;
+      }
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) .route-seg-charged {
+        animation: route-charge-x linear both;
+        animation-timeline: --route;
+        animation-range:
+          cover calc(var(--i) / (var(--n) - 1) * 100%)
+          cover calc((var(--i) + 1) / (var(--n) - 1) * 100%);
+      }
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) .route-seg-head {
+        animation: route-head-x linear both;
+        animation-timeline: --route;
+        animation-range:
+          cover calc(var(--i) / (var(--n) - 1) * 100%)
+          cover calc((var(--i) + 1) / (var(--n) - 1) * 100%);
+      }
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) .route-node::before {
+        animation: cable-node-ignite ease-out both;
+        animation-timeline: --route;
+        animation-range:
+          cover calc(var(--i) / (var(--n) - 1) * 100%)
+          cover calc(var(--i) / (var(--n) - 1) * 100% + 3%);
+      }
+    }
+  }
+
+  /* no scroll timelines: one shot per step when seen (data-live), the
+     horizontal pieces staggered so the row still reads left to right */
+  @supports not (animation-timeline: view()) {
+    :root:not([data-fx="off"]) .route:not([data-motion="off"]) .route-step[data-live="wait"] .route-seg-charged {
+      transform: scaleY(0);
+    }
+    :root:not([data-fx="off"]) .route:not([data-motion="off"]) .route-step[data-live="wait"] .route-node::before {
+      opacity: 0.18;
+      transform: scale(0.5);
+    }
+    :root:not([data-fx="off"]) .route:not([data-motion="off"]) .route-step[data-live="on"] .route-seg-charged {
+      animation: rail-charge var(--route-dur) cubic-bezier(0.5, 0, 0.5, 1) both;
+    }
+    :root:not([data-fx="off"]) .route:not([data-motion="off"]) .route-step[data-live="on"] .route-seg-head {
+      animation: rail-head var(--route-dur) cubic-bezier(0.5, 0, 0.5, 1) both;
+    }
+    :root:not([data-fx="off"]) .route:not([data-motion="off"]) .route-step[data-live="on"] .route-node::before {
+      animation: cable-node-ignite 0.35s ease-out both;
+    }
+
+    @media (min-width: 768px) {
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) .route-step[data-live="wait"] .route-seg-charged {
+        transform: scaleX(0);
+      }
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) .route-step[data-live="on"] .route-seg-charged {
+        animation: route-charge-x var(--route-dur) cubic-bezier(0.5, 0, 0.5, 1) both;
+        animation-delay: calc(var(--i) * var(--route-dur));
+      }
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) .route-step[data-live="on"] .route-seg-head {
+        animation: route-head-x var(--route-dur) cubic-bezier(0.5, 0, 0.5, 1) both;
+        animation-delay: calc(var(--i) * var(--route-dur));
+      }
+      :root:not([data-fx="off"]) .route--h:not([data-motion="off"]) .route-step[data-live="on"] .route-node::before {
+        animation: cable-node-ignite 0.35s ease-out both;
+        animation-delay: calc(var(--i) * var(--route-dur));
+      }
+    }
+  }
+}

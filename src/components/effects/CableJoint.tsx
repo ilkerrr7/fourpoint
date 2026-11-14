@@ -86,8 +86,9 @@ const lineJoints: Record<CableJointId, LineGeometry> = {
   "hero-pain": { from: "left", to: "left", up: 120, terminal: 115 },
   // the console ends 128px above the boundary: start 100px above keeps 28px clear
   "break-automation": { from: "left", to: "left", up: 100, terminal: 115 },
-  "rnd-process": { from: "left", to: "center", up: 120, terminal: 115 },
-  "process-differentiators": { from: "center", to: "left", up: 120, terminal: 115 },
+  // Süreç keeps the left rail (the centre rail would cut the process route)
+  "rnd-process": { from: "left", to: "left", up: 120, terminal: 115 },
+  "process-differentiators": { from: "left", to: "left", up: 120, terminal: 115 },
   "differentiators-pricing": { from: "left", to: "center", up: 120, terminal: 115 },
   "pricing-faq": { from: "center", to: "right", up: 120, terminal: 115 },
   "faq-closing": { from: "right", to: "center", up: 120, terminal: 155 },
