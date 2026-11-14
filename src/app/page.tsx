@@ -64,7 +64,10 @@ export default function HomePage() {
         <RnD />
       </LineSection>
       <CableJoint id="rnd-process" />
-      <LineSection rail={{ side: "center", top: 121, bottom: 120 }}>
+      {/* Süreç: ray solda kalır; orta ray, adımları bağlayan yatay rotayı
+          (ProcessRoute) keserdi. Başlık ortalı kalır, düğüm SSS'teki gibi
+          kenar boşluğunda. */}
+      <LineSection rail={{ side: "left", top: 121, bottom: 120 }}>
         <Process />
       </LineSection>
       <CableJoint id="process-differentiators" />
