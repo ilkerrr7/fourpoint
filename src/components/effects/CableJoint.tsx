@@ -9,10 +9,10 @@ import { InViewOnce } from "./InViewOnce";
  * Where scroll timelines are missing, the same pulse plays once, on a timer,
  * when the cable comes on screen (InViewOnce).
  *
- * At 1280px and up the joint is instead one curve of the continuous light
+ * At 1360px and up the joint is instead one curve of the continuous light
  * line (LineCurve, docs/isik-hatti.md): formula geometry between the page
  * rails, driven by the 45% reading line. Both drawings are in the DOM; CSS
- * shows exactly one of them per width, so below 1280px nothing changes.
+ * shows exactly one of them per width, so below 1360px nothing changes.
  *
  * Server component, pure SVG + CSS (the anchor alone is a client wrapper). It carries no text, is aria-hidden, and
  * sits in a zero-height slot between two sections, so it never affects layout.
@@ -33,14 +33,14 @@ export type CableJointId =
   | "pricing-faq"
   | "faq-closing";
 
-/** Rail position in the fixed 1280px layout (docs/isik-hatti.md §4). */
+/** Rail position in the fixed 1280px container (docs/isik-hatti.md §4); line mode is 1360px and up. */
 export type LineSide = "left" | "center" | "right";
 
 /**
- * Line mode (1280px and up): the joint is one curve of the continuous light
+ * Line mode (1360px and up): the joint is one curve of the continuous light
  * line, drawn by formula between two rails. `up` = how far above the section
  * boundary the curve starts (where the rail above ends); the curve ends on
- * the node, `terminal` below the boundary. Below 1280px only the legacy
+ * the node, `terminal` below the boundary. Below 1360px only the legacy
  * drawing exists.
  */
 interface LineGeometry {
@@ -93,7 +93,7 @@ const lineJoints: Record<CableJointId, LineGeometry> = {
   "faq-closing": { from: "right", to: "center", up: 120, terminal: 155 },
 };
 
-/** Legacy cables (below 1280px, unchanged): only the four original joints. */
+/** Legacy cables (below 1360px, unchanged): only the four original joints. */
 const joints: Partial<Record<CableJointId, CableGeometry>> = {
   // Hero → "Tanıdık Geldi mi?" (left-aligned eyebrow)
   "hero-pain": {
@@ -177,7 +177,7 @@ export function CableJoint({ id }: { id: CableJointId }) {
   const g = joints[id];
   const line = <LineCurve id={id} />;
   if (!g) {
-    // line-only joint: nothing below 1280px
+    // line-only joint: nothing below 1360px
     return (
       <div className="cable-joint" aria-hidden="true">
         <Container>

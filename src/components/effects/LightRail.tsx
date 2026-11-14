@@ -19,7 +19,7 @@ export interface LightRailProps {
  * and the curve below. Four layers, all plain boxes: halo, base trace,
  * charged part (scaleY, transform only) and the travelling head.
  *
- * Only exists at 1280px and up (effects.css); below that it is display:none
+ * Only exists at 1360px and up (effects.css); below that it is display:none
  * and the four legacy cables carry on as before. Server component; the
  * InViewOnce wrapper is the one-shot fallback for browsers without scroll
  * timelines, armed at the same 45% reading line.

@@ -35,10 +35,10 @@ export default function HomePage() {
       <JsonLd data={faqPageJsonLd(faqItems)} />
       {/* sayfanın arkasındaki ışık alanı: sabit, içeriğin altında, yalnızca ana sayfa */}
       <AmbientField />
-      {/* Kesintisiz ışık hattı (docs/isik-hatti.md): >=1280px'te her bölümün
+      {/* Kesintisiz ışık hattı (docs/isik-hatti.md): >=1360px'te her bölümün
           yanında bir ray, bölümler arasında dirsekler. Ray üst/alt değerleri
           dirsek geometrisine bağlıdır: üst = düğüm (terminal) + 6, alt = bir
-          sonraki dirseğin başlangıcı (up). 1280 altında yalnızca eski dört
+          sonraki dirseğin başlangıcı (up). 1360 altında yalnızca eski dört
           kablo çizilir. */}
       <LineSection rail={{ side: "left", top: "38%", bottom: 120, fadeTop: true }}>
         <Hero />

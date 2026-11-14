@@ -1006,14 +1006,15 @@
 /* ---------------------------------------------
    Light line — the continuous light line (docs/isik-hatti.md)
    ---------------------------------------------
-   1280px and up only. Rails (LightRail) beside the sections, curves
+   1360px and up only. Rails (LightRail) beside the sections, curves
    (CableJoint's LineCurve) between them. Every piece is its own view
    timeline whose scrollport is collapsed to the 45% reading line
    (view-timeline-inset 45% 55%): the piece animates exactly while it crosses
    that line, so consecutive pieces hand the head to each other without a
    gap. Static state: rail and curve fully charged, nodes lit, no head.
-   Below 1280px every line piece is display:none and the legacy cables above
-   are untouched. */
+   Below 1360px every line piece is display:none and the legacy cables above
+   are untouched. (1360, not 1280: at 1280 the rail sat 8px from the edge
+   and the curve halo was clipped; at 1360 the margin is 48px.) */
 
 .line-section {
   position: relative;
@@ -1041,7 +1042,7 @@
   100%      { stroke-dashoffset: -1; opacity: 0; }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1360px) {
   /* the legacy cables step aside */
   .cable-anchor {
     display: none;
