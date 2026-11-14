@@ -20,10 +20,13 @@ const subscribe = () => () => {};
 export function InViewOnce({
   className,
   style,
+  margin = "0px 0px -30% 0px",
   children,
 }: {
   className?: string;
   style?: CSSProperties;
+  /** IntersectionObserver rootMargin: where on screen "seen" starts */
+  margin?: string;
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -33,7 +36,8 @@ export function InViewOnce({
     () => false,
   );
   // fires when the element is well inside the viewport, not at its edge
-  const inView = useInView(ref, { once: true, margin: "0px 0px -30% 0px" });
+  // (the light line passes "0px 0px -55% 0px": its reading line at 45%)
+  const inView = useInView(ref, { once: true, margin: margin as `${number}px ${number}px ${number}% ${number}px` });
 
   return (
     <div ref={ref} className={className} style={style} data-live={hydrated ? (inView ? "on" : "wait") : undefined}>
