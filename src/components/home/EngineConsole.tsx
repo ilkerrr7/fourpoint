@@ -24,7 +24,7 @@ import { createRadarState, drawRadar, stepRadar } from "./engine-radar";
 const EVENTS: readonly { tag: string; text: string }[] = [
   { tag: "Bütçe akışı", text: "Harcama plan dahilinde ilerliyor" },
   { tag: "Kreatif yorgunluğu", text: "Görsel 3 için yenileme sinyali" },
-  { tag: "Maliyet", text: "Kitle C: sonuç başı maliyet yükseliyor" },
+  { tag: "Maliyet", text: "Kitle C: maliyet yükseliyor" },
   { tag: "Çakışma", text: "İki kampanya aynı kitleye yarışıyor" },
   { tag: "Ölçüm", text: "Pixel ve CAPI eşleşmesi doğrulandı" },
   { tag: "Bütçe akışı", text: "Öneri: A setinden B setine kaydır" },

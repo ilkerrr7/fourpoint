@@ -49,14 +49,17 @@ const joints: Record<CableJointId, CableGeometry> = {
     start: [170, 60],
     end: [12, 202],
   },
-  // Engine console → "Otomasyon" (left-aligned eyebrow)
+  // Engine console → "Otomasyon" (left-aligned eyebrow). The drawing starts
+  // 157px above the section boundary and the console ends 128px above it, so
+  // the visible stroke begins at y=54 to keep a 25px gap under the console.
+  // The docking point (end, terminal) is unchanged.
   "break-automation": {
     anchor: "left",
     w: 250,
     h: 280,
     terminal: 115,
-    d: "M210 30 C210 130 12 140 12 272",
-    start: [210, 30],
+    d: "M210 54 C210 146 12 150 12 272",
+    start: [210, 54],
     end: [12, 272],
   },
   // "Neden Four Point?" → "Ücretlendirme" (centred eyebrow)

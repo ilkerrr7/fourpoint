@@ -685,6 +685,19 @@
   font-size: var(--text-15);
   color: var(--color-fg-muted);
 }
+/* phones: the longest signals (~290px at 15px) do not fit the ~270px column
+   at 390 wide. One step down the type scale and, as a safety net, a second
+   line instead of an ellipsis: two lines still sit inside the 4.25rem row. */
+@media (max-width: 767px) {
+  .engine-text {
+    font-size: var(--text-14);
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+}
 /* the newest signal is the only one at full brightness */
 .engine-row--new .engine-tag { color: var(--color-accent); }
 .engine-row--new .engine-text { color: var(--color-fg); }
