@@ -5,9 +5,16 @@
  * spotlights, the radar, the hero mark's tilt) reads from here instead of
  * attaching its own `pointermove`. One passive listener records the
  * position; one requestAnimationFrame per frame publishes it, as CSS custom
- * properties on <html> (--mx / --my, viewport px; data-pointer="in|out")
- * for CSS consumers, and to JS subscribers for the few that need local
- * coordinates. Nothing here reads layout.
+ * properties (--mx / --my, viewport px) plus data-pointer="in|out" on the
+ * elements that asked for them (attachPointerVars), and to JS subscribers
+ * for the few that need local coordinates. Nothing here reads layout.
+ *
+ * The variables go on the consumer, not on <html>, on purpose: a custom
+ * property is inherited, so writing it on the root every frame made the
+ * browser touch the style of every element on the page (measured: style
+ * recalc went from 0.4 s to 3 s over a 16 s scroll). Scoped to the
+ * consumer's subtree it costs nothing measurable. data-pointer is written
+ * only when it changes, for the same reason.
  *
  * Reference counted: the listener exists only while at least one consumer
  * holds it (see usePointerField, which also owns the gating: fine pointer,
@@ -29,17 +36,28 @@ type Subscriber = (p: PointerPos) => void;
 
 const pos: PointerPos = { x: -1, y: -1, pageX: -1, pageY: -1 };
 const subscribers = new Set<Subscriber>();
+const varTargets = new Set<HTMLElement>();
+let inside: boolean | null = null;
 let holders = 0;
 let frame = 0;
 
-const root = () => document.documentElement;
+function writeVars(el: HTMLElement) {
+  el.style.setProperty("--mx", `${pos.x}px`);
+  el.style.setProperty("--my", `${pos.y}px`);
+}
+
+function setInside(value: boolean) {
+  if (inside === value) return;
+  inside = value;
+  varTargets.forEach((el) => {
+    el.dataset.pointer = value ? "in" : "out";
+  });
+}
 
 function publish() {
   frame = 0;
-  const style = root().style;
-  style.setProperty("--mx", `${pos.x}px`);
-  style.setProperty("--my", `${pos.y}px`);
-  root().dataset.pointer = "in";
+  varTargets.forEach(writeVars);
+  setInside(true);
   subscribers.forEach((fn) => fn(pos));
 }
 
@@ -54,7 +72,7 @@ function onMove(e: PointerEvent) {
 
 // the pointer left the window: consumers ease back to their resting state
 function onOut(e: PointerEvent) {
-  if (e.relatedTarget === null) root().dataset.pointer = "out";
+  if (e.relatedTarget === null) setInside(false);
 }
 
 function onVisibility() {
@@ -83,10 +101,23 @@ export function acquirePointerField(): () => void {
     document.removeEventListener("visibilitychange", onVisibility);
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
-    const style = root().style;
-    style.removeProperty("--mx");
-    style.removeProperty("--my");
-    delete root().dataset.pointer;
+    inside = null;
+  };
+}
+
+/**
+ * Receive --mx/--my and data-pointer on this element (and, through
+ * inheritance, its subtree). Returns the detach.
+ */
+export function attachPointerVars(el: HTMLElement): () => void {
+  varTargets.add(el);
+  if (pos.x >= 0) writeVars(el);
+  if (inside !== null) el.dataset.pointer = inside ? "in" : "out";
+  return () => {
+    varTargets.delete(el);
+    el.style.removeProperty("--mx");
+    el.style.removeProperty("--my");
+    delete el.dataset.pointer;
   };
 }
 

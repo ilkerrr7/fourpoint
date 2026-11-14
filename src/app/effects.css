@@ -899,11 +899,12 @@
 /* ---------------------------------------------
    Pointer field — effects that answer the cursor
    ---------------------------------------------
-   One listener (lib/pointer-field) publishes the cursor as --mx/--my on
-   <html> (viewport px) and data-pointer="in|out". Only fine-pointer devices
-   with motion allowed ever get those; every rule below is additionally
-   guarded, so the static state (touch, reduced motion, kill switch) is the
-   page exactly as before. */
+   One listener (lib/pointer-field) publishes the cursor as --mx/--my
+   (viewport px) and data-pointer="in|out" on the consumer that asked
+   (AmbientField's root; never on <html>, see the note in pointer-field.ts).
+   Only fine-pointer devices with motion allowed ever get those; every rule
+   below is additionally guarded, so the static state (touch, reduced
+   motion, kill switch) is the page exactly as before. */
 
 /* AmbientField: the second cluster drifts towards the cursor, at most about
    15vw, eased. Its own wander loop lives on the orb inside, the scroll lane
@@ -917,7 +918,7 @@
     will-change: transform;
     transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  :root:not([data-fx="off"])[data-pointer="in"] .ambient-field[data-live="on"] .field-follow {
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"][data-pointer="in"] .field-follow {
     transform: translate3d(
       calc((var(--mx, 50vw) - 50vw) * 0.24),
       calc((var(--my, 50vh) - 50vh) * 0.16),

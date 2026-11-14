@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useMotionAllowed } from "@/hooks/useMotionAllowed";
 import { usePointerField } from "@/hooks/usePointerField";
+import { attachPointerVars } from "@/lib/pointer-field";
 
 const subscribe = () => () => {};
 
@@ -36,8 +37,10 @@ const subscribe = () => () => {};
  * take effect because their lane animation owns the opacity.
  *
  * On fine-pointer desktops the second cluster also drifts towards the
- * cursor (.field-follow, at most ~15vw): pure CSS reading --mx/--my from the
- * shared pointer field, eased by a transition. Everything else is untouched.
+ * cursor (.field-follow, at most ~15vw): pure CSS reading --mx/--my, which
+ * the shared pointer field writes on this layer's root (scoped there so no
+ * other element's style is touched), eased by a transition. Everything
+ * else is untouched.
  */
 export function AmbientField() {
   const hydrated = useSyncExternalStore(
@@ -47,7 +50,13 @@ export function AmbientField() {
   );
   const allowed = useMotionAllowed({ phones: true });
   // holds the shared pointer listener while this page is up (desktop only)
-  usePointerField();
+  // and receives --mx/--my + data-pointer on the layer's root
+  const pointer = usePointerField();
+  const fieldRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!pointer || !fieldRef.current) return;
+    return attachPointerVars(fieldRef.current);
+  }, [pointer]);
   const [heroGone, setHeroGone] = useState(false);
 
   useEffect(() => {
@@ -64,6 +73,7 @@ export function AmbientField() {
 
   return (
     <div
+      ref={fieldRef}
       className="ambient-field"
       data-live={hydrated && allowed ? "on" : "off"}
       data-hero={heroGone ? "gone" : "visible"}
