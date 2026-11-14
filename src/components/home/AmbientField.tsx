@@ -42,7 +42,14 @@ const subscribe = () => () => {};
  * other element's style is touched), eased by a transition. Everything
  * else is untouched.
  */
-export function AmbientField() {
+/**
+ * `mode="page"`: the same layer behind a sub page (/hizmetler, /hakkimizda,
+ * /nasil-calisiyoruz, /iletisim). There is no hero, so the lanes are not held
+ * back for it: data-hero is "gone" from the start (the pool still sits behind
+ * the page title, the lanes still come in with the first scroll where the
+ * scroll drift runs). The class lets effects.css tune the page variant.
+ */
+export function AmbientField({ mode = "home" }: { mode?: "home" | "page" } = {}) {
   const hydrated = useSyncExternalStore(
     subscribe,
     () => true,
@@ -57,9 +64,10 @@ export function AmbientField() {
     if (!pointer || !fieldRef.current) return;
     return attachPointerVars(fieldRef.current);
   }, [pointer]);
-  const [heroGone, setHeroGone] = useState(false);
+  const [heroGone, setHeroGone] = useState(mode === "page");
 
   useEffect(() => {
+    if (mode === "page") return;
     const hero = document.querySelector("section.hero");
     if (!hero) return;
     // "gone" once no part of the hero is below the fixed header any more
@@ -69,12 +77,12 @@ export function AmbientField() {
     );
     observer.observe(hero);
     return () => observer.disconnect();
-  }, []);
+  }, [mode]);
 
   return (
     <div
       ref={fieldRef}
-      className="ambient-field"
+      className={`ambient-field ${mode === "page" ? "ambient-field--page" : ""}`}
       data-live={hydrated && allowed ? "on" : "off"}
       data-hero={heroGone ? "gone" : "visible"}
       aria-hidden="true"

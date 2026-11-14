@@ -813,6 +813,22 @@
 .ambient-field .film-grain {
   opacity: 0.5;
 }
+/* Page mode (sub pages, AmbientField mode="page"): on phones the vmax-sized
+   clusters cover most of the viewport, so the light read as a curtain. One
+   step quieter there: lanes b and c at lower alpha, the fourth cluster off.
+   Measured (field only, 390x844): over-ink share drops from ~52% to under
+   the 50% rule; wide screens are unchanged (home-page values). */
+@media (max-width: 767px) {
+  .ambient-field--page .field-orb--2 {
+    --glow: color-mix(in srgb, var(--marka-elektrik) 10%, transparent);
+  }
+  .ambient-field--page .field-orb--3 {
+    --glow: color-mix(in srgb, var(--marka-gok) 7%, transparent);
+  }
+  .ambient-field--page .field-orb--4 {
+    display: none;
+  }
+}
 
 /* slow wandering, transform only (runs on phones too): three different paths
    so the clusters never move as one */

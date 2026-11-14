@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading, Badge, Button, Card } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { AmbientField } from "@/components/home/AmbientField";
+import { Spotlight } from "@/components/effects/Spotlight";
+import { ServiceDiagram, type ServiceDiagramId } from "@/components/hizmetler/ServiceDiagram";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/schema";
 
@@ -16,6 +19,8 @@ interface Service {
   title: string;
   description: string;
   details: string[];
+  /** the service's drawing (components/hizmetler/ServiceDiagram) */
+  diagram: ServiceDiagramId;
 }
 
 interface ServiceGroup {
@@ -43,6 +48,7 @@ const GROUPS: ServiceGroup[] = [
     services: [
       {
         title: "Instagram Reklam Yönetimi",
+        diagram: "instagram",
         description:
           "Hedef kitlenize görsel ve video reklamlarla ulaşıyoruz. Hikaye, Reels ve akış reklamlarını stratejik olarak yönetiyoruz.",
         details: [
@@ -55,6 +61,7 @@ const GROUPS: ServiceGroup[] = [
       },
       {
         title: "Facebook Reklam Yönetimi",
+        diagram: "facebook",
         description:
           "Geniş Facebook ağında işletmenizi potansiyel müşterilerinizin önüne çıkarıyoruz. Doğru formatta, doğru kitleye.",
         details: [
@@ -67,6 +74,7 @@ const GROUPS: ServiceGroup[] = [
       },
       {
         title: "Retargeting (Yeniden Hedefleme)",
+        diagram: "retargeting",
         description:
           "Sitenizi ziyaret edip ayrılanları geri kazanıyoruz. İlgilenen kitleyi tekrar yakalıyoruz.",
         details: [
@@ -79,6 +87,7 @@ const GROUPS: ServiceGroup[] = [
       },
       {
         title: "Raporlama ve Analiz",
+        diagram: "raporlama",
         description:
           "Ne harcandı, ne kazanıldı, neyi değiştirmeli — her şeyi anlaşılır raporlarla paylaşıyoruz.",
         details: [
@@ -100,6 +109,7 @@ const GROUPS: ServiceGroup[] = [
     services: [
       {
         title: "Google Arama Ağı Reklamları",
+        diagram: "arama",
         description:
           "Sizi arayan müşterinin karşısına tam aradığı anda çıkıyoruz. Hazır talebi yakalıyor, bütçeyi boşa giden kelimelere değil satın almaya hazır aramalara harcıyoruz.",
         details: [
@@ -112,6 +122,7 @@ const GROUPS: ServiceGroup[] = [
       },
       {
         title: "Google Haritalar ve Yerel Görünürlük",
+        diagram: "haritalar",
         description:
           "“Yakınımda” diye arayan müşteri sizi bulsun. Google İşletme Profilinizi kuruyor, düzenli tutuyor ve haritalarda görünürlüğünüzü artırıyoruz.",
         details: [
@@ -124,6 +135,7 @@ const GROUPS: ServiceGroup[] = [
       },
       {
         title: "Performance Max ve YouTube",
+        diagram: "pmax",
         description:
           "Arama, YouTube, Gmail, Discover ve Haritalar'da tek kampanyayla görünün. Google'ın tüm ağını hedefinize göre çalıştırıyoruz.",
         details: [
@@ -135,6 +147,7 @@ const GROUPS: ServiceGroup[] = [
       },
       {
         title: "Dönüşüm Takibi ve Raporlama",
+        diagram: "donusum",
         description:
           "Hangi aramanın müşteriye dönüştüğünü ölçmeden reklam vermiyoruz. Formu, telefonu ve WhatsApp'ı tek tek işaretliyor, maliyetini raporluyoruz.",
         details: [
@@ -172,8 +185,11 @@ export default function HizmetlerPage() {
   return (
     <PageTransition>
       <JsonLd data={breadcrumbJsonLd([{ name: "Hizmetler", path: "/hizmetler" }])} />
+      {/* sayfanın arkasındaki ışık alanı (ana sayfadaki katman, sayfa modu); bölümler
+          arkaplan sınıfı taşımadığında alan görünür, bg-surface bölümler sakin kalır */}
+      <AmbientField mode="page" />
       {/* Header */}
-      <section className="py-16 md:py-24 bg-ink" aria-labelledby="hizmetler-heading">
+      <section className="py-16 md:py-24" aria-labelledby="hizmetler-heading">
         <Container>
           <SectionHeading
             as="h1"
@@ -203,7 +219,7 @@ export default function HizmetlerPage() {
         <section
           key={group.id}
           id={group.id}
-          className="py-section-sm bg-ink border-t border-deep"
+          className="py-section-sm border-t border-deep"
           aria-labelledby={`${group.id}-heading`}
         >
           <Container>
@@ -218,17 +234,26 @@ export default function HizmetlerPage() {
               <p className="text-fg-muted text-18 leading-relaxed max-w-2xl">{group.intro}</p>
             </div>
 
-            <div className="max-w-4xl border-t border-deep mt-10 md:mt-12">
+            {/* Satır: metin bloğu bugünkü genişlikte (max-w-4xl) kalır; şema xl ve
+                üstünde kapsayıcının sağ kenarına yaslı, satır yüksekliğini aşmaz
+                (300x200). Altında başlığın yanında küçük şema. Yalnızca okuma
+                bandındaki satırın şeması oynar. */}
+            <div className="border-t border-deep mt-10 md:mt-12">
               {group.services.map((service, index) => (
                 <div
                   key={service.title}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 py-14 border-b border-deep"
+                  className="relative isolate overflow-hidden py-14 border-b border-deep"
                 >
+                  <Spotlight edge="bottom" />
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 max-w-4xl">
                   <span className="md:col-span-1 font-heading text-14 text-fg-subtle">
                     0{index + 1}
                   </span>
 
                   <div className="md:col-span-11">
+                    <div className="xl:hidden float-right ml-4 mb-2 w-[5.5rem] md:ml-6 md:w-[11rem]" aria-hidden="true">
+                      <ServiceDiagram id={service.diagram} size="small" margin="-45% 0px -45% 0px" />
+                    </div>
                     <h3 className="text-fg mb-4">
                       {service.title}
                     </h3>
@@ -247,6 +272,13 @@ export default function HizmetlerPage() {
                       ))}
                     </ul>
                   </div>
+                  </div>
+                  <div
+                    className="hidden xl:block absolute right-0 top-1/2 w-[300px] -translate-y-1/2"
+                    aria-hidden="true"
+                  >
+                    <ServiceDiagram id={service.diagram} size="stage" margin="-45% 0px -45% 0px" />
+                  </div>
                 </div>
               ))}
             </div>
@@ -257,7 +289,7 @@ export default function HizmetlerPage() {
       {/* Support services — the work the ads need around them */}
       <section
         id="web-icerik"
-        className="py-section-sm bg-ink border-t border-deep"
+        className="py-section-sm bg-surface border-t border-deep"
         aria-labelledby="web-icerik-heading"
       >
         <Container>
@@ -276,7 +308,7 @@ export default function HizmetlerPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-10 md:mt-12">
             {SUPPORT.map((item) => (
-              <Card key={item.title} hover className="h-full p-6 md:p-8 flex flex-col">
+              <Card key={item.title} hover spotlight className="h-full p-6 md:p-8 flex flex-col">
                 <h3 className="text-fg">{item.title}</h3>
                 <p className="text-fg-muted text-16 leading-relaxed mt-3">{item.description}</p>
               </Card>
@@ -286,7 +318,7 @@ export default function HizmetlerPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 md:py-24 bg-ink text-center" aria-label="İletişim çağrısı">
+      <section className="py-16 md:py-24 text-center" aria-label="İletişim çağrısı">
         <Container>
           <h2 className="text-fg mb-4">
             Hangi hizmete ihtiyacınız olduğundan emin değil misiniz?
