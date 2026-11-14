@@ -63,14 +63,14 @@ const services: Record<TabId, { title: string; desc: string; diagram: ServiceDia
 };
 
 /**
- * Şema yerleşimi (adım 2b, karar bekliyor; varsayılan: şema yok, bugünkü
- * görünüm). "stage": lg ve üstünde listenin yanında, etkin satırın şemasını
- * gösteren sabit bir sahne; altında satır içi küçük şema. "inline": her
- * genişlikte satır içinde küçük şema. İki yerleşimde de aynı anda yalnızca
- * etkin satırın şeması oynar: fare/odak olan cihazda etkin satır (ilk satır
- * varsayılan), dokunmatikte okuma çizgisi bandındaki satır.
+ * Şema yerleşimi (adım 2 kararı: sahne). lg ve üstünde listenin yanında,
+ * etkin satırın şemasını gösteren sabit bir sahne; 1024 altında şema numara
+ * ve başlıkla aynı satırda, sağda, küçük. Aynı anda yalnızca etkin satırın
+ * şeması oynar: fare/odak olan cihazda etkin satır (ilk satır varsayılan,
+ * fare listeden çıkınca son etkin kalır), dokunmatikte okuma çizgisi
+ * bandındaki satır. Etkin satırın numarası gök mavisi, başlığı tam
+ * parlaklıkta (effects.css ".svc-row").
  */
-export type ServiceDiagramLayout = "stage" | "inline";
 const PHONE_BAND = "-45% 0px -45% 0px" as const;
 
 const extras = ["Web sitesi", "İçerik & Reels üretimi", "Sosyal medya yönetimi"];
@@ -90,11 +90,15 @@ const row = {
  *  land here, so the hash is kept. */
 const GOOGLE_HASH = "#hizmetler-google";
 
-export function Services({ diagrams }: { diagrams?: ServiceDiagramLayout } = {}) {
+export function Services() {
   const [tab, setTab] = useState<TabId>("meta");
-  // etkin satır (şema yerleşimleri): sekme değişince ilk satır
+  // etkin satır: sekme değişince ilk satır
   const [active, setActive] = useState(0);
   const hoverable = useMediaQuery("(hover: hover) and (pointer: fine)");
+  const wide = useMediaQuery("(min-width: 1024px)");
+  // vurgu kaynağı: fare/odak ya da sahne görünürken React durumu; dokunmatik
+  // telefonda satırın kendi şeması (CSS :has, okuma bandı)
+  const emphasizeByState = hoverable || wide;
   const baseId = useId();
   const tabRefs = useRef<Record<TabId, HTMLButtonElement | null>>({ meta: null, google: null });
 
@@ -179,83 +183,77 @@ export function Services({ diagrams }: { diagrams?: ServiceDiagramLayout } = {})
         </div>
 
         {/* key=tab remounts the list on a switch so the rows stagger in again */}
-        <div className={diagrams === "stage" ? "lg:grid lg:grid-cols-12 lg:gap-10 lg:items-start" : undefined}>
-        <motion.div
-          key={tab}
-          role="tabpanel"
-          id={panelId(tab)}
-          aria-labelledby={tabId(tab)}
-          tabIndex={0}
-          className={`mt-8 md:mt-10 border-t border-deep ${diagrams === "stage" ? "lg:col-span-7" : ""}`}
-          variants={rowContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          {services[tab].map((service, index) => {
-            const isActive = active === index;
-            return (
-            <motion.a
-              key={service.title}
-              // The tab ids match the section ids on /hizmetler, so a card
-              // lands on the group it belongs to rather than the page top.
-              href={`/hizmetler#hizmetler-${tab}`}
-              variants={row}
-              onMouseEnter={diagrams ? () => setActive(index) : undefined}
-              onFocus={diagrams ? () => setActive(index) : undefined}
-              className={`group relative isolate overflow-hidden grid items-start md:items-center gap-3 md:gap-8 py-8 md:py-10 border-b border-deep ${
-                diagrams ? "grid-cols-[minmax(0,1fr)_8rem] gap-x-5 md:grid-cols-12" : "grid-cols-1 md:grid-cols-12"
-              }`}
-            >
-              <Spotlight edge="bottom" />
-              <span className="col-start-1 md:col-span-1 font-heading text-14 text-fg-subtle">
-                0{index + 1}
-              </span>
-              {diagrams && (
-                <div
-                  className={`col-start-2 row-start-1 row-span-3 w-full self-start md:col-start-auto md:row-start-auto md:row-span-1 md:self-center md:col-span-2 ${
-                    diagrams === "stage" ? "lg:hidden" : ""
-                  }`}
+        <div className="lg:grid lg:grid-cols-12 lg:gap-10 lg:items-start">
+          <motion.div
+            key={tab}
+            role="tabpanel"
+            id={panelId(tab)}
+            aria-labelledby={tabId(tab)}
+            tabIndex={0}
+            className="mt-8 md:mt-10 border-t border-deep lg:col-span-7"
+            variants={rowContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {services[tab].map((service, index) => {
+              const isActive = active === index;
+              return (
+                <motion.a
+                  key={service.title}
+                  // The tab ids match the section ids on /hizmetler, so a card
+                  // lands on the group it belongs to rather than the page top.
+                  href={`/hizmetler#hizmetler-${tab}`}
+                  variants={row}
+                  onMouseEnter={() => setActive(index)}
+                  onFocus={() => setActive(index)}
+                  data-active={emphasizeByState && isActive ? "on" : undefined}
+                  // 1024 altı: [numara / başlık | şema], açıklama ve ok tam genişlikte altta
+                  className="svc-row group relative isolate overflow-hidden grid grid-cols-[minmax(0,1fr)_5.5rem] items-start gap-x-4 gap-y-3 py-8 border-b border-deep lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-10"
                 >
-                  <ServiceDiagram
-                    id={service.diagram}
-                    active={hoverable ? isActive : true}
-                    margin={hoverable ? undefined : PHONE_BAND}
-                  />
-                </div>
-              )}
-              <h3 className={`col-start-1 text-fg ${diagrams === "inline" ? "md:col-span-4" : diagrams === "stage" ? "md:col-span-4 lg:col-span-5" : "md:col-span-5"}`}>
-                {service.title}
-              </h3>
-              <p className={`col-start-1 text-fg-muted text-16 leading-relaxed transition-colors duration-200 group-hover:text-fg ${diagrams === "inline" ? "md:col-span-4" : diagrams === "stage" ? "md:col-span-4 lg:col-span-5" : "md:col-span-5"}`}>
-                {service.desc}
-              </p>
-              <span
-                className="col-start-1 md:col-span-1 justify-self-start md:justify-self-end text-fg-subtle transition-[color,transform] duration-200 ease-out group-hover:text-primary group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0"
-                aria-hidden="true"
-              >
-                →
-              </span>
-            </motion.a>
-            );
-          })}
-        </motion.div>
-        {diagrams === "stage" && (
-          /* sahne: etkin satırın şeması; hepsi aynı hücrede, yalnızca etkin olan görünür ve oynar */
+                  <Spotlight edge="bottom" />
+                  <span className="svc-num col-start-1 row-start-1 font-heading text-14 text-fg-subtle transition-colors duration-200 lg:col-span-1 lg:row-start-auto">
+                    0{index + 1}
+                  </span>
+                  <div className="col-start-2 row-start-1 row-span-2 w-full self-center lg:hidden">
+                    <ServiceDiagram
+                      id={service.diagram}
+                      size="small"
+                      active={hoverable ? isActive : true}
+                      margin={hoverable ? undefined : PHONE_BAND}
+                    />
+                  </div>
+                  <h3 className="svc-title col-start-1 row-start-2 text-fg-muted transition-colors duration-200 lg:col-span-5 lg:col-start-auto lg:row-start-auto">
+                    {service.title}
+                  </h3>
+                  <p className="col-span-2 row-start-3 text-fg-muted text-16 leading-relaxed transition-colors duration-200 group-hover:text-fg lg:col-span-5 lg:row-start-auto">
+                    {service.desc}
+                  </p>
+                  <span
+                    className="col-span-2 row-start-4 justify-self-start text-fg-subtle transition-[color,transform] duration-200 ease-out group-hover:text-primary group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0 lg:col-span-1 lg:row-start-auto lg:justify-self-end"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                </motion.a>
+              );
+            })}
+          </motion.div>
+
+          {/* sahne: etkin satırın şeması; hepsi aynı hücrede, yalnızca etkin olan görünür ve oynar.
+              Kart diliyle aynı çerçeve: 8px köşe, --cizgi kenar, dolgu yok. */}
           <div className="hidden lg:block lg:col-span-5 lg:sticky lg:top-32 lg:mt-10 lg:pt-10" aria-hidden="true">
-            {/* kart diliyle aynı çerçeve: 8px köşe, --cizgi kenar, dolgu yok */}
             <div className="grid rounded-[var(--radius-card)] border border-deep p-10">
               {services[tab].map((service, index) => (
                 <div
                   key={service.title}
                   className={`col-start-1 row-start-1 transition-opacity duration-300 ease-out ${active === index ? "opacity-100" : "opacity-0"}`}
                 >
-                  <ServiceDiagram id={service.diagram} active={active === index} />
+                  <ServiceDiagram id={service.diagram} size="stage" active={active === index} />
                 </div>
               ))}
             </div>
           </div>
-        )}
         </div>
 
         {/* What the ads need around them: one thin strip, independent of the tabs */}

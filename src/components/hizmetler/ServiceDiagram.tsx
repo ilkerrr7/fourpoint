@@ -53,11 +53,29 @@ export const SERVICE_DIAGRAMS: { id: ServiceDiagramId; label: string }[] = [
   { id: "donusum", label: "Dönüşüm Takibi" },
 ];
 
-const VIEW = "0 0 240 160";
+/**
+ * Çizimler 240x160 tuvalde yapılır; görünüm kutusu (viewBox) çizimin kendi
+ * sınırlarına kırpılır ki şema kutusunu doldursun (sahnede büyük, satırda
+ * küçük). Çizgi kalınlıkları bağlama göre --sema-sw ile dengelenir
+ * (effects.css: sahne 0.6, küçük 1.8), ölçekle kabalaşmaz/incelmez.
+ */
+const BOUNDS: Record<ServiceDiagramId, [number, number, number, number]> = {
+  instagram: [76, 4, 88, 152],
+  facebook: [48, 12, 144, 140],
+  retargeting: [16, 26, 208, 108],
+  arama: [28, 14, 184, 140],
+  haritalar: [4, 4, 232, 152],
+  pmax: [16, 12, 216, 136],
+  youtube: [26, 14, 188, 132],
+  alisveris: [24, 30, 192, 96],
+  raporlama: [62, 6, 116, 148],
+  donusum: [12, 14, 216, 134],
+};
 
 /** aynı şema sayfada birden çok kez bulunabilir: SVG id'leri örneğe özel */
 interface DrawingProps {
   uid: string;
+  view: string;
 }
 
 /** sönük iz + kuyruk + koşan ışık: aynı yol üç kez */
@@ -72,12 +90,12 @@ function Run({ d, name }: { d: string; name: string }) {
 }
 
 /* ---- 1. Instagram: dikey telefon, yukarı akan kartlar, biri yanık ---- */
-function Instagram({ uid }: DrawingProps) {
+function Instagram({ uid, view }: DrawingProps) {
   // on kart = iki tur; döngü beş kart (180px) kayar, her beşinci kart yanık
   const cards = Array.from({ length: 10 }, (_, k) => k);
   const clip = `sema-ig-${uid}`;
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       <defs>
         <clipPath id={clip}>
           <rect x="93" y="15" width="54" height="130" rx="6" />
@@ -123,9 +141,9 @@ const FB_LEAVES: [number, [number, number]][] = [
   [4, [78.9, 129]],
   [4, [57, 91]],
 ];
-function Facebook() {
+function Facebook({ view }: DrawingProps) {
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       {FB_RING.map(([x, y], i) => (
         <Run key={i} d={`M120 80 L${x} ${y}`} name="fb-spoke" />
       ))}
@@ -147,9 +165,9 @@ function Facebook() {
 /* ---- 3. Retargeting: siteden çıktı, başka bir yere gitti, geri geldi ---- */
 const RT_OUT = "M124 64 C144 64 150 44 170 70";
 const RT_BACK = "M178 100 C178 120 150 120 124 102";
-function Retargeting() {
+function Retargeting({ view }: DrawingProps) {
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       {/* ana site */}
       <rect className="sema-frame" x="24" y="34" width="100" height="92" rx="4" />
       <line className="sema-faint" x1="24" y1="46" x2="124" y2="46" />
@@ -172,9 +190,9 @@ const SEARCH_ROWS: [number, number][] = [
   [60, 120],
   [80, 90],
 ];
-function Arama() {
+function Arama({ view }: DrawingProps) {
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       <rect className="sema-frame" x="36" y="22" width="168" height="24" rx="12" />
       <line className="sema-charged ar-typing" x1="50" y1="34" x2="118" y2="34" />
       <rect className="sema-fill ar-band" x="36" y="56" width="168" height="22" rx="2" />
@@ -189,9 +207,9 @@ function Arama() {
 }
 
 /* ---- 5. Haritalar: ızgara, konum iğnesi, yayılan halka ---- */
-function Haritalar() {
+function Haritalar({ view }: DrawingProps) {
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       {[60, 120, 180].map((x) => (
         <line key={x} className="sema-faint" x1={x} y1="10" x2={x} y2="150" />
       ))}
@@ -211,14 +229,14 @@ function Haritalar() {
 
 /* ---- 6. Performance Max: tek kaynaktan dört kanala ---- */
 const PMAX_Y = [28, 63, 97, 132];
-function Pmax() {
+function Pmax({ view }: DrawingProps) {
   const branch = (y: number) => `M28 80 H72 C100 80 100 ${y} 130 ${y} H200`;
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       {PMAX_Y.map((y, i) => (
         <g key={y} className={`pm-${i}`}>
           <Run d={branch(y)} name="pm-run" />
-          <rect className="sema-line pm-out" x="204" y={y - 7} width="20" height="14" rx="2" />
+          <rect className="sema-charged pm-out" x="204" y={y - 7} width="20" height="14" rx="2" />
         </g>
       ))}
       <circle className="sema-glow" cx="28" cy="80" r="9" />
@@ -228,11 +246,11 @@ function Pmax() {
 }
 
 /* ---- 7. YouTube: yatay çerçeve, oynat üçgeni, dolan ilerleme çizgisi ---- */
-function Youtube() {
+function Youtube({ view }: DrawingProps) {
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       <rect className="sema-frame" x="36" y="22" width="168" height="96" rx="4" />
-      <path className="sema-line yt-play" d="M108 52 L138 70 L108 88 Z" />
+      <path className="sema-charged yt-play" d="M108 52 L138 70 L108 88 Z" />
       <line className="sema-line" x1="36" y1="134" x2="204" y2="134" />
       <line className="sema-hot yt-bar" x1="36" y1="134" x2="204" y2="134" />
       <circle className="sema-dot yt-knob" cx="36" cy="134" r="2.5" />
@@ -241,9 +259,9 @@ function Youtube() {
 }
 
 /* ---- 8. Alışveriş: yan yana ürün kartları, biri öne çıkıyor ---- */
-function Alisveris() {
+function Alisveris({ view }: DrawingProps) {
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       {[34, 95, 156].map((x, i) => (
         <g key={x} className={`al-card al-${i}`}>
           <rect className="al-box" x={x} y="44" width="50" height="72" rx="3" />
@@ -265,9 +283,9 @@ const REPORT_ROWS: [number, number][] = [
   [30, 14],
   [20, 18],
 ];
-function Raporlama() {
+function Raporlama({ view }: DrawingProps) {
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       <rect className="sema-frame" x="72" y="14" width="96" height="132" rx="3" />
       {/* özet satırı: tek yanan öğe */}
       <rect className="sema-fill" x="78" y="22" width="84" height="16" rx="2" />
@@ -290,9 +308,9 @@ function Raporlama() {
 /* ---- 10. Dönüşüm Takibi: tarayıcı ve sunucu yolları aynı noktada birleşir ---- */
 const DT_UP = "M26 80 C50 80 50 42 80 42 H160 C190 42 190 80 214 80";
 const DT_DOWN = "M26 80 C50 80 50 118 80 118 H160 C190 118 190 80 214 80";
-function Donusum() {
+function Donusum({ view }: DrawingProps) {
   return (
-    <svg viewBox={VIEW} preserveAspectRatio="xMidYMid meet">
+    <svg viewBox={view} preserveAspectRatio="xMidYMid meet">
       <Run d={DT_UP} name="dt-run" />
       <Run d={DT_DOWN} name="dt-run" />
       {/* tarayıcı: üst çubuklu pencere */}
@@ -326,11 +344,14 @@ const DRAWINGS: Record<ServiceDiagramId, (p: DrawingProps) => React.JSX.Element>
 
 export function ServiceDiagram({
   id,
+  size = "stage",
   className = "",
   active,
   margin,
 }: {
   id: ServiceDiagramId;
+  /** çizgi kalınlığı dengesi: sahne (büyük) ya da satır içi (küçük) */
+  size?: "stage" | "small";
   className?: string;
   /** false: ekranda olsa da hareket yok (bitmiş hal); yerleşimde yalnızca etkin satır oynar */
   active?: boolean;
@@ -339,9 +360,10 @@ export function ServiceDiagram({
 }) {
   const Drawing = DRAWINGS[id];
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const view = BOUNDS[id].join(" ");
   return (
-    <InViewGate className={`sema sema--${id} ${className}`} active={active} margin={margin}>
-      <Drawing uid={uid} />
+    <InViewGate className={`sema sema--${id} sema--${size} ${className}`} active={active} margin={margin}>
+      <Drawing uid={uid} view={view} />
     </InViewGate>
   );
 }
