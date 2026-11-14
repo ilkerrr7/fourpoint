@@ -814,21 +814,22 @@
   opacity: 0.5;
 }
 
-/* slow wandering: three different paths so the clusters never move as one */
+/* slow wandering, transform only (runs on phones too): three different paths
+   so the clusters never move as one */
 @keyframes field-wander-1 {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
   50%  { transform: translate3d(5vw, 6vh, 0) scale(1.05); }
   100% { transform: translate3d(-4vw, 3vh, 0) scale(0.98); }
 }
 @keyframes field-wander-2 {
-  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
-  50%  { transform: translate3d(-7vw, 9vh, 0) scale(1.08); opacity: 0.8; }
-  100% { transform: translate3d(3vw, -5vh, 0) scale(1); opacity: 1; }
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-7vw, 9vh, 0) scale(1.08); }
+  100% { transform: translate3d(3vw, -5vh, 0) scale(1); }
 }
 @keyframes field-wander-3 {
-  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.9; }
-  50%  { transform: translate3d(8vw, -6vh, 0) scale(0.94); opacity: 1; }
-  100% { transform: translate3d(-5vw, -2vh, 0) scale(1.04); opacity: 0.85; }
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(8vw, -6vh, 0) scale(0.94); }
+  100% { transform: translate3d(-5vw, -2vh, 0) scale(1.04); }
 }
 /* scroll drift: across the whole page each lane slides a little, in different
    directions, so every section is lit from somewhere else. Lanes b and c also
@@ -847,7 +848,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-orb {
-    will-change: transform, opacity;
+    will-change: transform;
   }
   :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-orb--1 {
     animation: field-wander-1 58s ease-in-out infinite alternate;
@@ -862,17 +863,35 @@
     animation: field-wander-1 40s ease-in-out -20s infinite alternate-reverse;
   }
 
-  @supports (animation-timeline: scroll()) {
-    :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll {
-      will-change: transform, opacity;
-      animation: field-scroll-pool linear both;
-      animation-timeline: scroll(root block);
-    }
-    :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll--b {
-      animation-name: field-scroll-b;
-    }
-    :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll--c {
-      animation-name: field-scroll-c;
+  /* Fallback reveal for lanes b and c: no scroll timeline (Firefox, Safari
+     before 26) or a phone, where the scroll drift below is off. AmbientField
+     sets data-hero="gone" when the hero has left the screen; the lanes
+     cross-fade in, and back out when the hero returns. In scroll-timeline
+     browsers on wide screens the lane animation below owns `opacity`, so
+     this rule is inert there. */
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll--b,
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll--c {
+    transition: opacity 1.6s ease;
+  }
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"][data-hero="gone"] .field-scroll--b,
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"][data-hero="gone"] .field-scroll--c {
+    opacity: 1;
+  }
+
+  /* scroll drift: wide screens with scroll timelines only */
+  @media (min-width: 768px) {
+    @supports (animation-timeline: scroll()) {
+      :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll {
+        will-change: transform, opacity;
+        animation: field-scroll-pool linear both;
+        animation-timeline: scroll(root block);
+      }
+      :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll--b {
+        animation-name: field-scroll-b;
+      }
+      :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll--c {
+        animation-name: field-scroll-c;
+      }
     }
   }
 }

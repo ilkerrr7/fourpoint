@@ -13,12 +13,17 @@ interface NavigatorWithHints extends Navigator {
  * narrow/mobile viewports, or on low-power/data-saver devices. Shared by
  * useTilt (FourPointMark) and the Automation section's scan-line loop so
  * the gating rule lives in exactly one place.
+ *
+ * `phones: true` keeps the rule but lifts the narrow-viewport cut, for
+ * effects cheap enough to run on a phone (transform-only loops on a few
+ * layers, see AmbientField). Reduced motion, data saver and low memory
+ * still switch those off.
  */
-export function useMotionAllowed(): boolean {
+export function useMotionAllowed({ phones = false }: { phones?: boolean } = {}): boolean {
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const isMobile = useMediaQuery("(max-width: 767px)");
 
-  if (prefersReducedMotion || isMobile) return false;
+  if (prefersReducedMotion || (isMobile && !phones)) return false;
 
   if (typeof navigator !== "undefined") {
     const nav = navigator as NavigatorWithHints;
