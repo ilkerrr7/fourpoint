@@ -4,6 +4,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Container, SectionHeading, Button } from "@/components/ui";
 import { Spotlight } from "@/components/effects/Spotlight";
+import { ServiceDiagram, type ServiceDiagramId } from "@/components/hizmetler/ServiceDiagram";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 
 type TabId = "meta" | "google";
@@ -13,44 +15,63 @@ const TABS: { id: TabId; label: string }[] = [
   { id: "google", label: "Google Reklamları" },
 ];
 
-const services: Record<TabId, { title: string; desc: string }[]> = {
+const services: Record<TabId, { title: string; desc: string; diagram: ServiceDiagramId }[]> = {
   meta: [
     {
       title: "Instagram Reklam Yönetimi",
       desc: "Hedef kitlenize görsel ve video reklamlarla ulaşıyoruz. Doğru kitleye, doğru mesajla.",
+      diagram: "instagram",
     },
     {
       title: "Facebook Reklam Yönetimi",
       desc: "Geniş Facebook ağında işletmenizi potansiyel müşterilerinizin önüne çıkarıyoruz.",
+      diagram: "facebook",
     },
     {
       title: "Retargeting",
       desc: "Sitenizi ziyaret edip ayrılanları geri kazanıyoruz. İlgilenen kitleyi kaybetmiyoruz.",
+      diagram: "retargeting",
     },
   ],
   google: [
     {
       title: "Google Arama Reklamları",
       desc: "Sizi arayan müşterinin karşısına, aradığı anda çıkıyoruz. Doğru anahtar kelime, boşa gitmeyen bütçe.",
+      diagram: "arama",
     },
     {
       title: "Google Haritalar & İşletme Profili",
       desc: "Yakınınızda arayanlar sizi bulsun. Profilinizi kuruyor, düzenli tutuyor ve haritalarda görünürlüğünüzü artırıyoruz.",
+      diagram: "haritalar",
     },
     {
       title: "Performance Max",
       desc: "Arama, YouTube, Gmail ve Haritalar'da tek kampanyayla görünün. Google'ın tüm ağını hedefinize göre çalıştırıyoruz.",
+      diagram: "pmax",
     },
     {
       title: "YouTube Reklamları",
       desc: "Video reklamlarla markanızı doğru kitleye izletiyoruz. Ölçülebilir erişim, ölçülebilir etki.",
+      diagram: "youtube",
     },
     {
       title: "Google Alışveriş Reklamları",
       desc: "E-ticaret ürünlerinizi fiyatı ve görseliyle arama sonuçlarında öne çıkarıyoruz.",
+      diagram: "alisveris",
     },
   ],
 };
+
+/**
+ * Şema yerleşimi (adım 2b, karar bekliyor; varsayılan: şema yok, bugünkü
+ * görünüm). "stage": lg ve üstünde listenin yanında, etkin satırın şemasını
+ * gösteren sabit bir sahne; altında satır içi küçük şema. "inline": her
+ * genişlikte satır içinde küçük şema. İki yerleşimde de aynı anda yalnızca
+ * etkin satırın şeması oynar: fare/odak olan cihazda etkin satır (ilk satır
+ * varsayılan), dokunmatikte okuma çizgisi bandındaki satır.
+ */
+export type ServiceDiagramLayout = "stage" | "inline";
+const PHONE_BAND = "-45% 0px -45% 0px" as const;
 
 const extras = ["Web sitesi", "İçerik & Reels üretimi", "Sosyal medya yönetimi"];
 
@@ -69,14 +90,23 @@ const row = {
  *  land here, so the hash is kept. */
 const GOOGLE_HASH = "#hizmetler-google";
 
-export function Services() {
+export function Services({ diagrams }: { diagrams?: ServiceDiagramLayout } = {}) {
   const [tab, setTab] = useState<TabId>("meta");
+  // etkin satır (şema yerleşimleri): sekme değişince ilk satır
+  const [active, setActive] = useState(0);
+  const hoverable = useMediaQuery("(hover: hover) and (pointer: fine)");
   const baseId = useId();
   const tabRefs = useRef<Record<TabId, HTMLButtonElement | null>>({ meta: null, google: null });
 
+  // sekme değişince etkin satır ilk satıra döner (şema yerleşimleri)
+  const selectTab = (id: TabId) => {
+    setTab(id);
+    setActive(0);
+  };
+
   useEffect(() => {
     const fromHash = () => {
-      if (window.location.hash === GOOGLE_HASH) setTab("google");
+      if (window.location.hash === GOOGLE_HASH) selectTab("google");
     };
     fromHash();
     window.addEventListener("hashchange", fromHash);
@@ -94,7 +124,7 @@ export function Services() {
     if (next === null) return;
     e.preventDefault();
     const id = TABS[next].id;
-    setTab(id);
+    selectTab(id);
     tabRefs.current[id]?.focus();
   };
 
@@ -134,7 +164,7 @@ export function Services() {
                 aria-selected={selected}
                 aria-controls={panelId(t.id)}
                 tabIndex={selected ? 0 : -1}
-                onClick={() => setTab(t.id)}
+                onClick={() => selectTab(t.id)}
                 onKeyDown={(e) => onKeyDown(e, i)}
                 className={`h-11 md:h-10 px-3 sm:px-5 rounded-[var(--radius-button)] border text-12 sm:text-14 font-medium uppercase tracking-[0.08em] sm:tracking-[0.12em] whitespace-nowrap transition-[color,background-color,border-color] duration-150 ease-out ${
                   selected
@@ -149,46 +179,84 @@ export function Services() {
         </div>
 
         {/* key=tab remounts the list on a switch so the rows stagger in again */}
+        <div className={diagrams === "stage" ? "lg:grid lg:grid-cols-12 lg:gap-10 lg:items-start" : undefined}>
         <motion.div
           key={tab}
           role="tabpanel"
           id={panelId(tab)}
           aria-labelledby={tabId(tab)}
           tabIndex={0}
-          className="mt-8 md:mt-10 border-t border-deep"
+          className={`mt-8 md:mt-10 border-t border-deep ${diagrams === "stage" ? "lg:col-span-7" : ""}`}
           variants={rowContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
-          {services[tab].map((service, index) => (
+          {services[tab].map((service, index) => {
+            const isActive = active === index;
+            return (
             <motion.a
               key={service.title}
               // The tab ids match the section ids on /hizmetler, so a card
               // lands on the group it belongs to rather than the page top.
               href={`/hizmetler#hizmetler-${tab}`}
               variants={row}
-              className="group relative isolate overflow-hidden grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-3 md:gap-8 py-8 md:py-10 border-b border-deep"
+              onMouseEnter={diagrams ? () => setActive(index) : undefined}
+              onFocus={diagrams ? () => setActive(index) : undefined}
+              className={`group relative isolate overflow-hidden grid items-start md:items-center gap-3 md:gap-8 py-8 md:py-10 border-b border-deep ${
+                diagrams ? "grid-cols-[minmax(0,1fr)_8rem] gap-x-5 md:grid-cols-12" : "grid-cols-1 md:grid-cols-12"
+              }`}
             >
               <Spotlight edge="bottom" />
-              <span className="md:col-span-1 font-heading text-14 text-fg-subtle">
+              <span className="col-start-1 md:col-span-1 font-heading text-14 text-fg-subtle">
                 0{index + 1}
               </span>
-              <h3 className="md:col-span-5 text-fg">
+              {diagrams && (
+                <div
+                  className={`col-start-2 row-start-1 row-span-3 w-full self-start md:col-start-auto md:row-start-auto md:row-span-1 md:self-center md:col-span-2 ${
+                    diagrams === "stage" ? "lg:hidden" : ""
+                  }`}
+                >
+                  <ServiceDiagram
+                    id={service.diagram}
+                    active={hoverable ? isActive : true}
+                    margin={hoverable ? undefined : PHONE_BAND}
+                  />
+                </div>
+              )}
+              <h3 className={`col-start-1 text-fg ${diagrams === "inline" ? "md:col-span-4" : diagrams === "stage" ? "md:col-span-4 lg:col-span-5" : "md:col-span-5"}`}>
                 {service.title}
               </h3>
-              <p className="md:col-span-5 text-fg-muted text-16 leading-relaxed transition-colors duration-200 group-hover:text-fg">
+              <p className={`col-start-1 text-fg-muted text-16 leading-relaxed transition-colors duration-200 group-hover:text-fg ${diagrams === "inline" ? "md:col-span-4" : diagrams === "stage" ? "md:col-span-4 lg:col-span-5" : "md:col-span-5"}`}>
                 {service.desc}
               </p>
               <span
-                className="md:col-span-1 justify-self-start md:justify-self-end text-fg-subtle transition-[color,transform] duration-200 ease-out group-hover:text-primary group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0"
+                className="col-start-1 md:col-span-1 justify-self-start md:justify-self-end text-fg-subtle transition-[color,transform] duration-200 ease-out group-hover:text-primary group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0"
                 aria-hidden="true"
               >
                 →
               </span>
             </motion.a>
-          ))}
+            );
+          })}
         </motion.div>
+        {diagrams === "stage" && (
+          /* sahne: etkin satırın şeması; hepsi aynı hücrede, yalnızca etkin olan görünür ve oynar */
+          <div className="hidden lg:block lg:col-span-5 lg:sticky lg:top-32 lg:mt-10 lg:pt-10" aria-hidden="true">
+            {/* kart diliyle aynı çerçeve: 8px köşe, --cizgi kenar, dolgu yok */}
+            <div className="grid rounded-[var(--radius-card)] border border-deep p-10">
+              {services[tab].map((service, index) => (
+                <div
+                  key={service.title}
+                  className={`col-start-1 row-start-1 transition-opacity duration-300 ease-out ${active === index ? "opacity-100" : "opacity-0"}`}
+                >
+                  <ServiceDiagram id={service.diagram} active={active === index} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        </div>
 
         {/* What the ads need around them: one thin strip, independent of the tabs */}
         <motion.div
