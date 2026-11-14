@@ -15,6 +15,7 @@ import { PricingLogic } from "@/components/home/PricingLogic";
 import { FAQ } from "@/components/home/FAQ";
 import { ClosingCTA } from "@/components/home/ClosingCTA";
 import { CableJoint } from "@/components/effects/CableJoint";
+import { AmbientField } from "@/components/home/AmbientField";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { faqPageJsonLd } from "@/lib/schema";
 import { faqItems } from "@/lib/faq";
@@ -31,6 +32,8 @@ export default function HomePage() {
     <PageTransition>
       {/* SSS bölümüyle aynı veriden üretilir, elle yazılmaz */}
       <JsonLd data={faqPageJsonLd(faqItems)} />
+      {/* sayfanın arkasındaki ışık alanı: sabit, içeriğin altında, yalnızca ana sayfa */}
+      <AmbientField />
       <Hero />
       <CableJoint id="hero-pain" />
       <PainPoints />

@@ -722,3 +722,122 @@
 :root[data-fx="off"] .engine-row--enter {
   animation-duration: 0.01ms;
 }
+
+/* ---------------------------------------------
+   Ambient field — the light behind the home page (AmbientField.tsx)
+   ---------------------------------------------
+   A fixed layer under the page: three or four big soft clusters of the brand
+   blues over the brand black, grain on top. Only sections with a see-through
+   background reveal it. Softness comes from radial gradients, never from
+   filter: blur, so nothing is re-rasterised per frame; motion is transform
+   and opacity only.
+
+   Colours: gece mavisi / elektrik / gök through color-mix with transparent,
+   i.e. the brand tokens at a lower alpha, no new hues. Where color-mix is
+   unsupported the clusters resolve to transparent and the page is simply
+   black, as today.
+
+   Static state (server HTML, reduced motion, data-fx="off", phones, data
+   saver): the composition below, at rest. */
+
+.ambient-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+.field-scroll {
+  position: absolute;
+  inset: 0;
+}
+.field-orb {
+  position: absolute;
+  width: var(--size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, var(--glow) 0%, transparent 100%);
+}
+/* the big night-blue pool: the same tone the hero/closing spots use */
+.field-orb--1 {
+  --size: 140vmax;
+  --glow: var(--marka-gece-mavisi);
+  left: -50vmax;
+  top: -62vmax;
+}
+.field-orb--2 {
+  --size: 80vmax;
+  --glow: color-mix(in srgb, var(--marka-elektrik) 16%, transparent);
+  right: -32vmax;
+  top: 4vh;
+}
+.field-orb--3 {
+  --size: 58vmax;
+  --glow: color-mix(in srgb, var(--marka-gok) 11%, transparent);
+  left: -16vmax;
+  bottom: -26vmax;
+}
+.field-orb--4 {
+  --size: 64vmax;
+  --glow: color-mix(in srgb, var(--marka-elektrik) 9%, transparent);
+  right: 2vmax;
+  bottom: -40vmax;
+}
+.ambient-field .film-grain {
+  opacity: 0.35;
+}
+
+/* slow wandering: three different paths so the clusters never move as one */
+@keyframes field-wander-1 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(5vw, 6vh, 0) scale(1.05); }
+  100% { transform: translate3d(-4vw, 3vh, 0) scale(0.98); }
+}
+@keyframes field-wander-2 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+  50%  { transform: translate3d(-7vw, 9vh, 0) scale(1.08); opacity: 0.8; }
+  100% { transform: translate3d(3vw, -5vh, 0) scale(1); opacity: 1; }
+}
+@keyframes field-wander-3 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0.9; }
+  50%  { transform: translate3d(8vw, -6vh, 0) scale(0.94); opacity: 1; }
+  100% { transform: translate3d(-5vw, -2vh, 0) scale(1.04); opacity: 0.85; }
+}
+/* scroll drift: across the whole page each lane slides a little, in different
+   directions, so every section is lit from somewhere else */
+@keyframes field-scroll-a { to { transform: translate3d(-8vw, -28vh, 0); } }
+@keyframes field-scroll-b { to { transform: translate3d(6vw, -46vh, 0); } }
+@keyframes field-scroll-c { to { transform: translate3d(-5vw, 24vh, 0); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-orb {
+    will-change: transform, opacity;
+  }
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-orb--1 {
+    animation: field-wander-1 58s ease-in-out infinite alternate;
+  }
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-orb--2 {
+    animation: field-wander-2 46s ease-in-out infinite alternate;
+  }
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-orb--3 {
+    animation: field-wander-3 52s ease-in-out infinite alternate;
+  }
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-orb--4 {
+    animation: field-wander-1 40s ease-in-out -20s infinite alternate-reverse;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll {
+      will-change: transform;
+      animation: field-scroll-a linear both;
+      animation-timeline: scroll(root block);
+    }
+    :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll--b {
+      animation-name: field-scroll-b;
+    }
+    :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll--c {
+      animation-name: field-scroll-c;
+    }
+  }
+}
