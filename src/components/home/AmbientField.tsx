@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useMotionAllowed } from "@/hooks/useMotionAllowed";
+import { usePointerField } from "@/hooks/usePointerField";
+import { attachPointerVars } from "@/lib/pointer-field";
 
 const subscribe = () => () => {};
 
@@ -33,6 +35,12 @@ const subscribe = () => () => {};
  * the hero section flips it, and the clusters cross-fade in and out with a
  * plain opacity transition. Scroll-timeline browsers never see that rule
  * take effect because their lane animation owns the opacity.
+ *
+ * On fine-pointer desktops the second cluster also drifts towards the
+ * cursor (.field-follow, at most ~15vw): pure CSS reading --mx/--my, which
+ * the shared pointer field writes on this layer's root (scoped there so no
+ * other element's style is touched), eased by a transition. Everything
+ * else is untouched.
  */
 export function AmbientField() {
   const hydrated = useSyncExternalStore(
@@ -41,6 +49,14 @@ export function AmbientField() {
     () => false,
   );
   const allowed = useMotionAllowed({ phones: true });
+  // holds the shared pointer listener while this page is up (desktop only)
+  // and receives --mx/--my + data-pointer on the layer's root
+  const pointer = usePointerField();
+  const fieldRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!pointer || !fieldRef.current) return;
+    return attachPointerVars(fieldRef.current);
+  }, [pointer]);
   const [heroGone, setHeroGone] = useState(false);
 
   useEffect(() => {
@@ -57,6 +73,7 @@ export function AmbientField() {
 
   return (
     <div
+      ref={fieldRef}
       className="ambient-field"
       data-live={hydrated && allowed ? "on" : "off"}
       data-hero={heroGone ? "gone" : "visible"}
@@ -68,7 +85,9 @@ export function AmbientField() {
         <div className="field-orb field-orb--1" />
       </div>
       <div className="field-scroll field-scroll--b">
-        <div className="field-orb field-orb--2" />
+        <div className="field-follow">
+          <div className="field-orb field-orb--2" />
+        </div>
       </div>
       <div className="field-scroll field-scroll--c">
         <div className="field-orb field-orb--3" />

@@ -4,8 +4,14 @@ import { useTilt } from "@/hooks/useTilt";
 
 interface FourPointMarkProps {
   className?: string;
-  /** False for purely decorative uses (e.g. a watermark) — skips the tilt entirely. */
+  /** False for purely decorative uses — skips the tilt entirely. */
   interactive?: boolean;
+  /**
+   * "full": scroll-linked rotateX plus pointer rotateY on hover (default).
+   * "pointer": pointer only, from the shared pointer field, so a
+   * pointer-events:none watermark (the hero) still answers the cursor.
+   */
+  tilt?: "full" | "pointer";
 }
 
 /**
@@ -14,15 +20,17 @@ interface FourPointMarkProps {
  * pointer-follow offset on hover-capable desktops — see useTilt for the
  * disable rules (reduced motion, mobile, low-power devices).
  */
-export function FourPointMark({ className = "", interactive = true }: FourPointMarkProps) {
-  const tiltRef = useTilt<HTMLDivElement>(interactive);
+export function FourPointMark({ className = "", interactive = true, tilt = "full" }: FourPointMarkProps) {
+  const tiltRef = useTilt<HTMLDivElement>(interactive, {
+    scroll: tilt === "full",
+    pointer: tilt === "pointer" ? "field" : "element",
+  });
 
   return (
-    <div className={`inline-block ${className}`} style={interactive ? { perspective: "900px" } : undefined}>
-      <div
-        ref={tiltRef}
-        style={interactive ? { transformStyle: "preserve-3d", willChange: "transform" } : undefined}
-      >
+    // .mark-tilt* (effects.css): perspective + preserve-3d, and will-change only
+    // where a tilt can actually run (fine pointers), so phones get no extra layer
+    <div className={`inline-block ${interactive ? "mark-tilt-stage" : ""} ${className}`}>
+      <div ref={tiltRef} className={interactive ? "mark-tilt" : undefined}>
         <svg viewBox="150 150 700 700" fill="none" className="w-full h-full" aria-hidden="true">
           <polygon fill="#38BDF8" points="491.0,196 454,326 491.0,326" />
           <polygon fill="#0A84FF" points="509.0,196 546,326 509.0,326" />

@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { Container, Badge } from "@/components/ui";
+import { Spotlight } from "@/components/effects/Spotlight";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const differentiators = [
@@ -63,8 +64,10 @@ export function Differentiators() {
               <motion.div
                 key={item.title}
                 variants={row}
-                className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-8 py-7 border-b border-deep"
+                className="relative isolate overflow-hidden grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-8 py-7 border-b border-deep"
               >
+                {/* pointer light along the row; the bottom rule glows near the cursor */}
+                <Spotlight edge="bottom" />
                 <h3 className="sm:col-span-4 text-fg">{item.title}</h3>
                 <p className="sm:col-span-8 text-fg-muted text-14 leading-relaxed">{item.description}</p>
               </motion.div>

@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "motion/react";
 import { Container } from "@/components/ui";
-import { createRadarState, drawRadar, stepRadar } from "./engine-radar";
+import { usePointerField } from "@/hooks/usePointerField";
+import { pointerPos } from "@/lib/pointer-field";
+import { createRadarState, drawRadar, stepRadar, type RadarCursor } from "./engine-radar";
 
 /**
  * The visual pause between Services and Automation: a console that shows the
@@ -45,7 +47,7 @@ function clock(seq: number): string {
   return `${h}:${m}`;
 }
 
-function Radar({ live }: { live: boolean }) {
+function Radar({ live, pointer }: { live: boolean; pointer: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // kept across effect runs so the sweep resumes where it stopped
   const stateRef = useRef(createRadarState());
@@ -59,7 +61,31 @@ function Radar({ live }: { live: boolean }) {
     let width = 0;
     let height = 0;
 
-    const paint = () => drawRadar(ctx, width, height, state);
+    // Cursor over the radar (fine pointers only): the canvas is measured once
+    // on enter, in document coordinates; per frame the shared pointer field
+    // (lib/pointer-field) is read, no layout. Off the canvas: cursor = null,
+    // i.e. today's drawing.
+    let hovering = false;
+    let originX = 0;
+    let originY = 0;
+    const cursor = (): RadarCursor | null =>
+      hovering ? { x: pointerPos.pageX - originX, y: pointerPos.pageY - originY } : null;
+    const onEnter = () => {
+      const rect = canvas.getBoundingClientRect();
+      originX = rect.left + window.scrollX;
+      originY = rect.top + window.scrollY;
+      hovering = true;
+    };
+    const onLeave = () => {
+      hovering = false;
+      paint();
+    };
+    if (pointer) {
+      canvas.addEventListener("pointerenter", onEnter);
+      canvas.addEventListener("pointerleave", onLeave);
+    }
+
+    const paint = () => drawRadar(ctx, width, height, state, cursor());
     const fit = () => {
       const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -80,14 +106,15 @@ function Radar({ live }: { live: boolean }) {
     let raf = 0;
     let last = 0;
 
-    // ~30fps: a slow sweep needs no more, and it halves the work on phones
+    // ~30fps: a slow sweep needs no more, and it halves the work on phones.
+    // While the cursor is over the radar, every frame, so the light keeps up.
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
       if (document.hidden) {
         last = 0;
         return;
       }
-      if (last && now - last < 32) return;
+      if (!hovering && last && now - last < 32) return;
       const dt = last ? Math.min((now - last) / 1000, 0.1) : 0.032;
       last = now;
       stepRadar(state, dt);
@@ -99,8 +126,10 @@ function Radar({ live }: { live: boolean }) {
     return () => {
       cancelAnimationFrame(raf);
       observer.disconnect();
+      canvas.removeEventListener("pointerenter", onEnter);
+      canvas.removeEventListener("pointerleave", onLeave);
     };
-  }, [live]);
+  }, [live, pointer]);
 
   return <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />;
 }
@@ -108,6 +137,7 @@ function Radar({ live }: { live: boolean }) {
 export function EngineConsole() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "0px 0px -8% 0px" });
+  const pointer = usePointerField();
   const [tick, setTick] = useState(0);
 
   useEffect(() => {
@@ -147,7 +177,7 @@ export function EngineConsole() {
             {/* phone: a centred square. md+: the feed sets the row height and the
                 radar fills its cell */}
             <div className="relative mx-auto aspect-square w-full max-w-[20rem] md:aspect-auto md:h-full md:max-w-none">
-              <Radar live={inView} />
+              <Radar live={inView} pointer={pointer} />
             </div>
 
             <div className="engine-clip border-t border-deep md:border-l md:border-t-0">

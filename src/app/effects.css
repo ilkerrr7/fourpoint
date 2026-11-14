@@ -895,3 +895,110 @@
     }
   }
 }
+
+/* ---------------------------------------------
+   Pointer field — effects that answer the cursor
+   ---------------------------------------------
+   One listener (lib/pointer-field) publishes the cursor as --mx/--my
+   (viewport px) and data-pointer="in|out" on the consumer that asked
+   (AmbientField's root; never on <html>, see the note in pointer-field.ts).
+   Only fine-pointer devices with motion allowed ever get those; every rule
+   below is additionally guarded, so the static state (touch, reduced
+   motion, kill switch) is the page exactly as before. */
+
+/* AmbientField: the second cluster drifts towards the cursor, at most about
+   15vw, eased. Its own wander loop lives on the orb inside, the scroll lane
+   outside, so the three never fight over one transform. */
+.field-follow {
+  position: absolute;
+  inset: 0;
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-follow {
+    will-change: transform;
+    transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  :root:not([data-fx="off"]) .ambient-field[data-live="on"][data-pointer="in"] .field-follow {
+    transform: translate3d(
+      calc((var(--mx, 50vw) - 50vw) * 0.24),
+      calc((var(--my, 50vh) - 50vh) * 0.16),
+      0
+    );
+  }
+}
+
+/* Spotlight (effects/Spotlight.tsx): a disc of elektrik at low alpha under
+   the cursor, clipped by the host, plus a glow on the edge line. Under the
+   content (z-index -1 in the host's stacking context). --sx/--sy are set
+   per frame by the component, in host px. */
+.spotlight {
+  --sx: 50%;
+  --sy: 50%;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  /* 7%: measured so the faintest label colour (fg-subtle) stays above 4.5:1
+     even with the disc centred behind it and an ambient cluster underneath */
+  background: radial-gradient(
+    260px circle at var(--sx) var(--sy),
+    color-mix(in srgb, var(--marka-elektrik) 7%, transparent),
+    transparent 70%
+  );
+}
+/* cards: a 1px frame just inside the border, lit near the cursor */
+.spotlight--all::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    220px circle at var(--sx) var(--sy),
+    color-mix(in srgb, var(--marka-elektrik) 60%, transparent),
+    transparent 70%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+/* rows: only the bottom rule exists, so only it glows */
+.spotlight--bottom::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: radial-gradient(
+    220px circle at var(--sx) 0,
+    color-mix(in srgb, var(--marka-elektrik) 60%, transparent),
+    transparent 70%
+  );
+}
+.spotlight[data-on="1"] {
+  opacity: 1;
+}
+
+/* FourPointMark tilt (useTilt): the 3D stage. will-change only where the
+   tilt can run at all, so a phone never pays for a compositor layer. */
+.mark-tilt-stage {
+  perspective: 900px;
+}
+.mark-tilt {
+  transform-style: preserve-3d;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .mark-tilt {
+    will-change: transform;
+  }
+}

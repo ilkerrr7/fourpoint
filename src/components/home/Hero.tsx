@@ -19,8 +19,10 @@ export function Hero() {
     <section className="hero relative overflow-clip min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)]">
       <div className="vignette" aria-hidden="true" />
 
+      {/* the mark answers the cursor (pointer-only tilt, fine pointers); its
+          drawing, size, position and opacity are unchanged */}
       <div className="hero-mark" aria-hidden="true">
-        <FourPointMark interactive={false} className="w-full h-full" />
+        <FourPointMark tilt="pointer" className="w-full h-full" />
       </div>
 
       <Container className="relative z-10">
