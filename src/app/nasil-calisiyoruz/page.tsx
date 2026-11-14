@@ -12,6 +12,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Ücretsiz keşif görüşmesi, strateji ve kurulum, sürekli optimizasyon ve raporlama. Onayınız olmadan reklam açmıyoruz; her adımı önceden bilirsiniz.",
   path: "/nasil-calisiyoruz",
+  shareImage: "file",
 });
 
 const STEPS = [

@@ -18,6 +18,12 @@ interface PageMetaInput {
   path: string;
   /** Use the title as-is (the home page). */
   absolute?: boolean;
+  /**
+   * "file": the route has its own opengraph-image.tsx / twitter-image.tsx
+   * (Next file convention); no images are set here, so the generated ones
+   * are used. Default: the shared public/media/og-image.png.
+   */
+  shareImage?: "file" | "default";
 }
 
 /**
@@ -26,8 +32,9 @@ interface PageMetaInput {
  * shallowly, so a page that only sets `title` would otherwise inherit the
  * layout's og:title/og:url (the home page's) on every route.
  */
-export function pageMetadata({ title, description, path, absolute }: PageMetaInput): Metadata {
+export function pageMetadata({ title, description, path, absolute, shareImage = "default" }: PageMetaInput): Metadata {
   const fullTitle = absolute ? title : `${title} | ${siteConfig.name}`;
+  const fromFile = shareImage === "file";
   return {
     title: absolute ? { absolute: title } : title,
     description,
@@ -39,13 +46,13 @@ export function pageMetadata({ title, description, path, absolute }: PageMetaInp
       title: fullTitle,
       description,
       url: path,
-      images: [OG_IMAGE],
+      ...(fromFile ? {} : { images: [OG_IMAGE] }),
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
       description,
-      images: [OG_IMAGE.url],
+      ...(fromFile ? {} : { images: [OG_IMAGE.url] }),
     },
   };
 }

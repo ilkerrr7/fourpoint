@@ -48,7 +48,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             </svg>
           </div>
         </div>
-        {error && <p className="text-red-400 text-14 mt-1">{error}</p>}
+        {/* yer ayrılmış hata satırı: mesaj belirince alanlar kaymaz, yalnızca
+            opaklık ve 4px kayma (effects.css .field-error) */}
+        <p className="field-error text-red-400 text-14 mt-1 min-h-5" data-on={error ? "1" : "0"} aria-live="polite">
+          {error ?? "\u00a0"}
+        </p>
       </div>
     );
   }

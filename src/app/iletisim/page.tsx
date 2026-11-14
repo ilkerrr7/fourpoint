@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading } from "@/components/ui";
 import ContactForm from "@/components/forms/ContactForm";
+import { MapEmbed } from "@/components/contact/MapEmbed";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { AmbientField } from "@/components/home/AmbientField";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -13,6 +14,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Ücretsiz keşif görüşmesi için bize yazın. İşletmenizi dinleyelim, reklam ihtiyaçlarınızı birlikte değerlendirip size özel bir yol haritası çıkaralım.",
   path: "/iletisim",
+  shareImage: "file",
 });
 
 export default function IletisimPage() {
@@ -188,17 +190,12 @@ export default function IletisimPage() {
       <section className="py-12 md:py-20" aria-labelledby="ofis-heading">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 lg:items-stretch">
-            {/* Harita — mobilde tam genişlik */}
-            <div className="lg:col-span-3 overflow-hidden rounded-[var(--radius-card)] border border-deep/50 bg-surface">
-              <iframe
-                src={siteConfig.contact.office.mapsEmbedSrc}
-                title={`${siteConfig.displayName} ofis konumu — Google Maps`}
-                className="block h-[280px] w-full sm:h-[360px] lg:h-full lg:min-h-[420px]"
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
+            {/* Harita — mobilde tam genişlik; tıklayınca yüklenir (MapEmbed) */}
+            <MapEmbed
+              className="lg:col-span-3"
+              src={siteConfig.contact.office.mapsEmbedSrc}
+              title={`${siteConfig.displayName} ofis konumu — Google Maps`}
+            />
 
             {/* Adres + e-posta */}
             <aside className="lg:col-span-2 flex flex-col justify-center">

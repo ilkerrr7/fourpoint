@@ -20,7 +20,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = "primary", size = "md", href, icon, className = "", children, disabled, type = "button", ...props }, ref) => {
     // 150ms ease-out renk/kenar geçişi, :active'de 0.97 basış (azaltılmış
     // harekette kapalı); odak halkası global :focus-visible kuralından gelir.
-    const baseClasses = "inline-flex items-center justify-center gap-2 font-medium text-15 transition-[color,background-color,border-color,transform] duration-150 ease-out active:scale-[0.97] motion-reduce:active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 rounded-[var(--radius-button)]";
+    const baseClasses = "group inline-flex items-center justify-center gap-2 font-medium text-15 transition-[color,background-color,border-color,transform] duration-150 ease-out active:scale-[0.97] motion-reduce:active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 rounded-[var(--radius-button)]";
 
     const variants = {
       primary: "bg-accent text-ink hover:bg-accent/85",

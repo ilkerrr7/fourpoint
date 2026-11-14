@@ -17,7 +17,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         <label htmlFor={checkboxId} className="flex items-start min-h-11 py-3 cursor-pointer select-none">
           <div className="flex items-center h-5 mt-0.5">
             <div
-              className={`relative w-5 h-5 rounded-[var(--radius-button)] border flex items-center justify-center transition-colors bg-surface border-line-strong has-checked:bg-accent has-checked:border-accent ${
+              className={`relative w-5 h-5 rounded-[var(--radius-button)] border flex items-center justify-center bg-surface border-line-strong has-checked:bg-accent has-checked:border-accent transition-colors duration-150 ${
                 error ? 'border-red-500' : ''
               }`}
             >
@@ -47,7 +47,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             {label} {required && <span className="text-primary">*</span>}
           </span>
         </label>
-        {error && <p className="text-red-400 text-14 mt-1">{error}</p>}
+        {/* yer ayrılmış hata satırı: mesaj belirince alanlar kaymaz, yalnızca
+            opaklık ve 4px kayma (effects.css .field-error) */}
+        <p className="field-error text-red-400 text-14 mt-1 min-h-5" data-on={error ? "1" : "0"} aria-live="polite">
+          {error ?? "\u00a0"}
+        </p>
       </div>
     );
   }
