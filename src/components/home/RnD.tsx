@@ -85,7 +85,7 @@ export function RnD() {
         >
           {projects.map((project, index) => (
             <motion.div key={project.title} variants={card} className="h-full">
-              <Card hover className="h-full p-6 md:p-8 flex flex-col">
+              <Card hover spotlight className="h-full p-6 md:p-8 flex flex-col">
                 <div className="flex items-start justify-between gap-4">
                   <span className="font-heading text-14 text-fg-subtle">0{index + 1}</span>
                   <span

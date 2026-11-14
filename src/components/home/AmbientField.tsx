@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useMotionAllowed } from "@/hooks/useMotionAllowed";
+import { usePointerField } from "@/hooks/usePointerField";
 
 const subscribe = () => () => {};
 
@@ -33,6 +34,10 @@ const subscribe = () => () => {};
  * the hero section flips it, and the clusters cross-fade in and out with a
  * plain opacity transition. Scroll-timeline browsers never see that rule
  * take effect because their lane animation owns the opacity.
+ *
+ * On fine-pointer desktops the second cluster also drifts towards the
+ * cursor (.field-follow, at most ~15vw): pure CSS reading --mx/--my from the
+ * shared pointer field, eased by a transition. Everything else is untouched.
  */
 export function AmbientField() {
   const hydrated = useSyncExternalStore(
@@ -41,6 +46,8 @@ export function AmbientField() {
     () => false,
   );
   const allowed = useMotionAllowed({ phones: true });
+  // holds the shared pointer listener while this page is up (desktop only)
+  usePointerField();
   const [heroGone, setHeroGone] = useState(false);
 
   useEffect(() => {
@@ -68,7 +75,9 @@ export function AmbientField() {
         <div className="field-orb field-orb--1" />
       </div>
       <div className="field-scroll field-scroll--b">
-        <div className="field-orb field-orb--2" />
+        <div className="field-follow">
+          <div className="field-orb field-orb--2" />
+        </div>
       </div>
       <div className="field-scroll field-scroll--c">
         <div className="field-orb field-orb--3" />

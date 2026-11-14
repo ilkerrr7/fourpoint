@@ -58,11 +58,21 @@ export function stepRadar(state: RadarState, dtSeconds: number): void {
   }
 }
 
+/** Cursor position in canvas CSS px, or null when the pointer is not over the radar. */
+export interface RadarCursor {
+  x: number;
+  y: number;
+}
+
+/** px: targets closer than this to the cursor light up, fully at the centre */
+const CURSOR_REACH = 90;
+
 export function drawRadar(
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
   state: RadarState,
+  cursor: RadarCursor | null = null,
 ): void {
   const cx = width / 2;
   const cy = height / 2;
@@ -108,16 +118,26 @@ export function drawRadar(
   ctx.lineTo(cx + Math.cos(state.angle) * r, cy + Math.sin(state.angle) * r);
   ctx.stroke();
 
-  // targets: a dot, plus a ring that opens as the dot fades
+  // targets: a dot, plus a ring that opens as the dot fades. With a cursor
+  // over the radar, targets near it light up (the sweep is unaffected).
   for (let i = 0; i < BLIPS.length; i++) {
     const life = state.life[i];
-    if (life <= 0.02) continue;
     const x = cx + Math.cos(BLIPS[i][0]) * BLIPS[i][1] * r;
     const y = cy + Math.sin(BLIPS[i][0]) * BLIPS[i][1] * r;
-    ctx.fillStyle = `rgba(${GOK}, ${life.toFixed(3)})`;
+    const near = cursor ? Math.max(0, 1 - Math.hypot(x - cursor.x, y - cursor.y) / CURSOR_REACH) : 0;
+    if (life <= 0.02 && near <= 0) continue;
+    if (near > 0) {
+      // soft halo, single colour at low alpha
+      ctx.fillStyle = `rgba(${GOK}, ${(0.22 * near).toFixed(3)})`;
+      ctx.beginPath();
+      ctx.arc(x, y, 7 + 7 * near, 0, TAU);
+      ctx.fill();
+    }
+    ctx.fillStyle = `rgba(${GOK}, ${Math.max(life, near).toFixed(3)})`;
     ctx.beginPath();
-    ctx.arc(x, y, 3, 0, TAU);
+    ctx.arc(x, y, 3 + near, 0, TAU);
     ctx.fill();
+    if (life <= 0.02) continue;
     ctx.strokeStyle = `rgba(${ELEKTRIK}, ${(life * 0.5).toFixed(3)})`;
     ctx.lineWidth = 1;
     ctx.beginPath();

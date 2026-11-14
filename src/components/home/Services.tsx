@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Container, SectionHeading, Button } from "@/components/ui";
+import { Spotlight } from "@/components/effects/Spotlight";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 
 type TabId = "meta" | "google";
@@ -167,8 +168,9 @@ export function Services() {
               // lands on the group it belongs to rather than the page top.
               href={`/hizmetler#hizmetler-${tab}`}
               variants={row}
-              className="group grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-3 md:gap-8 py-8 md:py-10 border-b border-deep"
+              className="group relative isolate overflow-hidden grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-3 md:gap-8 py-8 md:py-10 border-b border-deep"
             >
+              <Spotlight edge="bottom" />
               <span className="md:col-span-1 font-heading text-14 text-fg-subtle">
                 0{index + 1}
               </span>
