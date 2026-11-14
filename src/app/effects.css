@@ -1002,3 +1002,247 @@
     will-change: transform;
   }
 }
+
+/* ---------------------------------------------
+   Light line — the continuous light line (docs/isik-hatti.md)
+   ---------------------------------------------
+   1360px and up only. Rails (LightRail) beside the sections, curves
+   (CableJoint's LineCurve) between them. Every piece is its own view
+   timeline whose scrollport is collapsed to the 45% reading line
+   (view-timeline-inset 45% 55%): the piece animates exactly while it crosses
+   that line, so consecutive pieces hand the head to each other without a
+   gap. Static state: rail and curve fully charged, nodes lit, no head.
+   Below 1360px every line piece is display:none and the legacy cables above
+   are untouched. (1360, not 1280: at 1280 the rail sat 8px from the edge
+   and the curve halo was clipped; at 1360 the margin is 48px.) */
+
+.line-section {
+  position: relative;
+}
+.light-rail,
+.line-curve {
+  display: none;
+}
+
+@keyframes rail-charge {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+/* the head is a dot on the bottom edge of a rail-tall box: translating the
+   box from -100% to 0 walks the dot down the rail, transform only. Opacity
+   is 0 exactly at the ends so a finished piece shows no second head. */
+@keyframes rail-head {
+  0%        { transform: translateY(-100%); opacity: 0; }
+  1%, 99%   { opacity: 1; }
+  100%      { transform: translateY(0); opacity: 0; }
+}
+@keyframes lc-head-run {
+  0%        { stroke-dashoffset: 0.1; opacity: 0; }
+  1%, 99%   { opacity: 1; }
+  100%      { stroke-dashoffset: -1; opacity: 0; }
+}
+
+@media (min-width: 1360px) {
+  /* the legacy cables step aside */
+  .cable-anchor {
+    display: none;
+  }
+
+  .light-rail {
+    display: block;
+    position: absolute;
+    width: 0;
+    z-index: 10;
+    pointer-events: none;
+  }
+  /* the content box is 1216px wide, centred; rails 24px outside it */
+  .light-rail--left   { left: calc(50% - 632px); }
+  .light-rail--center { left: 50%; }
+  .light-rail--right  { left: calc(50% + 632px); }
+
+  .lr-halo,
+  .lr-base,
+  .lr-charged,
+  .lr-head {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    translate: -50% 0;
+  }
+  .lr-halo {
+    width: 14px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in srgb, var(--fx-line) 9%, transparent),
+      transparent
+    );
+  }
+  .lr-base {
+    width: 1px;
+    background: var(--fx-line);
+    opacity: 0.22;
+  }
+  .lr-charged {
+    width: 1.25px;
+    background: var(--fx-line);
+    opacity: 0.6;
+    transform-origin: top;
+  }
+  .lr-head {
+    width: 18px;
+    opacity: 0;
+    background: radial-gradient(
+      circle 9px at 50% 100%,
+      var(--fx-line-hot) 0 1.6px,
+      color-mix(in srgb, var(--fx-line) 32%, transparent) 2.5px,
+      color-mix(in srgb, var(--fx-line) 9%, transparent) 5px,
+      transparent 9px
+    );
+  }
+  /* the first piece emerges from darkness */
+  .light-rail--fade .lr-halo,
+  .light-rail--fade .lr-base,
+  .light-rail--fade .lr-charged {
+    mask-image: linear-gradient(to bottom, transparent, #000 140px);
+  }
+
+  .line-curve {
+    display: block;
+    position: absolute;
+    left: -40px;
+    width: 1296px;
+    height: var(--lc-h);
+    top: calc(var(--lc-terminal) + 8px - var(--lc-h));
+    pointer-events: none;
+  }
+  .lc-halo,
+  .lc-core {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .lc-halo { will-change: transform; }
+  .lc-halo path {
+    fill: none;
+    stroke: var(--fx-line);
+    stroke-width: 14;
+    stroke-opacity: 0.2;
+  }
+  .lc-base {
+    fill: none;
+    stroke: var(--fx-line);
+    stroke-width: 1;
+    stroke-opacity: 0.22;
+  }
+  .lc-charged {
+    fill: none;
+    stroke: var(--fx-line);
+    stroke-width: 1.25;
+    stroke-opacity: 0.6;
+    stroke-dasharray: 1 2;
+    stroke-dashoffset: 0; /* static: fully charged */
+  }
+  .lc-head,
+  .lc-head-mid,
+  .lc-head-glow,
+  .lc-head-outer {
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 0.1 3;
+    stroke-dashoffset: -1;
+    opacity: 0;
+  }
+  .lc-head       { stroke: var(--fx-line-hot); stroke-width: 1.6; }
+  .lc-head-mid   { stroke: var(--fx-line); stroke-width: 5;  stroke-opacity: 0.32; }
+  .lc-head-glow  { stroke: var(--fx-line); stroke-width: 10; stroke-opacity: 0.09; }
+  .lc-head-outer { stroke: var(--fx-line); stroke-width: 18; stroke-opacity: 0.04; }
+  .lc-node {
+    position: absolute;
+    bottom: 4px;
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    border-radius: 9999px;
+    background: var(--fx-line-hot);
+    box-shadow:
+      0 0 0 4px rgb(10 132 255 / 0.16),
+      0 0 18px 4px rgb(10 132 255 / 0.5);
+  }
+
+  /* ---- motion: scroll timelines, the reading line ---- */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      :root:not([data-fx="off"]) .light-rail,
+      :root:not([data-fx="off"]) .line-curve {
+        view-timeline: --seg block;
+        view-timeline-inset: 45% 55%;
+      }
+
+      :root:not([data-fx="off"]) .lr-charged {
+        will-change: transform;
+        animation: rail-charge linear both;
+        animation-timeline: --seg;
+        animation-range: cover;
+      }
+      :root:not([data-fx="off"]) .lr-head {
+        will-change: transform, opacity;
+        animation: rail-head linear both;
+        animation-timeline: --seg;
+        animation-range: cover;
+      }
+
+      :root:not([data-fx="off"]) .lc-charged {
+        animation: cable-charge linear both;
+        animation-timeline: --seg;
+        animation-range: cover;
+      }
+      :root:not([data-fx="off"]) .lc-head,
+      :root:not([data-fx="off"]) .lc-head-mid,
+      :root:not([data-fx="off"]) .lc-head-glow,
+      :root:not([data-fx="off"]) .lc-head-outer {
+        animation: lc-head-run linear both;
+        animation-timeline: --seg;
+        animation-range: cover;
+      }
+      /* lights as the head arrives, stays lit after (fill both) */
+      :root:not([data-fx="off"]) .lc-node {
+        animation: cable-node-ignite ease-out both;
+        animation-timeline: --seg;
+        animation-range: cover 88% cover 100%;
+      }
+    }
+
+    /* ---- fallback: no scroll timeline, one shot per piece at the line ---- */
+    @supports not (animation-timeline: view()) {
+      :root:not([data-fx="off"]) .light-rail[data-live="wait"] .lr-charged { transform: scaleY(0); }
+      :root:not([data-fx="off"]) .line-curve[data-live="wait"] .lc-charged { stroke-dashoffset: 1; }
+      :root:not([data-fx="off"]) .line-curve[data-live="wait"] .lc-node {
+        opacity: 0.18;
+        transform: scale(0.5);
+      }
+
+      :root:not([data-fx="off"]) .light-rail[data-live="on"] .lr-charged {
+        animation: rail-charge 0.9s cubic-bezier(0.5, 0, 0.5, 1) both;
+      }
+      :root:not([data-fx="off"]) .light-rail[data-live="on"] .lr-head {
+        animation: rail-head 0.9s cubic-bezier(0.5, 0, 0.5, 1) both;
+      }
+      :root:not([data-fx="off"]) .line-curve[data-live="on"] .lc-charged {
+        animation: cable-charge 0.9s cubic-bezier(0.5, 0, 0.5, 1) both;
+      }
+      :root:not([data-fx="off"]) .line-curve[data-live="on"] .lc-head,
+      :root:not([data-fx="off"]) .line-curve[data-live="on"] .lc-head-mid,
+      :root:not([data-fx="off"]) .line-curve[data-live="on"] .lc-head-glow,
+      :root:not([data-fx="off"]) .line-curve[data-live="on"] .lc-head-outer {
+        animation: lc-head-run 0.9s cubic-bezier(0.5, 0, 0.5, 1) both;
+      }
+      :root:not([data-fx="off"]) .line-curve[data-live="on"] .lc-node {
+        animation: cable-node-ignite 0.35s ease-out 0.75s both;
+      }
+    }
+  }
+}

@@ -83,11 +83,13 @@ Karar: faq→closing dirseğinin sağdan gelen hareketi korunur. Bunun için SSS
 boyunca ray sağ kenarda koşar; Ücretlendirme'nin orta rayından sağa bir
 dirsekle geçilir. Yedi dirsek, dördü bugünkü geometri, üçü yeni.
 
-Karar: ray yalnızca 1280px ve üstünde. Bu genişlikte kapsayıcı tam 1280px'e
-oturduğu için geometri sabittir: içerik 1216px, sol ray içerik kenarının 24px
-dışında (x = −24), orta ray x = 608, sağ ray x = 1240. 1280'de ray ekranın
-8px içinde kalır. 1280 altında ray yok ve bugünkü dört kablo aynen çalışır
-(aynı geometri, aynı zamanlama, aynı yedek yol).
+Karar: ray yalnızca 1360px ve üstünde (ilk eşik 1280'di; orada ray ekranın
+8px içinde kalıyor ve dirsek halosu kenarda kesiliyordu). Kapsayıcı 1280px'te
+sabit olduğu için geometri değişmez: içerik 1216px, sol ray içerik kenarının
+24px dışında (x = −24), orta ray x = 608, sağ ray x = 1240. 1360'ta ray ile
+görünüm kenarı arasında 48px kalır, halo kesilmez. 1360 altında ray yok ve
+bugünkü dört kablo aynen çalışır (aynı geometri, aynı zamanlama, aynı yedek
+yol).
 
 ## 5. Anatomi
 
@@ -110,7 +112,7 @@ Düğümler (cable-node) dirseklerin bittiği yerde, eyebrow hizasında, rayın
 kaydırmada zaman çizelgesi geri sardığı için tekrar söner, bu doğal). Dirsek
 geometrisi hat modunda formülle üretilir: yan değişiyorsa iki ray arasında S
 eğrisi, aynı yandaysa rayın sağına doğru bir çıkıntı (bugünkü hero→pain ve
-console→automation hissi). Bugünkü dört kablonun kendi path'leri 1280
+console→automation hissi). Bugünkü dört kablonun kendi path'leri 1360
 altında olduğu gibi kalır.
 
 Katman sırası: hat içerik altında (z-index 0, bölüm arkaplanları saydam
@@ -136,9 +138,9 @@ Ambient alanla ilişki: hat alanın üstünde, metnin altında.
 
 | Durum | Davranış |
 |---|---|
-| ≥1280px, scroll timeline, hareket serbest | Tam hat: raylar + yedi dirsek, baş okuma çizgisinde, düğümler geçişte yanar ve yanık kalır |
-| ≥1280px, scroll timeline yok (Firefox, Safari 26 öncesi) | Parça parça tek seferlik: her parça okuma çizgisine girince (IntersectionObserver, `rootMargin` ile aynı %45 çizgisi) 0,9 sn'lik kendi animasyonunu bir kez oynatır ve dolu kalır; InViewOnce ile. Geri kaydırmada geri sönme yok. |
-| 1024–1279px | Ray yok. Bugünkü dört kablo aynen: scroll timeline varsa kaydırmayla, yoksa InViewOnce ile tek seferlik. |
+| ≥1360px, scroll timeline, hareket serbest | Tam hat: raylar + yedi dirsek, baş okuma çizgisinde, düğümler geçişte yanar ve yanık kalır |
+| ≥1360px, scroll timeline yok (Firefox, Safari 26 öncesi) | Parça parça tek seferlik: her parça okuma çizgisine girince (IntersectionObserver, `rootMargin` ile aynı %45 çizgisi) 0,9 sn'lik kendi animasyonunu bir kez oynatır ve dolu kalır; InViewOnce ile. Geri kaydırmada geri sönme yok. |
+| 1024–1359px | Ray yok. Bugünkü dört kablo aynen: scroll timeline varsa kaydırmayla, yoksa InViewOnce ile tek seferlik. |
 | Telefon (768 altı) | Karar: bugünkü davranış aynen kalır; raylar yok, dört kablo scroll timeline varsa kaydırmayla, yoksa InViewOnce ile tek seferlik oynar. Canlıdaki telefon animasyonu geri alınmaz. |
 | Hareketi azalt, data-fx="off", veri tasarrufu, az bellek | Statik: hat baştan sona dolu, düğümler yanık, baş yok. Bugünkü korumasız hal; içerik eksilmez. |
 
@@ -160,8 +162,8 @@ Korumasız (sunucu) hal her zaman tam ve okunur: hat dolu çizilir.
 ## 9. Kararlar (2026-11-14)
 
 1. Okuma çizgisi üstten %45.
-2. Ray yalnızca 1280px ve üstünde; 1024–1279 arasında ray yok, bugünkü
-   kablolar kalır.
+2. Ray yalnızca 1360px ve üstünde (1280'den yükseltildi: kenarda 8px ve
+   kesik halo); 1360 altında ray yok, bugünkü kablolar kalır.
 3. faq→closing dirseğinin sağdan gelen hareketi korunur (SSS boyunca sağ
    ray, Ücretlendirme'den sağa yeni bir dirsek).
 4. Düğümler baş geçtikten sonra yanık kalır.
@@ -171,14 +173,14 @@ Korumasız (sunucu) hal her zaman tam ve okunur: hat dolu çizilir.
 
 ## 10. Uygulama sırası (onaydan sonra)
 
-1. `LightRail` (bölüm sarmalayıcısında) + CableJoint'e hat modu (≥1280
-   için formül geometrili ikinci çizim; bugünkü çizim 1280 altında aynen).
+1. `LightRail` (bölüm sarmalayıcısında) + CableJoint'e hat modu (≥1360
+   için formül geometrili ikinci çizim; bugünkü çizim 1360 altında aynen).
    Üç yeni dirsek kimliği: rnd-process, process-differentiators,
-   pricing-faq (1280 altında hiç çizilmez).
+   pricing-faq (1360 altında hiç çizilmez).
 2. effects.css: `view-timeline-inset` ile okuma çizgisi, ray `scaleY`,
    dirsek dashoffset, düğüm `exit` aralığı; 42%/54% kuralları silinir.
 3. Yedek yol: IO ile `data-live`, parça başına bir kez.
-4. Kademeler: 1280 altında ray yok ve bugünkü kablolar birebir; statik hal
+4. Kademeler: 1360 altında ray yok ve bugünkü kablolar birebir; statik hal
    kontrolü (data-fx="off" ile görsel karşılaştırma).
 5. Ölçüm: 1440 / 1280 / 1100 / 390 ekran görüntüleri ve kısa kaydırma
    kaydı, 390'da kabloların canlı siteyle aynı oynadığının ölçümü, hareketi

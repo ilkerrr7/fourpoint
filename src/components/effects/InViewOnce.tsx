@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
-import { useInView } from "motion/react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 
 const subscribe = () => () => {};
 
@@ -14,16 +13,24 @@ const subscribe = () => () => {};
  *   "wait"    hydrated, not seen yet: CSS may rewind the effect
  *   "on"      seen: CSS plays it, and it stays "on"
  *
- * effects.css uses this for the cable joints in browsers without scroll
- * timelines (Firefox, Safari before 26 — which is most iPhones).
+ * "Seen" means the element has reached the band between the top of the
+ * viewport and `margin` (an IntersectionObserver rootMargin) — or is already
+ * above it, as after a reload that restores a scroll position or an anchor
+ * jump: those pieces are treated as passed, so nothing above the fold is
+ * left rewound. effects.css uses this for the cable joints in browsers
+ * without scroll timelines (Firefox, Safari before 26 — which is most
+ * iPhones) and for the light line's rails and curves.
  */
 export function InViewOnce({
   className,
   style,
+  margin = "0px 0px -30% 0px",
   children,
 }: {
   className?: string;
   style?: CSSProperties;
+  /** IntersectionObserver rootMargin: where on screen "seen" starts */
+  margin?: string;
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,11 +39,27 @@ export function InViewOnce({
     () => true,
     () => false,
   );
-  // fires when the element is well inside the viewport, not at its edge
-  const inView = useInView(ref, { once: true, margin: "0px 0px -30% 0px" });
+  const [seen, setSeen] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const rootTop = entry.rootBounds?.top ?? 0;
+        if (entry.isIntersecting || entry.boundingClientRect.bottom < rootTop) {
+          setSeen(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: margin },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [margin]);
 
   return (
-    <div ref={ref} className={className} style={style} data-live={hydrated ? (inView ? "on" : "wait") : undefined}>
+    <div ref={ref} className={className} style={style} data-live={hydrated ? (seen ? "on" : "wait") : undefined}>
       {children}
     </div>
   );
