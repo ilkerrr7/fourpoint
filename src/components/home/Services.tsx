@@ -101,7 +101,7 @@ export function Services() {
   const panelId = (id: TabId) => `${baseId}-panel-${id}`;
 
   return (
-    <section id="hizmetler" className="py-section bg-ink border-t border-deep">
+    <section id="hizmetler" className="py-section border-t border-deep">
       <Container>
         <SectionHeading
           badge="Hizmetler"

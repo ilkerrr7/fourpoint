@@ -17,13 +17,6 @@ export interface MediaSlotConfig {
   priority?: boolean;
 }
 
-export const mediaSlots: Record<string, MediaSlotConfig> = {
-  sectionBreak: {
-    type: "image",
-    src: "/media/break.webp",
-    aspectRatio: "21/9",
-    priority: false,
-    // Dekoratif: anlam taşımaz, ekran okuyucu için boş alt (bölüm aria-hidden).
-    alt: "",
-  },
-};
+// Boş: ana sayfadaki ara görselin yerini canlı konsol aldı (EngineConsole).
+// Yeni bir fotoğraf/video eklenecekse buraya bir slot tanımlanır.
+export const mediaSlots: Record<string, MediaSlotConfig> = {};

@@ -1,12 +1,15 @@
 import type { CSSProperties } from "react";
 import { Container } from "@/components/ui/Container";
+import { InViewOnce } from "./InViewOnce";
 
 /**
  * A neon cable bridging two sections: a thin electric-blue filament that drops out of
  * the bottom of one section and docks just above the next section's eyebrow,
  * with a pulse of light that runs down it as you scroll (see effects.css).
+ * Where scroll timelines are missing, the same pulse plays once, on a timer,
+ * when the cable comes on screen (InViewOnce).
  *
- * Server component, pure SVG + CSS. It carries no text, is aria-hidden, and
+ * Server component, pure SVG + CSS (the anchor alone is a client wrapper). It carries no text, is aria-hidden, and
  * sits in a zero-height slot between two sections, so it never affects layout.
  *
  * Geometry is hand-authored per joint in a local viewBox. Cables anchor to the
@@ -46,14 +49,17 @@ const joints: Record<CableJointId, CableGeometry> = {
     start: [170, 60],
     end: [12, 202],
   },
-  // Photo break → "Otomasyon" (left-aligned eyebrow)
+  // Engine console → "Otomasyon" (left-aligned eyebrow). The drawing starts
+  // 157px above the section boundary and the console ends 128px above it, so
+  // the visible stroke begins at y=54 to keep a 25px gap under the console.
+  // The docking point (end, terminal) is unchanged.
   "break-automation": {
     anchor: "left",
     w: 250,
     h: 280,
     terminal: 115,
-    d: "M210 30 C210 130 12 140 12 272",
-    start: [210, 30],
+    d: "M210 54 C210 146 12 150 12 272",
+    start: [210, 54],
     end: [12, 272],
   },
   // "Neden Four Point?" → "Ücretlendirme" (centred eyebrow)
@@ -93,7 +99,7 @@ export function CableJoint({ id }: { id: CableJointId }) {
     <div className="cable-joint" aria-hidden="true">
       <Container>
         <div className="relative">
-          <div className={`cable-anchor cable-anchor--${g.anchor}`} style={style}>
+          <InViewOnce className={`cable-anchor cable-anchor--${g.anchor}`} style={style}>
             {/* static glow: blurred once, on its own layer */}
             <svg className="cable-halo" viewBox={viewBox} preserveAspectRatio="xMidYMax meet">
               <defs>
@@ -128,7 +134,7 @@ export function CableJoint({ id }: { id: CableJointId }) {
             </svg>
 
             <span className="cable-node" style={{ left: `${(g.end[0] / g.w) * 100}%` }} />
-          </div>
+          </InViewOnce>
         </div>
       </Container>
     </div>

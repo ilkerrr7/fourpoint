@@ -5,7 +5,8 @@ import { siteConfig } from "@/lib/site-config";
 import { Hero } from "@/components/home/Hero";
 import { PainPoints } from "@/components/home/PainPoints";
 import { Services } from "@/components/home/Services";
-import { MediaBreak } from "@/components/home/MediaBreak";
+import { ValueStrip } from "@/components/home/ValueStrip";
+import { EngineConsole } from "@/components/home/EngineConsole";
 import { Automation } from "@/components/home/Automation";
 import { RnD } from "@/components/home/RnD";
 import { Process } from "@/components/home/Process";
@@ -14,6 +15,7 @@ import { PricingLogic } from "@/components/home/PricingLogic";
 import { FAQ } from "@/components/home/FAQ";
 import { ClosingCTA } from "@/components/home/ClosingCTA";
 import { CableJoint } from "@/components/effects/CableJoint";
+import { AmbientField } from "@/components/home/AmbientField";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { faqPageJsonLd } from "@/lib/schema";
 import { faqItems } from "@/lib/faq";
@@ -30,11 +32,14 @@ export default function HomePage() {
     <PageTransition>
       {/* SSS bölümüyle aynı veriden üretilir, elle yazılmaz */}
       <JsonLd data={faqPageJsonLd(faqItems)} />
+      {/* sayfanın arkasındaki ışık alanı: sabit, içeriğin altında, yalnızca ana sayfa */}
+      <AmbientField />
       <Hero />
       <CableJoint id="hero-pain" />
       <PainPoints />
+      <ValueStrip />
       <Services />
-      <MediaBreak />
+      <EngineConsole />
       <CableJoint id="break-automation" />
       <Automation />
       <RnD />

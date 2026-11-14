@@ -31,7 +31,7 @@ const item = {
 
 export function PainPoints() {
   return (
-    <section className="py-section bg-ink border-t border-deep">
+    <section className="py-section border-t border-deep">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 12 }}
