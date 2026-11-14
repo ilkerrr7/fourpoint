@@ -1545,3 +1545,221 @@
     }
   }
 }
+
+/* ---------------------------------------------
+   Service diagrams — one small moving drawing per service (ServiceDiagram.tsx)
+   ---------------------------------------------
+   Pure SVG + CSS, 240x160 each. Same language as the cables: dim electric
+   trace, charged trace, sky-blue light and lit nodes, low-alpha cream
+   structure lines; fills either none or one colour at low alpha. No text,
+   numbers, axes or icons in any drawing. Static state = finished drawing.
+   Loops are time-based and run only while on screen (InViewGate
+   data-live="on"), under the usual reduced-motion / data-fx guards. Every
+   loop draws, holds, then fades out in the last ~8% and restarts from
+   nothing, so the restart is never a visible jump. Lines that draw on use
+   pathLength=1 with dasharray 1 1 (offset 1 = empty, 0 = full); travelling
+   lights are a 0.04 dash walked from offset 0.04 to -1, as the cable head. */
+
+.sema {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+}
+.sema svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sema-frame { stroke: color-mix(in srgb, var(--marka-krem) 22%, transparent); stroke-width: 1; }
+.sema-faint { stroke: color-mix(in srgb, var(--marka-krem) 10%, transparent); stroke-width: 1; }
+.sema-line { stroke: var(--fx-line); stroke-width: 1; stroke-opacity: 0.32; }
+.sema-charged { stroke: var(--fx-line); stroke-width: 1.25; stroke-opacity: 0.7; }
+.sema-hot { stroke: var(--fx-line-hot); stroke-width: 1.5; }
+.sema-dot { fill: var(--fx-line-hot); }
+.sema-glow { fill: var(--fx-line-hot); opacity: 0.12; }
+.sema-fill { fill: var(--fx-line-hot); fill-opacity: 0.1; stroke: var(--fx-line-hot); stroke-width: 1.25; }
+.sema-head {
+  stroke: var(--fx-line-hot);
+  stroke-width: 2.2;
+  stroke-dasharray: 0.04 3;
+  stroke-dashoffset: -1; /* parked past the end */
+  opacity: 0;
+}
+/* lines that draw on: full in the static state */
+.fb-spoke, .fb-branch, .rt-trail, .pm-branch, .rp-row, .dt-trail {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 0;
+}
+/* static details per drawing */
+.hr-ring { transform-box: fill-box; transform-origin: center; }
+.hr-ring--a { opacity: 0.5; }
+.hr-ring--b { transform: scale(2); opacity: 0.25; }
+.ar-typing { transform-origin: 50px 34px; }
+.yt-bar { transform-origin: 36px 134px; }
+.yt-knob { transform: translateX(168px); }
+.al-box { fill: var(--fx-line-hot); fill-opacity: 0; }
+.al-1 { transform: translateY(-6px); }
+.al-1 .al-box { stroke: var(--fx-line-hot); stroke-opacity: 1; fill-opacity: 0.08; }
+.pm-0, .rp-0 { --d: 0s; }
+.pm-1 { --d: 0.12s; }
+.pm-2 { --d: 0.24s; }
+.pm-3 { --d: 0.36s; }
+.rp-1 { --d: 0.4s; }
+.rp-2 { --d: 0.8s; }
+.rp-3 { --d: 1.2s; }
+.rp-4 { --d: 1.6s; }
+.rp-5 { --d: 2s; }
+.ar-row:nth-child(2) { --d: 0s; }
+.ar-row:nth-child(3) { --d: 0.25s; }
+.ar-row:nth-child(4) { --d: 0.5s; }
+.ar-row:nth-child(5) { --d: 0.75s; }
+
+/* ---- keyframes ---- */
+@keyframes sema-ig-flow {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-180px); } /* five cards: seamless */
+}
+/* draw on, hold, fade, reset (dash 1 1) */
+@keyframes sema-draw-24 {
+  0%          { stroke-dashoffset: 1; opacity: 1; }
+  24%, 84%    { stroke-dashoffset: 0; opacity: 1; }
+  92%         { stroke-dashoffset: 0; opacity: 0; }
+  92.01%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes sema-draw-24-48 {
+  0%, 24%     { stroke-dashoffset: 1; opacity: 1; }
+  48%, 84%    { stroke-dashoffset: 0; opacity: 1; }
+  92%         { stroke-dashoffset: 0; opacity: 0; }
+  92.01%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes sema-draw-42 {
+  0%          { stroke-dashoffset: 1; opacity: 1; }
+  42%, 84%    { stroke-dashoffset: 0; opacity: 1; }
+  92%         { stroke-dashoffset: 0; opacity: 0; }
+  92.01%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes sema-draw-50 {
+  0%          { stroke-dashoffset: 1; opacity: 1; }
+  50%, 84%    { stroke-dashoffset: 0; opacity: 1; }
+  92%         { stroke-dashoffset: 0; opacity: 0; }
+  92.01%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes sema-draw-55 {
+  0%          { stroke-dashoffset: 1; opacity: 1; }
+  55%, 84%    { stroke-dashoffset: 0; opacity: 1; }
+  92%         { stroke-dashoffset: 0; opacity: 0; }
+  92.01%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+@keyframes sema-draw-9 {
+  0%          { stroke-dashoffset: 1; opacity: 1; }
+  9%, 84%     { stroke-dashoffset: 0; opacity: 1; }
+  92%         { stroke-dashoffset: 0; opacity: 0; }
+  92.01%, 100% { stroke-dashoffset: 1; opacity: 0; }
+}
+/* a light running the whole path, gone at both ends */
+@keyframes sema-run-42 {
+  0%        { stroke-dashoffset: 0.04; opacity: 0; }
+  2%        { opacity: 1; }
+  42%       { stroke-dashoffset: -1; opacity: 1; }
+  44%, 100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes sema-run-50 {
+  0%        { stroke-dashoffset: 0.04; opacity: 0; }
+  2%        { opacity: 1; }
+  50%       { stroke-dashoffset: -1; opacity: 1; }
+  52%, 100% { stroke-dashoffset: -1; opacity: 0; }
+}
+@keyframes sema-run-55 {
+  0%        { stroke-dashoffset: 0.04; opacity: 0; }
+  2%        { opacity: 1; }
+  55%       { stroke-dashoffset: -1; opacity: 1; }
+  57%, 100% { stroke-dashoffset: -1; opacity: 0; }
+}
+/* nodes: dim until the light arrives, lit until the fade */
+@keyframes sema-lit-24 { 0%, 22% { opacity: 0.15; } 27%, 84% { opacity: 1; } 92%, 100% { opacity: 0.15; } }
+@keyframes sema-lit-42 { 0%, 40% { opacity: 0.25; } 46%, 84% { opacity: 1; } 92%, 100% { opacity: 0.25; } }
+@keyframes sema-lit-48 { 0%, 46% { opacity: 0.15; } 51%, 84% { opacity: 1; } 92%, 100% { opacity: 0.15; } }
+@keyframes sema-lit-50 { 0%, 48% { opacity: 0.15; } 54%, 84% { opacity: 1; } 92%, 100% { opacity: 0.15; } }
+@keyframes sema-lit-55 { 0%, 52% { opacity: 0.25; } 58%, 84% { opacity: 1; } 92%, 100% { opacity: 0.25; } }
+@keyframes sema-glow-50 { 0%, 48% { opacity: 0; } 54%, 84% { opacity: 0.12; } 92%, 100% { opacity: 0; } }
+@keyframes sema-show-30 { 0%, 30% { opacity: 0; } 36%, 84% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes sema-show-56 { 0%, 56% { opacity: 0; } 62%, 84% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes sema-ar-typing {
+  0%          { transform: scaleX(0); opacity: 1; }
+  22%, 88%    { transform: scaleX(1); opacity: 1; }
+  92%         { transform: scaleX(1); opacity: 0; }
+  92.01%, 100% { transform: scaleX(0); opacity: 0; }
+}
+@keyframes sema-hr-ring {
+  0%   { transform: scale(0.25); opacity: 0.9; }
+  100% { transform: scale(3); opacity: 0; }
+}
+@keyframes sema-yt-bar {
+  0%          { transform: scaleX(0); opacity: 1; }
+  70%, 88%    { transform: scaleX(1); opacity: 1; }
+  92%         { transform: scaleX(1); opacity: 0; }
+  92.01%, 100% { transform: scaleX(0); opacity: 0; }
+}
+@keyframes sema-yt-knob {
+  0%          { transform: translateX(0); opacity: 1; }
+  70%, 88%    { transform: translateX(168px); opacity: 1; }
+  92%         { transform: translateX(168px); opacity: 0; }
+  92.01%, 100% { transform: translateX(0); opacity: 0; }
+}
+@keyframes sema-yt-play { 0%, 68% { fill-opacity: 0; } 74%, 88% { fill-opacity: 0.12; } 92%, 100% { fill-opacity: 0; } }
+@keyframes sema-al-lift {
+  0%, 24%  { transform: translateY(-6px); }
+  33%, 92% { transform: translateY(0); }
+  100%     { transform: translateY(-6px); }
+}
+@keyframes sema-al-box {
+  0%, 24%  { stroke: var(--fx-line-hot); stroke-opacity: 1; fill-opacity: 0.08; }
+  33%, 92% { stroke: var(--fx-line); stroke-opacity: 0.32; fill-opacity: 0; }
+  100%     { stroke: var(--fx-line-hot); stroke-opacity: 1; fill-opacity: 0.08; }
+}
+
+/* ---- motion: only on screen, only when allowed ---- */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-fx="off"]) .sema[data-live="on"] .ig-feed { animation: sema-ig-flow 7.2s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .fb-spoke  { animation: sema-draw-24 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .fb-branch { animation: sema-draw-24-48 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .fb-node   { animation: sema-lit-24 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .fb-leaf   { animation: sema-lit-48 5s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .rt-head  { animation: sema-run-55 4.5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .rt-trail { animation: sema-draw-55 4.5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .rt-page  { animation: sema-lit-55 4.5s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .ar-typing { animation: sema-ar-typing 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .ar-row    { animation: sema-show-30 5s linear infinite; animation-delay: calc(var(--d, 0s) - 5s); }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .ar-band   { animation: sema-show-56 5s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .hr-ring    { animation: sema-hr-ring 2.4s ease-out infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .hr-ring--b { animation-delay: -1.2s; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .pm-head   { animation: sema-run-42 3.6s linear infinite; animation-delay: calc(var(--d, 0s) - 3.6s); }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .pm-branch { animation: sema-draw-42 3.6s linear infinite; animation-delay: calc(var(--d, 0s) - 3.6s); }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .pm-out    { animation: sema-lit-42 3.6s linear infinite; animation-delay: calc(var(--d, 0s) - 3.6s); }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .yt-bar  { animation: sema-yt-bar 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .yt-knob { animation: sema-yt-knob 5s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .yt-play { animation: sema-yt-play 5s linear infinite; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .al-card        { animation: sema-al-lift 4.5s ease-in-out infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .al-card .al-box { animation: sema-al-box 4.5s ease-in-out infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .al-0, :root:not([data-fx="off"]) .sema[data-live="on"] .al-0 .al-box { animation-delay: -1.5s; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .al-2, :root:not([data-fx="off"]) .sema[data-live="on"] .al-2 .al-box { animation-delay: -3s; }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .rp-row { animation: sema-draw-9 5s linear infinite; animation-delay: calc(var(--d, 0s) - 5s); }
+
+  :root:not([data-fx="off"]) .sema[data-live="on"] .dt-head     { animation: sema-run-50 4s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .dt-trail    { animation: sema-draw-50 4s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .dt-end      { animation: sema-lit-50 4s linear infinite; }
+  :root:not([data-fx="off"]) .sema[data-live="on"] .dt-end-glow { animation: sema-glow-50 4s linear infinite; }
+}
