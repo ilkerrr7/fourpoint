@@ -65,7 +65,7 @@ export function RnD() {
     <section
       ref={ref}
       id="ar-ge"
-      className="py-section bg-ink border-t border-deep"
+      className="py-section border-t border-deep"
       data-live={inView ? "on" : "off"}
     >
       <Container>

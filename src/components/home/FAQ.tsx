@@ -9,7 +9,7 @@ import { faqItems } from "@/lib/faq";
 
 export function FAQ() {
   return (
-    <section className="py-section bg-ink border-t border-deep">
+    <section className="py-section border-t border-deep">
       <Container>
         <SectionHeading badge="SSS" title="Sıkça Sorulan Sorular" />
 

@@ -128,7 +128,7 @@ export function EngineConsole() {
   return (
     // pb-section on every width: the cable joint below starts inside this
     // section's bottom padding and must not cross the console
-    <section className="bg-ink border-t border-deep pt-section-sm md:pt-section pb-section" aria-hidden="true">
+    <section className="border-t border-deep pt-section-sm md:pt-section pb-section" aria-hidden="true">
       <Container>
         <div
           ref={ref}

@@ -14,11 +14,10 @@ import "./hero.css";
  */
 export function Hero() {
   return (
-    <section className="hero relative overflow-clip bg-ink min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)]">
-      {/* kurumsal kimliğin izin verdiği tek renkli geçiş: gece mavisi spot */}
-      <div className="spot-gece" aria-hidden="true" />
+    // Zemin saydam: gece mavisi spot ve gren artık sayfanın arkasındaki
+    // AmbientField'dan gelir (ilk küme başlığın arkasına hizalı). Vinyet kalır.
+    <section className="hero relative overflow-clip min-h-[calc(100svh-4rem)] md:min-h-[calc(100svh-5rem)]">
       <div className="vignette" aria-hidden="true" />
-      <div className="film-grain" aria-hidden="true" />
 
       <div className="hero-mark" aria-hidden="true">
         <FourPointMark interactive={false} className="w-full h-full" />

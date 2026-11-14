@@ -582,7 +582,7 @@
 
 .value-strip {
   overflow: clip;
-  background: var(--color-ink);
+  /* zemin yok: arkadaki ışık alanı görünür */
   border-top: 1px solid var(--color-deep);
 }
 .value-track {
@@ -747,10 +747,22 @@
   overflow: hidden;
   pointer-events: none;
   contain: strict;
+  /* Opaque brand black on purpose: the layer is a stacking context, so the
+     grain's `overlay` blend sees only what is inside it. Over a transparent
+     backdrop overlay degrades to a plain grey veil; over this black it is
+     the same subtle texture the hero used to carry. */
+  background: var(--color-ink);
 }
 .field-scroll {
   position: absolute;
   inset: 0;
+}
+/* Resting state: only the pool. The other lanes are invisible until the
+   scroll timeline below fades them in past the hero, so the first screen is
+   the old hero to the pixel, in every browser and with reduced motion. */
+.field-scroll--b,
+.field-scroll--c {
+  opacity: 0;
 }
 .field-orb {
   position: absolute;
@@ -759,12 +771,25 @@
   border-radius: 50%;
   background: radial-gradient(circle closest-side, var(--glow) 0%, transparent 100%);
 }
-/* the big night-blue pool: the same tone the hero/closing spots use */
+/* The night-blue pool. At rest it reproduces the hero's former .spot-gece
+   exactly: that spot was a farthest-corner circle centred on the hero,
+   fading to black at 62%. The hero is the viewport minus the header, so
+   the centre sits at 50vw / 50svh + half the header, and the fade radius
+   is 0.62 x the hero's half-diagonal. `translate` centres the circle and
+   composes with the animated `transform`, it never fights it. */
 .field-orb--1 {
-  --size: 140vmax;
+  --hero-half-h: calc(50svh - 2.5rem);
+  --size: calc(1.24 * hypot(50vw, var(--hero-half-h)));
   --glow: var(--marka-gece-mavisi);
-  left: -50vmax;
-  top: -62vmax;
+  left: 50vw;
+  top: calc(var(--hero-half-h) + 5rem);
+  translate: -50% -50%;
+}
+@media (max-width: 767px) {
+  .field-orb--1 {
+    --hero-half-h: calc(50svh - 2rem);
+    top: calc(var(--hero-half-h) + 4rem);
+  }
 }
 .field-orb--2 {
   --size: 80vmax;
@@ -784,8 +809,9 @@
   right: 2vmax;
   bottom: -40vmax;
 }
+/* same strength the hero's own grain had */
 .ambient-field .film-grain {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 
 /* slow wandering: three different paths so the clusters never move as one */
@@ -805,10 +831,19 @@
   100% { transform: translate3d(-5vw, -2vh, 0) scale(1.04); opacity: 0.85; }
 }
 /* scroll drift: across the whole page each lane slides a little, in different
-   directions, so every section is lit from somewhere else */
-@keyframes field-scroll-a { to { transform: translate3d(-8vw, -28vh, 0); } }
-@keyframes field-scroll-b { to { transform: translate3d(6vw, -46vh, 0); } }
-@keyframes field-scroll-c { to { transform: translate3d(-5vw, 24vh, 0); } }
+   directions, so every section is lit from somewhere else. Lanes b and c also
+   fade in over the first tenth of the page (about one screen: the hero). */
+@keyframes field-scroll-pool { to { transform: translate3d(-8vw, -28vh, 0); } }
+@keyframes field-scroll-b {
+  0%   { opacity: 0; transform: none; }
+  10%  { opacity: 1; }
+  100% { opacity: 1; transform: translate3d(6vw, -46vh, 0); }
+}
+@keyframes field-scroll-c {
+  0%   { opacity: 0; transform: none; }
+  10%  { opacity: 1; }
+  100% { opacity: 1; transform: translate3d(-5vw, 24vh, 0); }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-orb {
@@ -829,8 +864,8 @@
 
   @supports (animation-timeline: scroll()) {
     :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll {
-      will-change: transform;
-      animation: field-scroll-a linear both;
+      will-change: transform, opacity;
+      animation: field-scroll-pool linear both;
       animation-timeline: scroll(root block);
     }
     :root:not([data-fx="off"]) .ambient-field[data-live="on"] .field-scroll--b {

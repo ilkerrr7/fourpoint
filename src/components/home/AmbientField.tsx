@@ -21,8 +21,10 @@ const subscribe = () => () => {};
  *
  * Both only run while data-live="on": after hydration, when motion is
  * allowed (useMotionAllowed: no reduced-motion, not a phone, no data saver,
- * enough memory). The server HTML and every other case are the resting
- * composition, which is a complete picture on its own.
+ * enough memory). The resting composition (server HTML, reduced motion,
+ * phones, data saver, browsers without scroll timelines) is the night-blue
+ * pool alone, i.e. the hero exactly as it was; the other clusters only
+ * exist as a scroll-driven layer that fades in after the first screen.
  */
 export function AmbientField() {
   const hydrated = useSyncExternalStore(
@@ -34,7 +36,9 @@ export function AmbientField() {
 
   return (
     <div className="ambient-field" data-live={hydrated && allowed ? "on" : "off"} aria-hidden="true">
-      <div className="field-scroll field-scroll--a">
+      {/* the pool is always there; the other lanes fade in once the page scrolls
+          past the hero, so the first screen is exactly the old hero */}
+      <div className="field-scroll field-scroll--pool">
         <div className="field-orb field-orb--1" />
       </div>
       <div className="field-scroll field-scroll--b">

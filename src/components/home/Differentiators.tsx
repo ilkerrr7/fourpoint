@@ -35,7 +35,7 @@ const row = {
 
 export function Differentiators() {
   return (
-    <section className="py-section bg-ink border-t border-deep">
+    <section className="py-section border-t border-deep">
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
           <div className="lg:col-span-4">
