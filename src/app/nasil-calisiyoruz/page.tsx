@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading, Badge, Button } from "@/components/ui";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { AmbientField } from "@/components/home/AmbientField";
+import { ProcessRoute, RouteStep } from "@/components/effects/ProcessRoute";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/schema";
 
@@ -55,8 +57,10 @@ export default function NasilCalisiyoruzPage() {
   return (
     <PageTransition>
       <JsonLd data={breadcrumbJsonLd([{ name: "Nasıl Çalışıyoruz", path: "/nasil-calisiyoruz" }])} />
+      {/* sayfanın arkasındaki ışık alanı; adımlar opak (ana sayfadaki Süreç gibi) */}
+      <AmbientField mode="page" />
       {/* Header */}
-      <section className="py-16 md:py-24 bg-ink" aria-labelledby="nasil-heading">
+      <section className="py-16 md:py-24" aria-labelledby="nasil-heading">
         <Container>
           <SectionHeading
             as="h1"
@@ -69,11 +73,13 @@ export default function NasilCalisiyoruzPage() {
       </section>
 
       {/* Steps */}
-      <section className="py-12 md:py-20 bg-surface/50" aria-label="Çalışma adımları">
+      <section className="py-12 md:py-20 bg-surface" aria-label="Çalışma adımları">
         <Container>
-          <div className="max-w-3xl mx-auto space-y-16">
-            {STEPS.map((step) => (
-              <div key={step.number} className="relative">
+          {/* Süreç rotası, dikey: düğüm numara kutusunun solunda ve merkezine hizalı
+              (--route-y 28px = kutunun yarısı), adım arası eskisi gibi 4rem */}
+          <ProcessRoute direction="vertical" className="max-w-3xl mx-auto [--route-y:28px] [--route-gap:4rem]">
+            {STEPS.map((step, index) => (
+              <RouteStep key={step.number} index={index}>
                 {/* Step number + title */}
                 <div className="flex items-start gap-6">
                   <div className="shrink-0 w-14 h-14 rounded-[var(--radius-button)] bg-primary/10 border border-primary/20 flex items-center justify-center">
@@ -113,19 +119,14 @@ export default function NasilCalisiyoruzPage() {
                     </ul>
                   </div>
                 </div>
-
-                {/* Connecting line */}
-                {step.number < STEPS.length && (
-                  <div className="absolute left-7 top-[4.5rem] w-px h-[calc(100%-2rem)] bg-deep/40" />
-                )}
-              </div>
+              </RouteStep>
             ))}
-          </div>
+          </ProcessRoute>
         </Container>
       </section>
 
       {/* CTA */}
-      <section className="py-16 md:py-24 bg-ink text-center" aria-label="İlk adım">
+      <section className="py-16 md:py-24 text-center" aria-label="İlk adım">
         <Container>
           <Badge>İlk Adım</Badge>
           <h2 className="text-fg mt-4 mb-4">

@@ -3,6 +3,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { Container, SectionHeading } from "@/components/ui";
 import ContactForm from "@/components/forms/ContactForm";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { AmbientField } from "@/components/home/AmbientField";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/schema";
 import { siteConfig, officeAddressLine, officeMapsUrl, formatPhone } from "@/lib/site-config";
@@ -18,8 +19,11 @@ export default function IletisimPage() {
   return (
     <PageTransition>
       <JsonLd data={breadcrumbJsonLd([{ name: "İletişim", path: "/iletisim" }])} />
+      {/* sayfanın arkasındaki ışık alanı; form bölümü tam opak: alanların arkasında
+          ışık, üstünde hareket yok (dönüşüm noktası) */}
+      <AmbientField mode="page" />
       {/* Header */}
-      <section className="py-16 md:py-24 bg-ink" aria-labelledby="iletisim-heading">
+      <section className="py-16 md:py-24" aria-labelledby="iletisim-heading">
         <Container>
           <SectionHeading
             as="h1"
@@ -32,7 +36,7 @@ export default function IletisimPage() {
       </section>
 
       {/* Form + Contact Info */}
-      <section className="py-12 md:py-20 bg-surface/50" aria-label="İletişim formu">
+      <section className="py-12 md:py-20 bg-surface" aria-label="İletişim formu">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16">
             {/* Form — wider */}
@@ -181,7 +185,7 @@ export default function IletisimPage() {
       </section>
 
       {/* Ofis haritası */}
-      <section className="py-12 md:py-20 bg-ink" aria-labelledby="ofis-heading">
+      <section className="py-12 md:py-20" aria-labelledby="ofis-heading">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 lg:items-stretch">
             {/* Harita — mobilde tam genişlik */}
