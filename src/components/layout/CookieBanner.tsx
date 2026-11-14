@@ -1,27 +1,31 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui";
-
-const COOKIE_CONSENT_KEY = "fp-cookie-consent";
+import {
+  getServerCookieConsent,
+  readCookieConsent,
+  subscribeCookieConsent,
+  writeCookieConsent,
+} from "@/lib/cookie-consent";
 
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
-  const [currentConsent, setCurrentConsent] = useState<string | null>(null);
+  // localStorage'daki karar; sunucuda ve hidrasyonda null (lib/cookie-consent)
+  const currentConsent = useSyncExternalStore(
+    subscribeCookieConsent,
+    readCookieConsent,
+    getServerCookieConsent,
+  );
   const bannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check if user has already made a choice
-    const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
-    setCurrentConsent(consent);
-    
-    if (!consent) {
-      // Small delay so it doesn't flash on page load
-      const timer = setTimeout(() => setIsVisible(true), 1500);
-      return () => clearTimeout(timer);
-    }
-  }, []);
+    if (currentConsent) return;
+    // Small delay so it doesn't flash on page load
+    const timer = setTimeout(() => setIsVisible(true), 1500);
+    return () => clearTimeout(timer);
+  }, [currentConsent]);
 
   // Sabit konumlu banner açıkken sayfanın altına kendi yüksekliği kadar boşluk
   // bırakır: footer'ın son satırı (sosyal ikonlar, telif) banner'ın altında
@@ -50,22 +54,19 @@ export default function CookieBanner() {
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem(COOKIE_CONSENT_KEY, "accepted");
-    setCurrentConsent("accepted");
+    writeCookieConsent("accepted");
     setIsVisible(false);
-    window.dispatchEvent(new Event("cookie-consent-accepted"));
   };
 
   const handleReject = () => {
-    const previousConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
-    localStorage.setItem(COOKIE_CONSENT_KEY, "rejected");
-    setCurrentConsent("rejected");
+    const previousConsent = readCookieConsent();
+    writeCookieConsent("rejected");
     setIsVisible(false);
-    
+
     // Temizle (varsa mevcut Meta çerezleri)
     document.cookie = "_fbp=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "_fbc=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    
+
     // Eğer önceden kabul edilmişse ve şimdi reddedildiyse veya tekrar reddedildiyse temiz bir sayfa için reload at.
     // Çünkü fbevents.js zaten hafızaya yüklendiyse state değişimi onu tamamen durdurmaz.
     if (previousConsent === "accepted") {

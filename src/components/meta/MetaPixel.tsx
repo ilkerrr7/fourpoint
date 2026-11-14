@@ -1,22 +1,23 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+import {
+  getServerCookieConsent,
+  readCookieConsent,
+  subscribeCookieConsent,
+} from "@/lib/cookie-consent";
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 export default function MetaPixel() {
-  const [hasConsent, setHasConsent] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem("fp-cookie-consent") === "accepted") {
-      setHasConsent(true);
-    }
-
-    const handleConsent = () => setHasConsent(true);
-    window.addEventListener("cookie-consent-accepted", handleConsent);
-    return () => window.removeEventListener("cookie-consent-accepted", handleConsent);
-  }, []);
+  // Onay localStorage'dan okunur; sunucuda ve hidrasyonda "yok" (lib/cookie-consent)
+  const consent = useSyncExternalStore(
+    subscribeCookieConsent,
+    readCookieConsent,
+    getServerCookieConsent,
+  );
+  const hasConsent = consent === "accepted";
 
   if (!PIXEL_ID || !hasConsent) return null;
 
@@ -41,6 +42,8 @@ export default function MetaPixel() {
         }}
       />
       <noscript>
+        {/* 1x1 izleme pikseli, yalnızca JS kapalıyken; next/image burada anlamsız */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           height="1"
           width="1"
