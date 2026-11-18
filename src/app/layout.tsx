@@ -54,6 +54,13 @@ export const metadata: Metadata = {
     index: allowIndexing,
     follow: allowIndexing,
   },
+  // Meta alan adı doğrulaması (Business Manager > Marka güvenliği > Alan adları).
+  // Statik metadata: etiket sunucu HTML'inde çıkar, JS gerekmez.
+  verification: {
+    other: {
+      "facebook-domain-verification": "sowuqis0ozq1llk7h61g4ypk26yq9v",
+    },
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
